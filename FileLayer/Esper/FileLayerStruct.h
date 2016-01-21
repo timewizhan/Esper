@@ -4,13 +4,7 @@
 #include "Common.h"
 
 #define BUF_BLOCK_SIZE 512
-#define BUF_BLOCK_ENC_SIZE 714
-
-enum E_OP_TYPE
-{
-	E_OP_ENCRYPT = 0,
-	E_OP_DECRYPT
-};
+#define BUF_BLOCK_ENC_SIZE 688
 
 struct ST_FILE_ATTR
 {
