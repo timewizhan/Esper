@@ -1,9 +1,9 @@
 var mysql = require('mysql');
 var connection = mysql.createConnection({
-    host: '',
-    user: '',
-    password: '',
-    database: ''
+    host: '165.132.144.98',
+    user: 'root',
+    password: 'bang1230',
+    database: 'ESPER'
 });
 
 connection.connect(function (err) {
@@ -12,27 +12,49 @@ connection.connect(function (err) {
         console.log(err);
     } else {
         console.log('MySQL connection is success.');
-    }   
+    }
 });
 
-function getPasswd (ID, callback) {
-    var passwd = ''; 
-    var GET = {'mID':ID};
-    console.log('DB ' + ID);
-    connection.query('SELECT mPasswd from member where ?', GET, function(err, rows, fields) {
-        if (err) {
-            console.log(err);
-        } else {
-            for (idx in rows) {
-                passwd += rows[idx].mPasswd;
-            }   
-        }   
+function selectFrom(reqContents, callback) {
+  connection.query('SELECT ?? FROM ?? WHERE ?',
+  [reqContents.attribute, reqContents.table, reqContents.GET],
+  function(err, tuple, result) {
+    if(err) {
+      console.log(err);
+    } else {
+      callback(tuple);
+    }
+  });
+}
 
-        console.log('before return ' + passwd);
-        //return passwd;
-        callback(passwd);
-    }); 
-    connection.end();
+function insertInto(reqContents, callback) {
+  var DBRes = '';
+
+  connection.query('INSERT INTO ?? SET ?', [reqContents.table, reqContents.POST],
+  function(err, tuple, result) {
+    if(err) {
+      console.log(err);
+      DBRes = 'refusal';
+    } else {
+      DBRes = 'approval';
+    }
+    callback(DBRes);
+  });
+}
+
+function deleteFrom(reqContents, callback) {
+  var DBRes = '';
+
+  connection.query('DELETE FROM ?? WHERE ?', [reqContents.table, reqContents.POST],
+  function(err, tuple, result) {
+    if(err) {
+      console.log(err);
+      DBRes = 'refusal';
+    } else {
+      DBRes = 'approval';
+    }
+    callback(DBRes);
+  });
 }
 
 function fileEnroll(queryObj, callback) {
@@ -44,7 +66,7 @@ function fileEnroll(queryObj, callback) {
             return 1;
         } else {
             console.log('Filedb insert success');
-        }   
+        }
         var result = callback(queryObj, connection);
         if(result) {
             return 1;
@@ -70,6 +92,8 @@ function getMyFileList(queryObj, callback) {
     });
 }
 
-exports.getPasswd = getPasswd;
+exports.selectFrom = selectFrom;
+exports.insertInto = insertInto;
+exports.deleteFrom = deleteFrom;
 exports.fileEnroll = fileEnroll;
 exports.getMyFileList = getMyFileList;

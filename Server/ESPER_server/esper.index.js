@@ -1,24 +1,41 @@
 var server = require('./esper.server.js');
 var mysqlDB = require('./esper.mysqlDB.js');
-var reqDataHandlers = require('./esper.reqDataHandlers.js');
+//var reqDataHandlers = require('./esper.reqDataHandlers.js');
 var router = require('./esper.router.js');
 var reqHandlers = require('./esper.reqHandlers.js');
- 
+var email = require('./esper.email.js');
+
 var reqMysqlDB = {};
-reqMysqlDB['getPasswd'] = mysqlDB.getPasswd;
+//DML
+reqMysqlDB['selectFrom'] = mysqlDB.selectFrom;
+reqMysqlDB['insertInto'] = mysqlDB.insertInto;
+reqMysqlDB['deleteFrom'] = mysqlDB.deleteFrom;
+
+
 reqMysqlDB['fileEnroll'] = mysqlDB.fileEnroll;
 reqMysqlDB['getMyFileList'] = mysqlDB.getMyFileList;
 
+/*
 var dataHandle = {};
 dataHandle['str2obj'] = reqDataHandlers.str2obj;
 dataHandle['obj2str'] = reqDataHandlers.obj2str;
- 
+*/
+
 var reqHandle = {};
-reqHandle['login'] = reqHandlers.login;
-reqHandle['logout'] = reqHandlers.logout;
+//Manage membership information
+reqHandle['checkID'] = reqHandlers.checkID;
+reqHandle['checkEmail'] = reqHandlers.checkEmail;
+reqHandle['authEmail'] = reqHandlers.authEmail;
+reqHandle['checkAuthCode'] = reqHandlers.checkAuthCode;
 reqHandle['signUp'] = reqHandlers.signUp;
-reqHandle['header'] = reqHandlers.header;
+reqHandle['signIn'] = reqHandlers.signIn;
+reqHandle['signOut'] = reqHandlers.signOut;
+
+//
 reqHandle['fileOwnerEnroll'] = reqHandlers.fileOwnerEnroll;
 reqHandle['getMyFileList'] = reqHandlers.getMyFileList;
- 
-server.start(router.route, dataHandle, reqHandle, reqMysqlDB);
+
+var reqEmail = {};
+reqEmail['sendEmail'] = email.sendEmail;
+
+server.start(router.route, reqHandle, reqMysqlDB, reqEmail);

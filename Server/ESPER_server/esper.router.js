@@ -1,13 +1,12 @@
-function route (data, dataHandle, reqHandle, reqMysqlDB, socket) {
-    var  queryObj = dataHandle['str2obj'](data);    
-    
-    console.log('About to route a request for' + queryObj.type);
+function route (data, reqHandle, reqMysqlDB, reqEmail, socket) {
+    var  queryObj = JSON.parse(data);
 
+    console.log('At router: About to route a request for ' + queryObj.type);
     if (typeof reqHandle[queryObj.type] === 'function') {
-        reqHandle[queryObj.type](data, queryObj, dataHandle, reqMysqlDB, socket);
+      reqHandle[queryObj.type](queryObj, reqMysqlDB, reqEmail, socket);
     } else {
-        console.log('No request handler found for ' + queryObj.type);
-    }   
+      console.log('At router: No request handler found for ' + queryObj.type);
+    }
 }
 
 exports.route = route;

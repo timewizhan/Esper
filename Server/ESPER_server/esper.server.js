@@ -1,18 +1,18 @@
 var net = require('net');
 var connect = require('connect');
 
-var PORT = ;
+var PORT = 8000;
 var IP = '';
 
-function start (route, dataHandle, reqHandle, reqMysqlDB) {
+function start (route, reqHandle, reqMysqlDB, reqEmail) {
     var server = net.createServer(function (socket) {
         socket.setEncoding('utf8');
-    }); 
+    });
 
     server.on('listening', function() {
         console.log('Server Running at port = ' + PORT);
         console.log(server.address().address);
-    }); 
+    });
 
     server.on('connection', function(socket) {
         console.log('New connection');
@@ -20,25 +20,25 @@ function start (route, dataHandle, reqHandle, reqMysqlDB) {
 
         socket.on('data', function(data) {
             //console.log(data);
-            route(data, dataHandle, reqHandle, reqMysqlDB, socket);
-        }); 
+            route(data, reqHandle, reqMysqlDB, reqEmail, socket);
+        });
 
         socket.on('error', function(error) {
             console.log('Socket error : ', error);
-        }); 
+        });
 
         socket.on('end', function() {
             console.log('connection terminated');
-        }); 
-    }); 
+        });
+    });
 
     server.on('close', function() {
         console.log('server closed');
-    }); 
+    });
 
     server.listen(PORT, IP, function () {
         console.log('Server Running at Port 8000');
-    }); 
+    });
 }
 
 exports.start = start;
