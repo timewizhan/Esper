@@ -1,28 +1,28 @@
 var server = require('./esper.server.js');
 var mysqlDB = require('./esper.mysqlDB.js');
-//var reqDataHandlers = require('./esper.reqDataHandlers.js');
+// var reqDataHandlers = require('./esper.reqDataHandlers.js');
 var router = require('./esper.router.js');
 var reqHandlers = require('./esper.reqHandlers.js');
 var email = require('./esper.email.js');
 
 var reqMysqlDB = {};
-//DML
+// DML
 reqMysqlDB['selectFrom'] = mysqlDB.selectFrom;
 reqMysqlDB['insertInto'] = mysqlDB.insertInto;
 reqMysqlDB['deleteFrom'] = mysqlDB.deleteFrom;
 
-
 reqMysqlDB['fileEnroll'] = mysqlDB.fileEnroll;
 reqMysqlDB['getMyFileList'] = mysqlDB.getMyFileList;
+reqMysqlDB['twoConditionQuery'] = mysqlDB.twoConditionQuery;
+reqMysqlDB['getTableRowCount'] = mysqlDB.getTableRowCount;
 
 /*
-var dataHandle = {};
-dataHandle['str2obj'] = reqDataHandlers.str2obj;
-dataHandle['obj2str'] = reqDataHandlers.obj2str;
-*/
+ * var dataHandle = {}; dataHandle['str2obj'] = reqDataHandlers.str2obj;
+ * dataHandle['obj2str'] = reqDataHandlers.obj2str;
+ */
 
 var reqHandle = {};
-//Manage membership information
+// Manage membership information
 reqHandle['checkID'] = reqHandlers.checkID;
 reqHandle['checkEmail'] = reqHandlers.checkEmail;
 reqHandle['authEmail'] = reqHandlers.authEmail;
@@ -31,9 +31,15 @@ reqHandle['signUp'] = reqHandlers.signUp;
 reqHandle['signIn'] = reqHandlers.signIn;
 reqHandle['signOut'] = reqHandlers.signOut;
 
-//
-reqHandle['fileOwnerEnroll'] = reqHandlers.fileOwnerEnroll;
-reqHandle['getMyFileList'] = reqHandlers.getMyFileList;
+/* file control */
+reqHandle['accessorCheck'] = reqHandlers.accessorCheck;
+reqHandle['wrappingReq'] = reqHandlers.wrappingReq;
+reqHandle['wrappingRes'] = reqHandlers.wrappingRes;
+reqHandle['auth'] = reqHandlers.auth;
+reqHandle['remoteDel'] = reqHandle.remoteDel;
+
+reqHandle['test'] = reqHandlers.test;
+
 
 var reqEmail = {};
 reqEmail['sendEmail'] = email.sendEmail;
