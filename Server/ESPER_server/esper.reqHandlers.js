@@ -267,6 +267,10 @@ function signOut(queryObj, reqMysqlDB, reqEmail, socket) {
 	});
 }
 
+/*
+ * when file is deleted, copy to some other table!!!!!!!!
+ */
+
 /* For validate session check */
 function sessionChecker(queryObj, reqMysqlDB, callback) {
 	var reqContents = {};
@@ -305,7 +309,7 @@ function accessorCheck(queryObj, reqMysqlDB, reqEmail, socket) {
 		if (sessionResult === 0) {
 			var reqContents = {};
 
-			reqContents['attribute'] = [ 'mID', 'fileNum' ];
+			reqContents['attribute'] = [ 'mID', 'fileId' ];
 			reqContents['table'] = 'connect';
 			reqContents['GET'] = {
 				mID : queryObj.AccessorId
@@ -362,7 +366,7 @@ function wrappingReq(queryObj, reqMysqlDB, reqEmail, socket) {
 			var reqContents = {};
 
 			reqContents['table'] = 'fileDB';
-			reqContents['attribute'] = 'fileNum';
+			reqContents['attribute'] = 'fileId';
 
 			reqMysqlDB.getTableRowCount(reqContents, function(tuple) {
 				if (tuple[0] === undefined) {
@@ -375,8 +379,8 @@ function wrappingReq(queryObj, reqMysqlDB, reqEmail, socket) {
 					socket.write(resMessageStr);
 					console.log(resMessageStr);
 				} else {
-					/* Sending next fileNum */
-					nextCount = tuple[0].fileNum + 1;
+					/* Sending next fileId */
+					nextCount = tuple[0].fileId + 1;
 
 					resMessageObj = {
 						type : 'wrapping1',
@@ -414,7 +418,7 @@ function wrappingRes(queryObj, reqMysqlDB, reqEmail, socket) {
 
 				reqContents['table'] = 'fileDB';
 				reqContents['POST'] = {
-					fileNum : queryObj.FileId,
+					fileId : queryObj.FileId,
 					mID : queryObj.UserId
 				};
 
@@ -425,7 +429,7 @@ function wrappingRes(queryObj, reqMysqlDB, reqEmail, socket) {
 					innerReqContents['table'] = 'connect';
 					innerReqContents['POST'] = {
 						mID : queryObj.AccessorId,
-						fileNum : queryObj.FileId
+						fileId : queryObj.FileId
 					};
 
 					if (insertRes === 'approval') {
@@ -488,9 +492,9 @@ function auth(queryObj, reqMysqlDB, reqEmail, socket) {
 			reqContents['attribute'] = [ 'mID', 'del' ];
 			reqContents['table'] = 'connect';
 			reqContents['where1'] = 'mID';
-			reqContents['where2'] = 'fileNum';
+			reqContents['where2'] = 'fileId';
 			reqContents['UserId'] = queryObj.UserId;
-			reqContents['fileNum'] = queryObj.FileId;
+			reqContents['fileId'] = queryObj.FileId;
 
 			reqMysqlDB(reqContents, function(tuple) {
 				if (tuple[0] === undefined) {
@@ -546,6 +550,19 @@ function remoteDel(queryObj, reqMysqlDB, reqEmail, socket) {
 		if (sessionResult === 0) {
 			var reqContents = {};
 
+			reqContents['table'] = 'connect';
+			reqContents['SET'] = {
+				del : 1
+			};
+			reqContents['where1'] = 'mID';
+			reqContents['where2'] = 'fileId';
+			reqContents['AccessorId'] = queryObj.AccessorId;
+			reqContents['fileId'] = queryObj.FileId;
+
+			reqMysqlDB.delUpdateTo(reqContents, function(tuple) {
+
+			});
+
 			/* Invalidate sessionKey */
 		} else {
 			resMessageObj = {
@@ -567,8 +584,42 @@ function authUpdate(queryObj, reqMysqlDB, reqEmail, socket) {
 		/* validate sessionKey */
 		if (sessionResult === 0) {
 			var reqContents = {};
-			
-			//reqContents['attribute'] = 
+
+			/*
+			 * if del attribute is 0 -> no erase if del attribute is 1 -> will
+			 * be erased
+			 */
+			reqContents['table'] = 'connect';
+			reqContents['SET'] = {
+				del : queryObj.AccessorId.del
+			};
+			reqContents['where'] = {
+				mID : queryObj.AccessorId.mID
+			};
+
+			reqMysqlDB.updateTo(reqContents, function(res) {
+				console.log(res);
+				if (res === 'succ') {
+					resMessageObj = {
+						type : 'authUpdate',
+						result : 'succ'
+					};
+
+					resMessageStr = JSON.stringify(resMessageObj);
+					socket.write(resMessageStr);
+					console.log(resMessageStr);
+
+				} else {
+					resMessageObj = {
+						type : 'authUpdate',
+						result : 'fail'
+					};
+
+					resMessageStr = JSON.stringify(resMessageObj);
+					socket.write(resMessageStr);
+					console.log(resMessageStr);
+				}
+			});
 
 			/* Invalidate sessionKey */
 		} else {
@@ -592,6 +643,36 @@ function fileListReq(queryObj, reqMysqlDB, reqEmail, socket) {
 		if (sessionResult === 0) {
 			var reqContents = {};
 
+			reqContents['attribute'] = 'fileId';
+			reqContents['table'] = 'fileDB';
+			reqContents['GET'] = {
+				mID : queryObj.UserId
+			};
+
+			reqMysqlDB.selectFrom(reqContents, function(tuple) {
+				console.log(tuple);
+				console.log(tuple[0].fileId);
+				console.log(tuple.length);
+
+				var ownFileList = [];
+
+				for ( var list in tuple.length) {
+					ownFileList[list] = tuple[list];
+				}
+
+				var innerReqContents = {};
+
+				/* require discussion */
+				innerReqContents['attribute'] = 'mID';
+				innerReqContents['table'] = 'connect';
+				
+				for ( var count in tuple.length) {
+					innerReqContents['GET'] = ownFileList[count];
+					
+				}
+				selectFrom()
+			});
+
 			/* Invalidate sessionKey */
 		} else {
 			resMessageObj = {
@@ -606,11 +687,9 @@ function fileListReq(queryObj, reqMysqlDB, reqEmail, socket) {
 	});
 }
 
-
 function test(queryObj, reqMysqlDB, reqEmail, socket) {
-	console.log(queryObj.AccessorId[0].id0);
+	console.log(queryObj.AccessorId.mID);
 }
-
 
 // Manage membership information
 exports.checkID = checkID;
@@ -630,4 +709,5 @@ exports.remoteDel = remoteDel;
 exports.authUpdate = authUpdate;
 exports.fileListReq = fileListReq;
 
+/* for test */
 exports.test = test;

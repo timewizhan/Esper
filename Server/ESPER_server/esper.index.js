@@ -10,9 +10,9 @@ var reqMysqlDB = {};
 reqMysqlDB['selectFrom'] = mysqlDB.selectFrom;
 reqMysqlDB['insertInto'] = mysqlDB.insertInto;
 reqMysqlDB['deleteFrom'] = mysqlDB.deleteFrom;
+reqMysqlDB['updateTo'] = mysqlDB.updateTo;
+reqMysqlDB['delUpdateTo'] = mysqlDB.delUpdateTo;
 
-reqMysqlDB['fileEnroll'] = mysqlDB.fileEnroll;
-reqMysqlDB['getMyFileList'] = mysqlDB.getMyFileList;
 reqMysqlDB['twoConditionQuery'] = mysqlDB.twoConditionQuery;
 reqMysqlDB['getTableRowCount'] = mysqlDB.getTableRowCount;
 
@@ -36,7 +36,9 @@ reqHandle['accessorCheck'] = reqHandlers.accessorCheck;
 reqHandle['wrappingReq'] = reqHandlers.wrappingReq;
 reqHandle['wrappingRes'] = reqHandlers.wrappingRes;
 reqHandle['auth'] = reqHandlers.auth;
-reqHandle['remoteDel'] = reqHandle.remoteDel;
+reqHandle['remoteDel'] = reqHandlers.remoteDel;
+reqHandle['authUpdate'] = reqHandlers.authUpdate;
+reqHandle['fileListReq'] = reqHandlers.fileListReq;
 
 reqHandle['test'] = reqHandlers.test;
 
