@@ -717,24 +717,14 @@ function fileListReq(queryObj, reqMysqlDB, reqEmail, socket) {
 					reqMysqlDB.selectFrom(innerReqContents, function(userList) {
 						for ( var user in userList) {
 							file = {
-								fileId : cnt,
-								userName : userList[user].mID
+									fileId : cnt,
+									userName : userList[user].mID
 							};
-
+							//console.log(file);
 							fileList.push(file);
 						}
-
-						if (cnt === tuple.length) {
-							resMessageObj = {
-								type : 'fileListReq',
-								result : 'succ',
-								File : fileList
-							};
-
-							resMessageStr = JSON.stringify(resMessageObj);
-							socket.write(resMessageStr);
-							console.log(resMessageStr);
-						}
+						console.log(fileList);
+						
 						cnt++;
 					});
 				}

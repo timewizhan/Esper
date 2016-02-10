@@ -1,8 +1,12 @@
 var mysql = require('mysql');
+//var reqHandlers = require('./esper.reqHanglers');
 
 
 var connection = mysql.createConnection({
-
+	host : '165.132.144.98',
+	user : 'root',
+	password : 'bang1230',
+	database : 'ESPER'
 });
 
 connection.connect(function(err) {

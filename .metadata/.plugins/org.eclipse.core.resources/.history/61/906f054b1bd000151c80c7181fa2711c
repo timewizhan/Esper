@@ -723,8 +723,11 @@ function fileListReq(queryObj, reqMysqlDB, reqEmail, socket) {
 
 							fileList.push(file);
 						}
+						// console.log(fileList);
 
 						if (cnt === tuple.length) {
+							console.log(fileList);
+
 							resMessageObj = {
 								type : 'fileListReq',
 								result : 'succ',

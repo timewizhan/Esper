@@ -685,6 +685,7 @@ function authUpdate(queryObj, reqMysqlDB, reqEmail, socket) {
 function fileListReq(queryObj, reqMysqlDB, reqEmail, socket) {
 	sessionChecker(queryObj, reqMysqlDB, function(sessionResult) {
 		var resMessageObj, resMessageStr;
+		var fileList = [];
 
 		/* validate sessionKey */
 		if (sessionResult === 0) {
@@ -706,7 +707,7 @@ function fileListReq(queryObj, reqMysqlDB, reqEmail, socket) {
 
 				// console.log(tuple);
 				var cnt = 1;
-				var fileList = [];
+				
 				var file;
 
 				for ( var val in tuple) {
@@ -720,24 +721,15 @@ function fileListReq(queryObj, reqMysqlDB, reqEmail, socket) {
 								fileId : cnt,
 								userName : userList[user].mID
 							};
-
+							// console.log(file);
 							fileList.push(file);
-						}
-
-						if (cnt === tuple.length) {
-							resMessageObj = {
-								type : 'fileListReq',
-								result : 'succ',
-								File : fileList
-							};
-
-							resMessageStr = JSON.stringify(resMessageObj);
-							socket.write(resMessageStr);
-							console.log(resMessageStr);
-						}
-						cnt++;
+						}				
+						cnt++;	
 					});
+					
+					console.log(fileList);
 				}
+				
 			});
 
 			/* Invalidate sessionKey */

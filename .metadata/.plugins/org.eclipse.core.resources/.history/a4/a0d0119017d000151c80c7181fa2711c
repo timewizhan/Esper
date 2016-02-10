@@ -720,23 +720,15 @@ function fileListReq(queryObj, reqMysqlDB, reqEmail, socket) {
 								fileId : cnt,
 								userName : userList[user].mID
 							};
-
+							// console.log(file);
 							fileList.push(file);
 						}
-
-						if (cnt === tuple.length) {
-							resMessageObj = {
-								type : 'fileListReq',
-								result : 'succ',
-								File : fileList
-							};
-
-							resMessageStr = JSON.stringify(resMessageObj);
-							socket.write(resMessageStr);
-							console.log(resMessageStr);
-						}
-						cnt++;
+						
+						console.log(fileList);
+						cnt++;	
 					});
+					
+					
 				}
 			});
 

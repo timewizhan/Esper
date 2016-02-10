@@ -706,8 +706,7 @@ function fileListReq(queryObj, reqMysqlDB, reqEmail, socket) {
 
 				// console.log(tuple);
 				var cnt = 1;
-				var fileList = [];
-				var file;
+				var File = {};
 
 				for ( var val in tuple) {
 					innerReqContents['GET'] = {
@@ -716,25 +715,10 @@ function fileListReq(queryObj, reqMysqlDB, reqEmail, socket) {
 
 					reqMysqlDB.selectFrom(innerReqContents, function(userList) {
 						for ( var user in userList) {
-							file = {
-								fileId : cnt,
-								userName : userList[user].mID
-							};
-
-							fileList.push(file);
+							File = userList[user].mID;
+							console.log(File);
 						}
 
-						if (cnt === tuple.length) {
-							resMessageObj = {
-								type : 'fileListReq',
-								result : 'succ',
-								File : fileList
-							};
-
-							resMessageStr = JSON.stringify(resMessageObj);
-							socket.write(resMessageStr);
-							console.log(resMessageStr);
-						}
 						cnt++;
 					});
 				}
