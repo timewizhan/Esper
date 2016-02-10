@@ -1,8 +1,8 @@
 var net = require('net');
 var connect = require('connect');
 
-var PORT = 8004;
-var IP = '165.132.120.150';
+var PORT = ;
+var IP = '';
 
 function start(route, reqHandle, reqMysqlDB, reqEmail) {
 	var server = net.createServer(function(socket) {

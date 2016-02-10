@@ -8,6 +8,7 @@ var email = require('./esper.email.js');
 var reqMysqlDB = {};
 // DML
 reqMysqlDB['selectFrom'] = mysqlDB.selectFrom;
+reqMysqlDB['selectFromFileDB'] = mysqlDB.selectFromFileDB;
 reqMysqlDB['insertInto'] = mysqlDB.insertInto;
 reqMysqlDB['deleteFrom'] = mysqlDB.deleteFrom;
 reqMysqlDB['updateTo'] = mysqlDB.updateTo;

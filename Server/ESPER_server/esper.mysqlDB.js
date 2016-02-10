@@ -1,10 +1,7 @@
 var mysql = require('mysql');
 
 var connection = mysql.createConnection({
-	host : '165.132.144.98',
-	user : 'root',
-	password : 'bang1230',
-	database : 'ESPER'
+
 });
 
 connection.connect(function(err) {
@@ -19,6 +16,17 @@ connection.connect(function(err) {
 function selectFrom(reqContents, callback) {
 	connection.query('select ?? from ?? where ?', [ reqContents.attribute,
 			reqContents.table, reqContents.GET ], function(err, tuple, result) {
+		if (err) {
+			console.log(err);
+		} else {
+			callback(tuple);
+		}
+	});
+}
+
+function selectFromFileDB(reqContents, callback) {
+	connection.query('select * from ?? where ?', [ reqContents.table,
+			reqContents.GET ], function(err, tuple, result) {
 		if (err) {
 			console.log(err);
 		} else {
@@ -64,6 +72,7 @@ function updateTo(reqContents, callback) {
 			console.log(err);
 			callback('fail');
 		} else {
+			console.log('111');
 			callback('succ');
 		}
 	});
@@ -72,7 +81,7 @@ function updateTo(reqContents, callback) {
 function delUpdateTo(reqContents, callback) {
 	connection.query('UPDATE ?? SET ? WHERE ?? = ? and ?? = ?', [
 			reqContents.table, reqContents.SET, reqContents.where1,
-			reqContents.AccessorId, reqContents.where2, reqContents.fileId ],
+			reqContents.cond1, reqContents.where2, reqContents.cond2 ],
 			function(err, tuple, result) {
 				if (err) {
 					console.log(err);
@@ -111,6 +120,7 @@ function getTableRowCount(reqContents, callback) {
 }
 
 exports.selectFrom = selectFrom;
+exports.selectFromFileDB = selectFromFileDB;
 exports.insertInto = insertInto;
 exports.deleteFrom = deleteFrom;
 exports.updateTo = updateTo;

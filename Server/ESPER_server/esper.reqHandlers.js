@@ -285,11 +285,14 @@ function sessionChecker(queryObj, reqMysqlDB, callback) {
 	reqMysqlDB.twoConditionQuery(reqContents, function(rows) {
 		var sessionResult;
 
+		/* session check error */
 		if (rows[0] === undefined) {
 			sessionResult = 1;
 
 			console.log('session fail');
 			callback(sessionResult);
+
+			/* session check success */
 		} else {
 			if (rows[0].mID === queryObj.UserId) {
 				sessionResult = 0;
@@ -301,6 +304,7 @@ function sessionChecker(queryObj, reqMysqlDB, callback) {
 	});
 }
 
+/* Check whether real access user or not */
 function accessorCheck(queryObj, reqMysqlDB, reqEmail, socket) {
 	sessionChecker(queryObj, reqMysqlDB, function(sessionResult) {
 		var resMessageObj, resMessageStr;
@@ -326,7 +330,7 @@ function accessorCheck(queryObj, reqMysqlDB, reqEmail, socket) {
 
 						resMessageStr = JSON.stringify(resMessageObj);
 						socket.write(resMessageStr);
-						console.log(resMessageStr);
+						// console.log(resMessageStr);
 					} else {
 						if (tuple[0].mID === queryObj.AccessorId) {
 							resMessageObj = {
@@ -336,7 +340,7 @@ function accessorCheck(queryObj, reqMysqlDB, reqEmail, socket) {
 
 							resMessageStr = JSON.stringify(resMessageObj);
 							socket.write(resMessageStr);
-							console.log(resMessageStr);
+							// console.log(resMessageStr);
 						}
 					}
 				} catch (e) {
@@ -351,7 +355,7 @@ function accessorCheck(queryObj, reqMysqlDB, reqEmail, socket) {
 
 			resMessageStr = JSON.stringify(resMessageObj);
 			socket.write(resMessageStr);
-			console.log(resMessageStr);
+			// console.log(resMessageStr);
 		}
 	});
 }
@@ -377,7 +381,7 @@ function wrappingReq(queryObj, reqMysqlDB, reqEmail, socket) {
 
 					resMessageStr = JSON.stringify(resMessageObj);
 					socket.write(resMessageStr);
-					console.log(resMessageStr);
+					// console.log(resMessageStr);
 				} else {
 					/* Sending next fileId */
 					nextCount = tuple[0].fileId + 1;
@@ -390,7 +394,7 @@ function wrappingReq(queryObj, reqMysqlDB, reqEmail, socket) {
 
 					resMessageStr = JSON.stringify(resMessageObj);
 					socket.write(resMessageStr);
-					console.log(resMessageStr);
+					// console.log(resMessageStr);
 				}
 			});
 			/* Invalidate sessionKey */
@@ -402,7 +406,7 @@ function wrappingReq(queryObj, reqMysqlDB, reqEmail, socket) {
 
 			resMessageStr = JSON.stringify(resMessageObj);
 			socket.write(resMessageStr);
-			console.log(resMessageStr);
+			// console.log(resMessageStr);
 		}
 	});
 }
@@ -481,6 +485,7 @@ function wrappingRes(queryObj, reqMysqlDB, reqEmail, socket) {
 	});
 }
 
+/* wrapped file open */
 function auth(queryObj, reqMysqlDB, reqEmail, socket) {
 	sessionChecker(queryObj, reqMysqlDB, function(sessionResult) {
 		var resMessageObj, resMessageStr;
@@ -496,7 +501,7 @@ function auth(queryObj, reqMysqlDB, reqEmail, socket) {
 			reqContents['UserId'] = queryObj.UserId;
 			reqContents['fileId'] = queryObj.FileId;
 
-			reqMysqlDB(reqContents, function(tuple) {
+			reqMysqlDB.twoConditionQuery(reqContents, function(tuple) {
 				if (tuple[0] === undefined) {
 					resMessageObj = {
 						type : 'auth',
@@ -505,7 +510,9 @@ function auth(queryObj, reqMysqlDB, reqEmail, socket) {
 
 					resMessageStr = JSON.stringify(resMessageObj);
 					socket.write(resMessageStr);
-					console.log(resMessageStr);
+					// console.log(resMessageStr);
+
+					/* when result is succ, file is unwrapped */
 				} else {
 					if (tuple[0].del === 0) {
 						resMessageObj = {
@@ -515,8 +522,8 @@ function auth(queryObj, reqMysqlDB, reqEmail, socket) {
 
 						resMessageStr = JSON.stringify(resMessageObj);
 						socket.write(resMessageStr);
-						console.log(resMessageStr);
-					} else {
+						// console.log(resMessageStr);
+					} else if (tuple[0].del === 1) {
 						resMessageObj = {
 							type : 'auth',
 							result : 'del'
@@ -524,7 +531,9 @@ function auth(queryObj, reqMysqlDB, reqEmail, socket) {
 
 						resMessageStr = JSON.stringify(resMessageObj);
 						socket.write(resMessageStr);
-						console.log(resMessageStr);
+						// console.log(resMessageStr);
+					} else {
+						console.log('tuple result error');
 					}
 				}
 			});
@@ -537,7 +546,7 @@ function auth(queryObj, reqMysqlDB, reqEmail, socket) {
 
 			resMessageStr = JSON.stringify(resMessageObj);
 			socket.write(resMessageStr);
-			console.log(resMessageStr);
+			// console.log(resMessageStr);
 		}
 	});
 }
@@ -552,16 +561,54 @@ function remoteDel(queryObj, reqMysqlDB, reqEmail, socket) {
 
 			reqContents['table'] = 'connect';
 			reqContents['SET'] = {
-				del : 1
+				del : queryObj.Del
 			};
 			reqContents['where1'] = 'mID';
 			reqContents['where2'] = 'fileId';
-			reqContents['AccessorId'] = queryObj.AccessorId;
-			reqContents['fileId'] = queryObj.FileId;
+			reqContents['cond1'] = queryObj.AccessorId;
+			reqContents['cond2'] = queryObj.FileId;
+			reqContents['select'] = 'del';
+			reqContents['from'] = 'connect';
 
-			reqMysqlDB.delUpdateTo(reqContents, function(tuple) {
+			if (queryObj.Del === 0 || queryObj.Del === 1) {
+				reqMysqlDB.twoConditionQuery(reqContents, function(outerTuple) {
+					reqMysqlDB.delUpdateTo(reqContents, function(innerTuple) {
+						reqMysqlDB.twoConditionQuery(reqContents, function(
+								tuple) {
+							if (outerTuple[0].del === tuple[0].del) {
+								resMessageObj = {
+									type : 'remoteDel',
+									result : 'succ',
+								};
 
-			});
+								resMessageStr = JSON.stringify(resMessageObj);
+								socket.write(resMessageStr);
+								// console.log(resMessageStr);
+							} else {
+								resMessageObj = {
+									type : 'remoteDel',
+									result : 'fail',
+								};
+
+								resMessageStr = JSON.stringify(resMessageObj);
+								socket.write(resMessageStr);
+								// console.log(resMessageStr);
+							}
+						});
+					});
+				});
+			} else {
+				resMessageObj = {
+					type : 'remoteDel',
+					result : 'fail',
+					reason : 'Invalid del variable'
+				};
+
+				resMessageStr = JSON.stringify(resMessageObj);
+				socket.write(resMessageStr);
+				console.log(resMessageStr);
+
+			}
 
 			/* Invalidate sessionKey */
 		} else {
@@ -643,34 +690,38 @@ function fileListReq(queryObj, reqMysqlDB, reqEmail, socket) {
 		if (sessionResult === 0) {
 			var reqContents = {};
 
-			reqContents['attribute'] = 'fileId';
+			// reqContents['attribute'] = '\*';
 			reqContents['table'] = 'fileDB';
 			reqContents['GET'] = {
 				mID : queryObj.UserId
 			};
 
-			reqMysqlDB.selectFrom(reqContents, function(tuple) {
-				console.log(tuple);
-				console.log(tuple[0].fileId);
-				console.log(tuple.length);
-
-				var ownFileList = [];
-
-				for ( var list in tuple.length) {
-					ownFileList[list] = tuple[list];
-				}
+			reqMysqlDB.selectFromFileDB(reqContents, function(tuple) {
+				// console.log(tuple.length);
 
 				var innerReqContents = {};
 
-				/* require discussion */
 				innerReqContents['attribute'] = 'mID';
 				innerReqContents['table'] = 'connect';
-				
-				for ( var count in tuple.length) {
-					innerReqContents['GET'] = ownFileList[count];
-					
+
+				// console.log(tuple);
+				var cnt = 1;
+				var File = {};
+
+				for ( var val in tuple) {
+					innerReqContents['GET'] = {
+						fileId : tuple[val].fileId
+					};
+
+					reqMysqlDB.selectFrom(innerReqContents, function(userList) {
+						for ( var user in userList) {
+							File = userList[user].mID;
+							console.log(File);
+						}
+
+						cnt++;
+					});
 				}
-				selectFrom()
 			});
 
 			/* Invalidate sessionKey */
