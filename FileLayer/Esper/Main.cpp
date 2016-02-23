@@ -2,9 +2,9 @@
 
 int main(int argc, char **argv)
 {
-	std::string strInputFile = "C:\\Users\\jmhan\\Desktop\\hello.hwp";
-	std::string strInputEncFile = "C:\\Users\\jmhan\\Desktop\\hello.enc";
-	std::string strOutputFile = "C:\\Users\\jmhan\\Desktop";
+	std::string strInputFile = "C:\\Users\\wooPC\\Desktop\\hello.hwp";
+	std::string strInputEncFile = "C:\\Users\\wooPC\\Desktop\\hello.enc";
+	std::string strOutputFile = "C:\\Users\\wooPC\\Desktop";
 
 	DWORD dwChoice = (DWORD)::atoi(argv[1]);
 	DWORD dwRet;
@@ -29,6 +29,8 @@ int main(int argc, char **argv)
 	}
 
 	printf("Success");
+	int a;
+	std::cin >> a;
 	return 0;
 }
 //

@@ -44,7 +44,7 @@ public:
 };
 
 void HexToByte(const char *pIn, DWORD dwLen, BYTE *pOut);
-
+ 
 DWORD GetFileName(std::string &refstrInputFileName, std::string &refstrFileName, std::string &refstrFileExtension);
 DWORD ExceuteEncryptFileLayer(ST_FILE_LAYER_HEADER &refstFileLayerHeader, std::string &refstrInputFullFileName, std::string &refstrOutputFilePath);
 DWORD ExceuteDecryptFileLayer(ST_FILE_ATTR &refstFileAttr, std::string &refstrInputFullFileName, std::string &refstrOutputFilePath);

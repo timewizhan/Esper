@@ -312,8 +312,18 @@ void CEsperClientDlg::OnMenuWrapping()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 	// 랩핑 메뉴
-	CWrapDlg dialog;
-	dialog.DoModal();
+
+	CFileDialog dialog((BOOL)TRUE, _T("txt"), NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, _T("텍스트(*.txt)|*.txt|모든파일(*.*)|*.*||"));
+
+
+	dialog.m_ofn.lpstrTitle = _T("파일 랩핑하기");
+	dialog.m_ofn.lStructSize = sizeof(OPENFILENAME) + 12;
+	
+	
+	if (IDOK == dialog.DoModal()) {
+		CWrapDlg wDialog(dialog.GetFileName(),dialog.GetPathName());
+		wDialog.DoModal();
+	}
 
 }
 

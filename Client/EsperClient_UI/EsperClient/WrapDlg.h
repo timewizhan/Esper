@@ -9,7 +9,7 @@ class CWrapDlg : public CDialog
 	DECLARE_DYNAMIC(CWrapDlg)
 
 public:
-	CWrapDlg(CWnd* pParent = NULL);   // 표준 생성자입니다.
+	CWrapDlg( CString Filename = NULL, CString Filepath = NULL, CWnd* pParent = NULL);   // 표준 생성자입니다.
 	virtual ~CWrapDlg();
 
 // 대화 상자 데이터입니다.
@@ -19,7 +19,7 @@ public:
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 지원입니다.
-
+	CString Filename, Filepath;
 	DECLARE_MESSAGE_MAP()
 public:
 	virtual BOOL OnInitDialog();
@@ -28,4 +28,5 @@ public:
 	afx_msg void OnBnClickedButton1();
 	CListBox m_authlistctrl;
 	afx_msg void OnBnClickedOk();
+	afx_msg void OnStnClickedWrapFilename();
 };
