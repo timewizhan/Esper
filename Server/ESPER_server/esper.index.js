@@ -31,6 +31,10 @@ reqHandle['checkAuthCode'] = reqHandlers.checkAuthCode;
 reqHandle['signUp'] = reqHandlers.signUp;
 reqHandle['signIn'] = reqHandlers.signIn;
 reqHandle['signOut'] = reqHandlers.signOut;
+reqHandle['findID'] = reqHandlers.findID;
+reqHandle['findPasswd'] = reqHandlers.findPasswd;
+reqHandle['changePasswd'] = reqHandlers.changePasswd;
+reqHandle['withdrawal'] = reqHandlers.withdrawal;
 
 /* file control */
 reqHandle['accessorCheck'] = reqHandlers.accessorCheck;
