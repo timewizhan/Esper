@@ -11,8 +11,8 @@
 
 IMPLEMENT_DYNAMIC(CWrapDlg, CDialog)
 
-CWrapDlg::CWrapDlg(CWnd* pParent /*=NULL*/)
-	: CDialog(IDD_WrapDlg, pParent)
+CWrapDlg::CWrapDlg (CString filename, CString filepath, CWnd* pParent /*=NULL*/)
+	: CDialog(IDD_WrapDlg, pParent), Filename(filename),Filepath(filepath)
 {
 
 }
@@ -31,6 +31,7 @@ void CWrapDlg::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CWrapDlg, CDialog)
 	ON_BN_CLICKED(IDC_BUTTON1, &CWrapDlg::OnBnClickedButton1)
 	ON_BN_CLICKED(IDOK, &CWrapDlg::OnBnClickedOk)
+	ON_STN_CLICKED(IDC_WRAP_FILENAME, &CWrapDlg::OnStnClickedWrapFilename)
 END_MESSAGE_MAP()
 
 
@@ -42,7 +43,8 @@ BOOL CWrapDlg::OnInitDialog()
 	CDialog::OnInitDialog();
 	SetWindowText(_T("Wrap"));
 	// TODO:  여기에 추가 초기화 작업을 추가합니다.
-
+	SetDlgItemText(IDC_WRAP_FILENAME, Filename);
+	SetDlgItemText(IDC_WRAP_FILEPATH, Filepath);
 	return TRUE;  // return TRUE unless you set the focus to a control
 				  // 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.
 }
@@ -70,8 +72,14 @@ void CWrapDlg::OnBnClickedOk()
 	CFileDialog dialog((BOOL)FALSE, _T("txt"), _T("sample.txt"), OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, _T("텍스트(*.txt)|*.txt|모든파일(*.*)|*.*||"));
 
 
-	dialog.m_ofn.lpstrTitle = _T("파일을 저장하세요");
+	dialog.m_ofn.lpstrTitle = _T("파일 랩핑하기");
 	dialog.m_ofn.lStructSize = sizeof(OPENFILENAME) + 12;
 	dialog.DoModal();
 
+}
+
+
+void CWrapDlg::OnStnClickedWrapFilename()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 }
