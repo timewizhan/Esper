@@ -313,7 +313,7 @@ void CEsperClientDlg::OnMenuWrapping()
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 	// 랩핑 메뉴
 
-	CFileDialog dialog((BOOL)TRUE, _T("txt"), NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, _T("텍스트(*.txt)|*.txt|모든파일(*.*)|*.*||"));
+	CFileDialog dialog((BOOL)TRUE, _T("hwp"), NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, _T("한글파일(*.hwp)|*.hwp|모든파일(*.*)|*.*||"));
 
 
 	dialog.m_ofn.lpstrTitle = _T("파일 랩핑하기");

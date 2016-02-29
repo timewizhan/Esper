@@ -5,6 +5,7 @@
 #include "EsperClient.h"
 #include "WrapDlg.h"
 #include "afxdialogex.h"
+#include "FileLayer.h"
 
 
 // CWrapDlg 대화 상자입니다.
@@ -68,13 +69,23 @@ void CWrapDlg::OnBnClickedOk()
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	CDialog::OnOK();
 
+	CString SubFilename = Filename.Mid(0, (Filename.GetLength() - 4));
+	CFileDialog dialog((BOOL)FALSE, _T("esp"), SubFilename+_T(".esp"), OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, _T("에스퍼(*.esp)|*.esp|모든파일(*.*)|*.*||"));
 	
-	CFileDialog dialog((BOOL)FALSE, _T("txt"), _T("sample.txt"), OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, _T("텍스트(*.txt)|*.txt|모든파일(*.*)|*.*||"));
-
-
 	dialog.m_ofn.lpstrTitle = _T("파일 랩핑하기");
 	dialog.m_ofn.lStructSize = sizeof(OPENFILENAME) + 12;
 	dialog.DoModal();
+
+	ST_FILE_LAYER_HEADER stFileLayerHeader;
+	stFileLayerHeader.dwServerId = 1;
+	stFileLayerHeader.dwUserId = 1;
+
+	CT2CA pszConvertedAnsiString(Filepath), pszConvertedAnsiString2(dialog.GetFolderPath());
+	std::string strInputFile(pszConvertedAnsiString);
+	//std::string strInputFile("C:\\Users\\wooPC\\Desktop\\hello.hwp");
+	std::string strOutputFile(pszConvertedAnsiString2);
+	//std::string strOutputFile("C:\\Users\\wooPC\\Desktop");
+	DWORD dwRet = EncryptFileLayer(stFileLayerHeader, strInputFile, strOutputFile);
 
 }
 

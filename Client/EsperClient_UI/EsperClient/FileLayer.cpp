@@ -1,5 +1,10 @@
 #include "FileLayer.h"
 
+static const std::string base64_chars =
+"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+"abcdefghijklmnopqrstuvwxyz"
+"0123456789+/";
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 CFileLayer::CFileLayer()
 {
@@ -13,7 +18,87 @@ CFileLayer::~CFileLayer()
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
-DWORD CFileLayer::ReadRawFileData(std::string &refstrInputFileName)
+bool CFileLayer::isBase64(unsigned char c)
+{
+	return (isalnum(c) || (c == '+') || (c == '/'));
+}
+
+CEncrypt::CEncrypt() {}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+VOID CEncrypt::EncryptByAES(std::string &refstrEncode, ST_BLOCK_ENC_DATA &refstBlockEncData)
+{
+	// Initialize Key Value
+	byte key[CryptoPP::AES::DEFAULT_KEYLENGTH];
+	memset(key, 0x00, CryptoPP::AES::DEFAULT_KEYLENGTH);
+	HexToByte(m_stEncKey.pRawKey, strlen(m_stEncKey.pRawKey), key);
+
+	// Initialize IV(Initial Vector) Value
+	byte iv[CryptoPP::AES::BLOCKSIZE];
+	memset(iv, 0x00, CryptoPP::AES::BLOCKSIZE);
+	HexToByte(m_stEncKey.pRawIV, strlen(m_stEncKey.pRawIV), iv);
+
+	// AES Encryption
+	CryptoPP::AES::Encryption aesEncryption(key, CryptoPP::AES::DEFAULT_KEYLENGTH);
+	CryptoPP::CBC_Mode_ExternalCipher::Encryption cbcEncryption(aesEncryption, iv);
+
+
+	std::string strCipherText;
+	CryptoPP::StreamTransformationFilter stfEncryptor(cbcEncryption, new CryptoPP::StringSink(strCipherText));
+	stfEncryptor.Put((const byte *)refstrEncode.c_str(), refstrEncode.length() + 1);
+	stfEncryptor.MessageEnd();
+
+
+	refstBlockEncData.dwUsedSize = strCipherText.size();
+	memcpy(refstBlockEncData.szBuf, strCipherText.c_str(), sizeof(refstBlockEncData.szBuf));
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+std::string CEncrypt::EncodeByBase64(unsigned char const* bytes_to_encode, unsigned int in_len)
+{
+	std::string ret;
+	int i = 0;
+	int j = 0;
+	unsigned char char_array_3[3];
+	unsigned char char_array_4[4];
+
+	while (in_len--) {
+		char_array_3[i++] = *(bytes_to_encode++);
+		if (i == 3) {
+			char_array_4[0] = (char_array_3[0] & 0xfc) >> 2;
+			char_array_4[1] = ((char_array_3[0] & 0x03) << 4) + ((char_array_3[1] & 0xf0) >> 4);
+			char_array_4[2] = ((char_array_3[1] & 0x0f) << 2) + ((char_array_3[2] & 0xc0) >> 6);
+			char_array_4[3] = char_array_3[2] & 0x3f;
+
+			for (i = 0; (i <4); i++)
+				ret += base64_chars[char_array_4[i]];
+			i = 0;
+		}
+	}
+
+	if (i)
+	{
+		for (j = i; j < 3; j++)
+			char_array_3[j] = '\0';
+
+		char_array_4[0] = (char_array_3[0] & 0xfc) >> 2;
+		char_array_4[1] = ((char_array_3[0] & 0x03) << 4) + ((char_array_3[1] & 0xf0) >> 4);
+		char_array_4[2] = ((char_array_3[1] & 0x0f) << 2) + ((char_array_3[2] & 0xc0) >> 6);
+		char_array_4[3] = char_array_3[2] & 0x3f;
+
+		for (j = 0; (j < i + 1); j++)
+			ret += base64_chars[char_array_4[j]];
+
+		while ((i++ < 3))
+			ret += '=';
+
+	}
+
+	return ret;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+DWORD CEncrypt::ReadRequestedFile(std::string &refstrInputFileName)
 {
 	FILE *pFile = NULL;
 	DWORD dwErr;
@@ -50,184 +135,35 @@ DWORD CFileLayer::ReadRawFileData(std::string &refstrInputFileName)
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
-DWORD CFileLayer::ReadEncryptedFileData(std::string &refstrInputFileName)
+DWORD CEncrypt::ExecuteCryptoOperation()
 {
-	FILE *pFile = NULL;
-	DWORD dwErr;
-	dwErr = ::fopen_s(&pFile, refstrInputFileName.c_str(), "rb");
-	if (dwErr != 0) {
-		printf("Cannot read file [%s]\n", refstrInputFileName.c_str());
-		return 0;
-	}
-
-	fseek(pFile, 0, SEEK_END);
-	DWORD dwSize = ftell(pFile);
-	printf("File Data Size : [%d]\n", dwSize);
-
-	fseek(pFile, 0, SEEK_SET);
-
-	int readn = 0;
-	DWORD dwTotal = 0;
-	do
 	{
-		ST_BLOCK_ENC_DATA stBlockEncData;
-		readn = fread((unsigned char *)stBlockEncData.szBuf, 1, sizeof(stBlockEncData.szBuf), pFile);
-		if (readn < 0) {
-			printf("Cannot read data from file\n");
-			break;
-		}
-		stBlockEncData.dwUsedSize = readn;
-		m_stFileLayer.stFileLayerBody.vecstBlockEncData.push_back(stBlockEncData);
+		ST_BLOCK_RAW_DATA stBlockData;
+		memcpy(stBlockData.szBuf, &m_stFileLayer.stFileLayerHeader, sizeof(stBlockData.szBuf));
 
-		dwTotal += readn;
-	} while (dwTotal < dwSize);
-
-	::fclose(pFile);
-	return 1;
-}
-
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-DWORD CFileLayer::EncryptByAES()
-{
-	// Initialize Key Value
-	byte key[CryptoPP::AES::DEFAULT_KEYLENGTH];
-	memset(key, 0x00, CryptoPP::AES::DEFAULT_KEYLENGTH);
-	HexToByte(m_stEncKey.pRawKey, strlen(m_stEncKey.pRawKey), key);
-
-	// Initialize IV(Initial Vector) Value
-	byte iv[CryptoPP::AES::BLOCKSIZE];
-	memset(iv, 0x00, CryptoPP::AES::BLOCKSIZE);
-	HexToByte(m_stEncKey.pRawIV, strlen(m_stEncKey.pRawIV), iv);
-
-	// AES Encryption
-	CryptoPP::AES::Encryption aesEncryption(key, CryptoPP::AES::DEFAULT_KEYLENGTH);
-	CryptoPP::CBC_Mode_ExternalCipher::Encryption cbcEncryption(aesEncryption, iv);
-
-	{
-		/*
-		Encrypt Header
-		*/
-		ST_BLOCK_RAW_DATA stBlockRawData;
-		DWORD dwSizeOfHeader = sizeof(m_stFileLayer.stFileLayerHeader);
-		memcpy(stBlockRawData.szBuf, &m_stFileLayer.stFileLayerHeader, dwSizeOfHeader);
-
-		std::string strCipherText;
-		CryptoPP::StreamTransformationFilter stfEncryptor(cbcEncryption, new CryptoPP::StringSink(strCipherText));
-
-		stfEncryptor.Put((const byte *)stBlockRawData.szBuf, sizeof(stBlockRawData.szBuf));
-		stfEncryptor.MessageEnd();
-
-		// Encoding Base64
-		std::string strBase64Text;
-		CryptoPP::StringSource(strCipherText, true,
-			new CryptoPP::Base64Encoder(new CryptoPP::StringSink(strBase64Text)) // Base64Encoder
-			); // StringSource
+		std::string strEncode = EncodeByBase64(stBlockData.szBuf, sizeof(stBlockData.szBuf));
 
 		ST_BLOCK_ENC_DATA stBlockEncData;
-		stBlockEncData.dwUsedSize = strBase64Text.size();
-		memcpy(stBlockEncData.szBuf, strBase64Text.c_str(), sizeof(stBlockEncData.szBuf));
+		EncryptByAES(strEncode, stBlockEncData);
 		m_stFileLayer.stFileLayerBody.vecstBlockEncData.push_back(stBlockEncData);
 	}
 
-	DWORD i;
-	for (i = 0; i < m_stFileLayer.stFileLayerBody.vecstBlockRawData.size(); i++) {
-		std::string strCipherText;
-		CryptoPP::StreamTransformationFilter stfEncryptor(cbcEncryption, new CryptoPP::StringSink(strCipherText));
+	std::vector<ST_BLOCK_RAW_DATA>::iterator vecIter;
+	for (vecIter = m_stFileLayer.stFileLayerBody.vecstBlockRawData.begin(); vecIter != m_stFileLayer.stFileLayerBody.vecstBlockRawData.end(); vecIter++) {
+		ST_BLOCK_RAW_DATA stBlockRawData = (*vecIter);
 
-		ST_BLOCK_RAW_DATA stBlockData = m_stFileLayer.stFileLayerBody.vecstBlockRawData[i];
-		stfEncryptor.Put((const byte *)stBlockData.szBuf, sizeof(stBlockData.szBuf));
-		stfEncryptor.MessageEnd();
-
-		// Encoding Base64
-		std::string strBase64Text;
-		CryptoPP::StringSource(strCipherText, true,
-			new CryptoPP::Base64Encoder(new CryptoPP::StringSink(strBase64Text)) // Base64Encoder
-			); // StringSource
+		std::string strEncode = EncodeByBase64(stBlockRawData.szBuf, sizeof(stBlockRawData.szBuf));
 
 		ST_BLOCK_ENC_DATA stBlockEncData;
-		stBlockEncData.dwUsedSize = strBase64Text.size();
-		memcpy(stBlockEncData.szBuf, strBase64Text.c_str(), sizeof(stBlockEncData.szBuf));
+		EncryptByAES(strEncode, stBlockEncData);
 		m_stFileLayer.stFileLayerBody.vecstBlockEncData.push_back(stBlockEncData);
-	}
-	return 1;
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-DWORD CFileLayer::DecryptByAES()
-{
-	// Initialize Key Value
-	byte key[CryptoPP::AES::DEFAULT_KEYLENGTH];
-	memset(key, 0x00, CryptoPP::AES::DEFAULT_KEYLENGTH);
-	HexToByte(m_stEncKey.pRawKey, strlen(m_stEncKey.pRawKey), key);
-
-	// Initialize IV(Initial Vector) Value
-	byte iv[CryptoPP::AES::BLOCKSIZE];
-	memset(iv, 0x00, CryptoPP::AES::BLOCKSIZE);
-	HexToByte(m_stEncKey.pRawIV, strlen(m_stEncKey.pRawIV), iv);
-
-	DWORD i = 0;
-	{
-		/*
-		Decrypt Header
-		*/
-		if (m_stFileLayer.stFileLayerBody.vecstBlockEncData.size() < 1) {
-			printf("Enc block data is not exist");
-			return 0;
-		}
-		ST_BLOCK_ENC_DATA stBlockEncData;
-		stBlockEncData = m_stFileLayer.stFileLayerBody.vecstBlockEncData[i++];
-
-		std::string strBaseEncodeCipherText = (char *)stBlockEncData.szBuf;
-		strBaseEncodeCipherText.resize(sizeof(stBlockEncData.szBuf));
-
-		std::string strBaseDecodeText;
-		CryptoPP::StringSource(strBaseEncodeCipherText, true,
-			new CryptoPP::Base64Decoder(
-				new CryptoPP::StringSink(strBaseDecodeText)
-				) // Base64Encoder
-			); // StringSource
-
-		CryptoPP::AES::Decryption aesDecryption(key, CryptoPP::AES::DEFAULT_KEYLENGTH);
-		CryptoPP::CBC_Mode_ExternalCipher::Decryption cbcDecryption(aesDecryption, iv);
-
-		std::string strDecryptedText;
-		CryptoPP::StreamTransformationFilter stfDecryptor(cbcDecryption, new CryptoPP::StringSink(strDecryptedText));
-		stfDecryptor.Put((const byte *)strBaseDecodeText.c_str(), strBaseDecodeText.size());
-		stfDecryptor.MessageEnd();
-
-		::memcpy(&m_stFileLayer.stFileLayerHeader, strDecryptedText.c_str(), sizeof(m_stFileLayer.stFileLayerHeader));
-	}
-
-	for (; i < m_stFileLayer.stFileLayerBody.vecstBlockEncData.size(); i++) {
-		ST_BLOCK_ENC_DATA stBlockEncData = m_stFileLayer.stFileLayerBody.vecstBlockEncData[i];
-
-		std::string strBaseEncodeCipherText = (char *)stBlockEncData.szBuf;
-		std::string strBaseDecodeText;
-		CryptoPP::StringSource(strBaseEncodeCipherText, true,
-			new CryptoPP::Base64Decoder(
-				new CryptoPP::StringSink(strBaseDecodeText)
-				) // Base64Encoder
-			); // StringSource
-
-		CryptoPP::AES::Decryption aesDecryption(key, CryptoPP::AES::DEFAULT_KEYLENGTH);
-		CryptoPP::CBC_Mode_ExternalCipher::Decryption cbcDecryption(aesDecryption, iv);
-
-		std::string strDecryptedText;
-		CryptoPP::StreamTransformationFilter stfDecryptor(cbcDecryption, new CryptoPP::StringSink(strDecryptedText));
-		stfDecryptor.Put((const byte *)strBaseDecodeText.c_str(), strBaseDecodeText.size());
-		stfDecryptor.MessageEnd();
-
-		ST_BLOCK_RAW_DATA stBlockRawData;
-		::memcpy(stBlockRawData.szBuf, strDecryptedText.c_str(), sizeof(stBlockRawData.szBuf));
-		m_stFileLayer.stFileLayerBody.vecstBlockRawData.push_back(stBlockRawData);
 	}
 
 	return 1;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
-DWORD CFileLayer::WriteEncryptFileData(const std::string &refstrOutputFilePath, std::string &refstrOutputFileName)
+DWORD CEncrypt::WriteToFile(const std::string &refstrOutputFilePath, std::string &refstrOutputFileName)
 {
 	FILE *pFile = NULL;
 	DWORD dwErr;
@@ -263,8 +199,140 @@ DWORD CFileLayer::WriteEncryptFileData(const std::string &refstrOutputFilePath, 
 	return 1;
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////
-DWORD CFileLayer::WriteDecryptFileData(const std::string &refstrOutputFilePath, std::string &refstrOutputFileName)
+CDecrypt::CDecrypt() {}
+
+VOID CDecrypt::DecryptByAES(std::string &refstrDecrypt, ST_BLOCK_ENC_DATA &refstBlockEncData)
+{
+	// Initialize Key Value
+	byte key[CryptoPP::AES::DEFAULT_KEYLENGTH];
+	memset(key, 0x00, CryptoPP::AES::DEFAULT_KEYLENGTH);
+	HexToByte(m_stEncKey.pRawKey, strlen(m_stEncKey.pRawKey), key);
+
+	// Initialize IV(Initial Vector) Value
+	byte iv[CryptoPP::AES::BLOCKSIZE];
+	memset(iv, 0x00, CryptoPP::AES::BLOCKSIZE);
+	HexToByte(m_stEncKey.pRawIV, strlen(m_stEncKey.pRawIV), iv);
+
+	CryptoPP::AES::Decryption aesDecryption(key, CryptoPP::AES::DEFAULT_KEYLENGTH);
+	CryptoPP::CBC_Mode_ExternalCipher::Decryption cbcDecryption(aesDecryption, iv);
+
+	std::string strDecryptedText;
+	CryptoPP::StreamTransformationFilter stfDecryptor(cbcDecryption, new CryptoPP::StringSink(strDecryptedText));
+	stfDecryptor.Put((const byte *)refstBlockEncData.szBuf, sizeof(refstBlockEncData.szBuf));
+	stfDecryptor.MessageEnd();
+
+	refstrDecrypt = strDecryptedText;
+}
+
+std::string CDecrypt::DecodeByBase64(std::string const& encoded_string)
+{
+	int in_len = encoded_string.size();
+	int i = 0;
+	int j = 0;
+	int in_ = 0;
+	unsigned char char_array_4[4], char_array_3[3];
+	std::string ret;
+
+	while (in_len-- && (encoded_string[in_] != '=') && isBase64(encoded_string[in_])) {
+		char_array_4[i++] = encoded_string[in_]; in_++;
+		if (i == 4) {
+			for (i = 0; i <4; i++)
+				char_array_4[i] = base64_chars.find(char_array_4[i]);
+
+			char_array_3[0] = (char_array_4[0] << 2) + ((char_array_4[1] & 0x30) >> 4);
+			char_array_3[1] = ((char_array_4[1] & 0xf) << 4) + ((char_array_4[2] & 0x3c) >> 2);
+			char_array_3[2] = ((char_array_4[2] & 0x3) << 6) + char_array_4[3];
+
+			for (i = 0; (i < 3); i++)
+				ret += char_array_3[i];
+			i = 0;
+		}
+	}
+
+	if (i) {
+		for (j = i; j <4; j++)
+			char_array_4[j] = 0;
+
+		for (j = 0; j <4; j++)
+			char_array_4[j] = base64_chars.find(char_array_4[j]);
+
+		char_array_3[0] = (char_array_4[0] << 2) + ((char_array_4[1] & 0x30) >> 4);
+		char_array_3[1] = ((char_array_4[1] & 0xf) << 4) + ((char_array_4[2] & 0x3c) >> 2);
+		char_array_3[2] = ((char_array_4[2] & 0x3) << 6) + char_array_4[3];
+
+		for (j = 0; (j < i - 1); j++) ret += char_array_3[j];
+	}
+
+	return ret;
+}
+
+DWORD CDecrypt::ReadRequestedFile(std::string &refstrInputFileName)
+{
+	FILE *pFile = NULL;
+	DWORD dwErr;
+	dwErr = ::fopen_s(&pFile, refstrInputFileName.c_str(), "rb");
+	if (dwErr != 0) {
+		printf("Cannot read file [%s]\n", refstrInputFileName.c_str());
+		return 0;
+	}
+
+	fseek(pFile, 0, SEEK_END);
+	DWORD dwSize = ftell(pFile);
+	printf("File Data Size : [%d]\n", dwSize);
+
+	fseek(pFile, 0, SEEK_SET);
+
+	int readn = 0;
+	DWORD dwTotal = 0;
+	do
+	{
+		ST_BLOCK_ENC_DATA stBlockEncData;
+		readn = fread((unsigned char *)stBlockEncData.szBuf, 1, sizeof(stBlockEncData.szBuf), pFile);
+		if (readn < 0) {
+			printf("Cannot read data from file\n");
+			break;
+		}
+		stBlockEncData.dwUsedSize = readn;
+		m_stFileLayer.stFileLayerBody.vecstBlockEncData.push_back(stBlockEncData);
+
+		dwTotal += readn;
+	} while (dwTotal < dwSize);
+
+	::fclose(pFile);
+	return 1;
+}
+
+DWORD CDecrypt::ExecuteCryptoOperation()
+{
+	BOOL bFirst = TRUE;
+	std::vector<ST_BLOCK_ENC_DATA>::iterator vecIter;
+	for (vecIter = m_stFileLayer.stFileLayerBody.vecstBlockEncData.begin(); vecIter != m_stFileLayer.stFileLayerBody.vecstBlockEncData.end(); vecIter++) {
+		/*
+		To do..
+		first vecIter indicate header in file layer
+		*/
+		if (bFirst) {
+			bFirst = FALSE;
+			continue;
+		}
+
+		ST_BLOCK_ENC_DATA stBlockEncData = (*vecIter);
+
+		std::string strDecrypt;
+		DecryptByAES(strDecrypt, stBlockEncData);
+
+		if (strDecrypt.size() < 1) {
+			continue;
+		}
+
+		std::string strDecode;
+		strDecode = DecodeByBase64(strDecrypt);
+		m_vecstrDecode.push_back(strDecode);
+	}
+	return 1;
+}
+
+DWORD CDecrypt::WriteToFile(const std::string &refstrOutputFilePath, std::string &refstrOutputFileName)
 {
 	FILE *pFile = NULL;
 	DWORD dwErr;
@@ -280,11 +348,14 @@ DWORD CFileLayer::WriteDecryptFileData(const std::string &refstrOutputFilePath, 
 
 	DWORD i;
 	int nRet = 0;
-	for (i = 0; i < m_stFileLayer.stFileLayerBody.vecstBlockRawData.size(); i++) {
-		ST_BLOCK_RAW_DATA stBlockRawData = m_stFileLayer.stFileLayerBody.vecstBlockRawData[i];
-		DWORD dwSizeOfEncodedText = sizeof(stBlockRawData.szBuf);
-		nRet = fwrite(stBlockRawData.szBuf, 1, dwSizeOfEncodedText, pFile);
-		if (nRet != dwSizeOfEncodedText) {
+	for (i = 0; i < m_vecstrDecode.size(); i++) {
+		std::string strDecode = m_vecstrDecode[i];
+		if (strDecode.size() < 1) {
+			continue;
+		}
+
+		nRet = fwrite(&strDecode[0], 1, strDecode.size(), pFile);
+		if (nRet != strDecode.size()) {
 			printf("Cannot write encoded data to file\n");
 			break;
 		}
@@ -299,64 +370,6 @@ DWORD CFileLayer::WriteDecryptFileData(const std::string &refstrOutputFilePath, 
 	::fclose(pFile);
 	return 1;
 }
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-DWORD CFileLayer::ReadRequestedFile(std::string &refstrInputFileName)
-{
-	DWORD dwRet;
-	switch (m_eOPType)
-	{
-	case E_OP_ENCRYPT:
-		dwRet = ReadRawFileData(refstrInputFileName);
-		break;
-	case E_OP_DECRYPT:
-		dwRet = ReadEncryptedFileData(refstrInputFileName);
-		break;
-	default:
-		dwRet = 0;
-		break;
-	}
-	return dwRet;
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-DWORD CFileLayer::ExecuteCryptoOperation()
-{
-	DWORD dwRet;
-	switch (m_eOPType)
-	{
-	case E_OP_ENCRYPT:
-		dwRet = EncryptByAES();
-		break;
-	case E_OP_DECRYPT:
-		dwRet = DecryptByAES();
-		break;
-	default:
-		dwRet = 0;
-		break;
-	}
-	return dwRet;
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-DWORD CFileLayer::WriteToFile(const std::string &refstrOutputFilePath, std::string &refstrOutputFileName)
-{
-	DWORD dwRet;
-	switch (m_eOPType)
-	{
-	case E_OP_ENCRYPT:
-		dwRet = WriteEncryptFileData(refstrOutputFilePath, refstrOutputFileName);
-		break;
-	case E_OP_DECRYPT:
-		dwRet = WriteDecryptFileData(refstrOutputFilePath, refstrOutputFileName);
-		break;
-	default:
-		dwRet = 0;
-		break;
-	}
-	return dwRet;
-}
-
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 void HexToByte(const char *pIn, DWORD dwLen, BYTE *pOut)
@@ -392,48 +405,12 @@ DWORD GetFileName(std::string &refstrInputFileName, std::string &refstrFileName,
 	return 1;
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////
-DWORD ExceuteDecryptFileLayer(ST_FILE_ATTR &refstFileAttr, std::string &refstrInputFullFileName, std::string &refstrOutputFilePath)
-{
-	CFileLayer FileLayer;
-	FileLayer.SetOPType(E_OP_DECRYPT);
-
-	std::string strFileName, strFileExtension;
-	GetFileName(refstrInputFullFileName, strFileName, strFileExtension);
-
-	FileLayer.SetFileAttr(refstFileAttr);
-
-	DWORD dwRet;
-	try
-	{
-		dwRet = FileLayer.ReadRequestedFile(refstrInputFullFileName);
-		if (dwRet == 0) {
-			throw std::exception();
-		}
-		dwRet = FileLayer.ExecuteCryptoOperation();
-		if (dwRet == 0) {
-			throw std::exception();
-		}
-
-		std::string strOutputFileName = "output";
-		dwRet = FileLayer.WriteToFile(refstrOutputFilePath, strOutputFileName);
-		if (dwRet == 0) {
-			throw std::exception();
-		}
-	}
-	catch (std::exception &e)
-	{
-		printf("%s", e.what());
-		return 0;
-	}
-	return 1;
-}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
-DWORD ExceuteEncryptFileLayer(ST_FILE_LAYER_HEADER &refstFileLayerHeader, std::string &refstrInputFullFileName, std::string &refstrOutputFilePath)
+DWORD EncryptFileLayer(ST_FILE_LAYER_HEADER &refstFileLayerHeader, std::string &refstrInputFullFileName, std::string &refstrOutputFilePath)
 {
-	CFileLayer FileLayer;
-	FileLayer.SetOPType(E_OP_ENCRYPT);
+	CEncrypt *pEncrypt = NULL;
+	pEncrypt = new CEncrypt();
 
 	std::string strFileName, strFileExtension;
 	GetFileName(refstrInputFullFileName, strFileName, strFileExtension);
@@ -444,23 +421,23 @@ DWORD ExceuteEncryptFileLayer(ST_FILE_LAYER_HEADER &refstFileLayerHeader, std::s
 	stFileAttr.strFileOriginExt = strFileExtension;
 	stFileAttr.strFileEncExt = "enc";
 
-	FileLayer.SetFileAttr(stFileAttr);
-	FileLayer.SetFileHeader(refstFileLayerHeader);
+	pEncrypt->SetFileAttr(stFileAttr);
+	pEncrypt->SetFileHeader(refstFileLayerHeader);
 
 	DWORD dwRet;
 	try
 	{
-		dwRet = FileLayer.ReadRequestedFile(refstrInputFullFileName);
+		dwRet = pEncrypt->ReadRequestedFile(refstrInputFullFileName);
 		if (dwRet == 0) {
 			throw std::exception();
 		}
-		dwRet = FileLayer.ExecuteCryptoOperation();
+		dwRet = pEncrypt->ExecuteCryptoOperation();
 		if (dwRet == 0) {
 			throw std::exception();
 		}
 
 		std::string strOutputFileName = "output";
-		dwRet = FileLayer.WriteToFile(refstrOutputFilePath, strOutputFileName);
+		dwRet = pEncrypt->WriteToFile(refstrOutputFilePath, strOutputFileName);
 		if (dwRet == 0) {
 			throw std::exception();
 		}
@@ -468,6 +445,48 @@ DWORD ExceuteEncryptFileLayer(ST_FILE_LAYER_HEADER &refstFileLayerHeader, std::s
 	catch (std::exception &e)
 	{
 		printf("%s", e.what());
+		if (pEncrypt != NULL) {
+			delete pEncrypt;
+		}
+		return 0;
+	}
+
+	delete pEncrypt;
+	return 1;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+DWORD DecryptFileLayer(ST_FILE_ATTR &refstFileAttr, std::string &refstrInputFullFileName, std::string &refstrOutputFilePath)
+{
+	CDecrypt *pDecrypt = NULL;
+	pDecrypt = new CDecrypt();
+
+	std::string strFileName, strFileExtension;
+	GetFileName(refstrInputFullFileName, strFileName, strFileExtension);
+
+	//FileLayer.SetFileAttr(refstFileAttr);
+
+	DWORD dwRet;
+	try
+	{
+		dwRet = pDecrypt->ReadRequestedFile(refstrInputFullFileName);
+		if (dwRet == 0) {
+			throw std::exception();
+		}
+		dwRet = pDecrypt->ExecuteCryptoOperation();
+		if (dwRet == 0) {
+			throw std::exception();
+		}
+
+		std::string strOutputFileName = "output";
+		dwRet = pDecrypt->WriteToFile(refstrOutputFilePath, strOutputFileName);
+		if (dwRet == 0) {
+			throw std::exception();
+		}
+	}
+	catch (std::exception &e)
+	{
+		printf("%s\n", e.what());
 		return 0;
 	}
 	return 1;
