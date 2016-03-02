@@ -6,6 +6,7 @@
 #include "EsperClient.h"
 #include "EsperClientDlg.h"
 #include "LoginDlg.h"
+#include "WrapDlg.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -72,11 +73,37 @@ BOOL CEsperClientApp::InitInstance()
 	CEsperClientDlg dlg;
 	m_pMainWnd = &dlg;*/
 
-	LoginDlg dlg;
-	m_pMainWnd = &dlg;
+	//연결 프로그램 시 구분
+
+	CCommandLineInfo cmdInfo;
+	ParseCommandLine(cmdInfo);
+	AfxMessageBox(_T(" 진입점 Test "));
+	
+	INT_PTR nResponse;
+	if(m_lpCmdLine[0]=='\0')
+	{
+		AfxMessageBox(m_lpCmdLine);
+		LoginDlg dlg;
+		m_pMainWnd = &dlg;
+		nResponse = dlg.DoModal();
+	}
+
+	else
+	{
+		AfxMessageBox(m_lpCmdLine);
+		CString path(m_lpCmdLine);
+		path = path.Mid(1, path.GetLength() - 2);
+		int index = path.ReverseFind('\\');
+		CString name(path.Mid(index+1, path.GetLength()-1));
+		AfxMessageBox(name);
+		CWrapDlg dlg(name, path);
+		m_pMainWnd = &dlg;
+		nResponse = dlg.DoModal();
+	}
+
+	
 
 
-	INT_PTR nResponse = dlg.DoModal();
 	if (nResponse == IDOK)
 	{
 		// TODO: 여기에 [확인]을 클릭하여 대화 상자가 없어질 때 처리할
