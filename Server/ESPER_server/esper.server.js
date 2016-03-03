@@ -2,7 +2,7 @@ var net = require('net');
 var connect = require('connect');
 
 var PORT = 8000;
-var IP = '192.168.0.19';
+var IP = '165.132.120.150';
 
 function start(route, reqHandle, reqMysqlDB, reqEmail) {
 	var server = net.createServer(function(socket) {
@@ -20,7 +20,7 @@ function start(route, reqHandle, reqMysqlDB, reqEmail) {
 				socket.remotePort);
 
 		socket.on('data', function(data) {
-			//console.log(data);
+			// console.log(data);
 			route(data, reqHandle, reqMysqlDB, reqEmail, socket);
 		});
 

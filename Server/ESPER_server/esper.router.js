@@ -7,15 +7,18 @@ function route(data, reqHandle, reqMysqlDB, reqEmail, socket) {
 		if (typeof reqHandle[queryObj.type] === 'function') {
 			reqHandle[queryObj.type](queryObj, reqMysqlDB, reqEmail, socket);
 		} else {
-			throw {msg: 'At router: No request handler found for ' + queryObj.type}
+			throw {
+				msg : 'At router: No request handler found for '
+						+ queryObj.type
+			}
 		}
-	} catch(err) {
+	} catch (err) {
 		console.log(err.msg);
 
 		var resMessageObj
 		resMessageObj = {
-			type: 'err',
-			msg: err.msg
+			type : 'err',
+			msg : err.msg
 		}
 		resMessageStr = JSON.stringify(resMessageObj);
 		socket.write(resMessageStr);

@@ -7,7 +7,7 @@ function checkID(queryObj, reqMysqlDB, reqEmail, socket) {
 	var resMessageObj, resMessageStr;
 	var reqContents = {};
 	reqContents['table'] = 'member';
-	reqContents['attribute'] = ['mID'];
+	reqContents['attribute'] = [ 'mID' ];
 	reqContents['GET'] = {
 		mID : queryObj.ID
 	};
@@ -15,9 +15,9 @@ function checkID(queryObj, reqMysqlDB, reqEmail, socket) {
 	reqMysqlDB.selectFrom(reqContents, function(tuple) {
 		if (typeof tuple[0] === 'undefined') {
 			resMessageObj = {
-				type: queryObj.type,
-				ID: queryObj.ID,
-				result: 'approval'
+				type : queryObj.type,
+				ID : queryObj.ID,
+				result : 'approval'
 			};
 			resMessageStr = JSON.stringify(resMessageObj);
 			socket.write(resMessageStr);
@@ -37,7 +37,7 @@ function checkEmail(queryObj, reqMysqlDB, reqEmail, socket) {
 	var resMessageObj, resMessageStr;
 	var reqContents = {};
 	reqContents['table'] = 'member';
-	reqContents['attribute'] = ['mEmail'];
+	reqContents['attribute'] = [ 'mEmail' ];
 	reqContents['GET'] = {
 		mEmail : queryObj.email
 	};
@@ -90,7 +90,7 @@ function authEmail(queryObj, reqMysqlDB, reqEmail, socket) {
 				resMessageObj = {
 					type : queryObj.type,
 					email : queryObj.email,
-					//authCode : mailInfo.contents
+				// authCode : mailInfo.contents
 				};
 				resMessageStr = JSON.stringify(resMessageObj);
 				socket.write(resMessageStr);
@@ -133,9 +133,9 @@ function checkAuthCode(queryObj, reqMysqlDB, reqEmail, socket) {
 	var resMessageObj, resLoginStr;
 	var reqContents = {};
 	reqContents['table'] = 'authEmail';
-	reqContents['attribute'] = ['authCode'];
+	reqContents['attribute'] = [ 'authCode' ];
 	reqContents['GET'] = {
-		email: queryObj.email
+		email : queryObj.email
 	};
 
 	reqMysqlDB.selectFrom(reqContents, function(tuple) {
@@ -165,18 +165,18 @@ function signUp(queryObj, reqMysqlDB, reqEmail, socket) {
 	var reqContents = {};
 	reqContents['table'] = 'member';
 	reqContents['POST'] = {
-		mID: queryObj.ID,
-		mPasswd: queryObj.passwd,
-		mName: queryObj.name,
-		mEmail: queryObj.email,
-		mDate: queryObj.date
+		mID : queryObj.ID,
+		mPasswd : queryObj.passwd,
+		mName : queryObj.name,
+		mEmail : queryObj.email,
+		mDate : queryObj.date
 	};
 
 	reqMysqlDB.insertInto(reqContents, function(DBRes) {
 		resMessageObj = {
-			type: 'signUp',
-			ID: queryObj.ID,
-			result: DBRes
+			type : 'signUp',
+			ID : queryObj.ID,
+			result : DBRes
 		};
 		resMessageStr = JSON.stringify(resMessageObj);
 		socket.write(resMessageStr);
@@ -188,7 +188,7 @@ function signIn(queryObj, reqMysqlDB, reqEmail, socket) {
 	var reqContents = {};
 	var sessionKey;
 	reqContents['table'] = 'member';
-	reqContents['attribute'] = ['mPasswd'];
+	reqContents['attribute'] = [ 'mPasswd' ];
 	reqContents['GET'] = {
 		mID : queryObj.ID
 	};
@@ -202,26 +202,26 @@ function signIn(queryObj, reqMysqlDB, reqEmail, socket) {
 			reqContentsTemp['table'] = 'session';
 			reqContentsTemp['mID'] = queryObj.ID;
 			reqContentsTemp['POST'] = {
-				mID: queryObj.ID,
-				sessionKey: sessionKey
+				mID : queryObj.ID,
+				sessionKey : sessionKey
 			};
 
 			reqMysqlDB.insertInto(reqContentsTemp, function() {
 				resMessageObj = {
-					type: 'signIn',
-					ID: queryObj.ID,
-					sessionKey: sessionKey,
-					result: 'approval'
+					type : 'signIn',
+					ID : queryObj.ID,
+					sessionKey : sessionKey,
+					result : 'approval'
 				};
 				resMessageStr = JSON.stringify(resMessageObj);
 				socket.write(resMessageStr);
 			});
 		} else {
 			resMessageObj = {
-				type: 'signIn',
-				ID: queryObj.ID,
-				sessionKey: '',
-				result: 'refusal'
+				type : 'signIn',
+				ID : queryObj.ID,
+				sessionKey : '',
+				result : 'refusal'
 			};
 			resMessageStr = JSON.stringify(resMessageObj);
 			socket.write(resMessageStr);
@@ -233,7 +233,7 @@ function signOut(queryObj, reqMysqlDB, reqEmail, socket) {
 	var resMessageObj, resMessageStr;
 	var reqContents = {};
 	reqContents['table'] = 'session';
-	reqContents['attribute'] = ['sessionKey'];
+	reqContents['attribute'] = [ 'sessionKey' ];
 	reqContents['GET'] = {
 		mID : queryObj.ID
 	};
@@ -257,8 +257,8 @@ function signOut(queryObj, reqMysqlDB, reqEmail, socket) {
 			});
 		} else {
 			resMessageObj = {
-				type: 'err',
-				msg: 'sessionKey error'
+				type : 'err',
+				msg : 'sessionKey error'
 			}
 			resMessageStr = JSON.stringify('resMessageObj');
 			socket.write(resMessageStr);
@@ -275,7 +275,8 @@ function findID(queryObj, reqMysqlDB, reqEmail, socket) {
 	};
 
 	reqMysqlDB.selectFromFileDB(reqContents, function(tuple) {
-		if (queryObj.name === tuple[0].mName && queryObj.email === tuple[0].mEmail) {
+		if (queryObj.name === tuple[0].mName
+				&& queryObj.email === tuple[0].mEmail) {
 			var mailInfo = {};
 			mailInfo['service'] = 'Gmail';
 			mailInfo['sender'] = 'esper.dev@gmail.com';
@@ -287,10 +288,10 @@ function findID(queryObj, reqMysqlDB, reqEmail, socket) {
 
 			reqEmail.sendEmail(mailInfo, function() {
 				resMessageObj = {
-					type: queryObj.type,
-					name: queryObj.name,
-					email: queryObj.email,
-					result: 'approval'
+					type : queryObj.type,
+					name : queryObj.name,
+					email : queryObj.email,
+					result : 'approval'
 				};
 
 				resMessageStr = JSON.stringify(resMessageObj);
@@ -299,8 +300,8 @@ function findID(queryObj, reqMysqlDB, reqEmail, socket) {
 		} else {
 			console.log(tuple[0].mName + '  ' + tuple[0].mEmail);
 			resMessageObj = {
-				type: 'err',
-				msg: 'There is no your member information'
+				type : 'err',
+				msg : 'There is no your member information'
 			}
 			resMessageStr = JSON.stringify(resMessageObj);
 			socket.write(resMessageStr);
@@ -318,51 +319,53 @@ function findPasswd(queryObj, reqMysqlDB, reqEmail, socket) {
 		mEmail : queryObj.email
 	};
 
-	reqMysqlDB.selectFromFileDB(reqContents, function(tuple) {
-		if (queryObj.ID === tuple[0].mID && queryObj.email === tuple[0].mEmail) {
-			var mailInfo = {};
-			mailInfo['service'] = 'Gmail';
-			mailInfo['sender'] = 'esper.dev@gmail.com';
-			mailInfo['receiver'] = queryObj.email;
-			mailInfo['passwd'] = 'bang1230';
-			mailInfo['senderInfo'] = '<방경용 esper.dev@gmail.com>';
-			mailInfo['subject'] = 'Email Authorization'
-			mailInfo['contents'] = 'Your ESPER Passwd: ';
+	reqMysqlDB.selectFromFileDB(reqContents,
+			function(tuple) {
+				if (queryObj.ID === tuple[0].mID
+						&& queryObj.email === tuple[0].mEmail) {
+					var mailInfo = {};
+					mailInfo['service'] = 'Gmail';
+					mailInfo['sender'] = 'esper.dev@gmail.com';
+					mailInfo['receiver'] = queryObj.email;
+					mailInfo['passwd'] = 'bang1230';
+					mailInfo['senderInfo'] = '<방경용 esper.dev@gmail.com>';
+					mailInfo['subject'] = 'Email Authorization'
+					mailInfo['contents'] = 'Your ESPER Passwd: ';
 
-			var randomNumSize = 4;
-			genRandomNum(randomNumSize, function(randomNum) {
-				mailInfo.contents += randomNum;
+					var randomNumSize = 4;
+					genRandomNum(randomNumSize, function(randomNum) {
+						mailInfo.contents += randomNum;
 
-				var reqContentsTemp = {};
-				reqContentsTemp['table'] = 'member';
-				reqContentsTemp['SET'] = {
-					mPasswd: randomNum
-				};
-				reqContentsTemp['where'] = {
-					mID: queryObj.ID
-				};
-				reqMysqlDB.updateTo(reqContentsTemp, function(DBRes) {
-					reqEmail.sendEmail(mailInfo, function() {
-						resMessageObj = {
-							type: queryObj.type,
-							ID: queryObj.ID,
-							result: DBRes
+						var reqContentsTemp = {};
+						reqContentsTemp['table'] = 'member';
+						reqContentsTemp['SET'] = {
+							mPasswd : randomNum
 						};
-						resMessageStr = JSON.stringify(resMessageObj);
-						socket.write(resMessageStr);
+						reqContentsTemp['where'] = {
+							mID : queryObj.ID
+						};
+						reqMysqlDB.updateTo(reqContentsTemp, function(DBRes) {
+							reqEmail.sendEmail(mailInfo, function() {
+								resMessageObj = {
+									type : queryObj.type,
+									ID : queryObj.ID,
+									result : DBRes
+								};
+								resMessageStr = JSON.stringify(resMessageObj);
+								socket.write(resMessageStr);
+							});
+						});
 					});
-				});
+				} else {
+					console.log(tuple[0].mName + '  ' + tuple[0].mEmail);
+					resMessageObj = {
+						type : 'err',
+						msg : 'There is no your member information'
+					}
+					resMessageStr = JSON.stringify(resMessageObj);
+					socket.write(resMessageStr);
+				}
 			});
-		} else {
-			console.log(tuple[0].mName + '  ' + tuple[0].mEmail);
-			resMessageObj = {
-				type: 'err',
-				msg: 'There is no your member information'
-			}
-			resMessageStr = JSON.stringify(resMessageObj);
-			socket.write(resMessageStr);
-		}
-	});
 
 }
 
@@ -370,9 +373,9 @@ function changePasswd(queryObj, reqMysqlDB, reqEmail, socket) {
 	var resMessageObj, resMessageStr;
 	var reqContents = {};
 	reqContents['table'] = 'session';
-	reqContents['attribute'] = ['sessionKey'];
+	reqContents['attribute'] = [ 'sessionKey' ];
 	reqContents['GET'] = {
-		mID: queryObj.ID
+		mID : queryObj.ID
 	};
 
 	reqMysqlDB.selectFrom(reqContents, function(tuple) {
@@ -380,25 +383,25 @@ function changePasswd(queryObj, reqMysqlDB, reqEmail, socket) {
 			var reqContentsTemp = {};
 			reqContentsTemp['table'] = 'member';
 			reqContentsTemp['SET'] = {
-				mPasswd: queryObj.changedPasswd
+				mPasswd : queryObj.changedPasswd
 			};
 			reqContentsTemp['where'] = {
-				mID: queryObj.ID
+				mID : queryObj.ID
 			};
 
 			reqMysqlDB.updateTo(reqContentsTemp, function(DBRes) {
 				resMessageObj = {
-					type: queryObj.type,
-					ID: queryObj.ID,
-					result: DBRes
+					type : queryObj.type,
+					ID : queryObj.ID,
+					result : DBRes
 				};
 				resMessageStr = JSON.stringify(resMessageObj);
 				socket.write(resMessageStr);
 			});
 		} else {
 			resMessageObj = {
-				type: 'err',
-				msg: 'sessionKey error'
+				type : 'err',
+				msg : 'sessionKey error'
 			}
 			resMessageStr = JSON.stringify('resMessageObj');
 			socket.write(resMessageStr);
@@ -410,9 +413,9 @@ function withdrawal(queryObj, reqMysqlDB, reqEmail, socket) {
 	var resMessageObj, resMessageStr;
 	var reqContents = {};
 	reqContents['table'] = 'session';
-	reqContents['attribute'] = ['sessionKey'];
+	reqContents['attribute'] = [ 'sessionKey' ];
 	reqContents['GET'] = {
-		mID: queryObj.ID
+		mID : queryObj.ID
 	};
 
 	reqMysqlDB.selectFrom(reqContents, function(tuple) {
@@ -420,22 +423,22 @@ function withdrawal(queryObj, reqMysqlDB, reqEmail, socket) {
 			var reqContentsTemp = {};
 			reqContentsTemp['table'] = 'member';
 			reqContentsTemp['POST'] = {
-				mID: queryObj.ID
+				mID : queryObj.ID
 			};
 			console.log(reqContentsTemp);
 			reqMysqlDB.deleteFrom(reqContentsTemp, function(DBRes) {
 				resMessageObj = {
-					type: queryObj.type,
-					ID: queryObj.ID,
-					result: DBRes
+					type : queryObj.type,
+					ID : queryObj.ID,
+					result : DBRes
 				};
 				resMessageStr = JSON.stringify(resMessageObj);
 				socket.write(resMessageStr);
 			});
 		} else {
 			resMessageObj = {
-				type: 'err',
-				msg: 'sessionKey error'
+				type : 'err',
+				msg : 'sessionKey error'
 			}
 			resMessageStr = JSON.stringify('resMessageObj');
 			socket.write(resMessageStr);
@@ -489,8 +492,8 @@ function accessorCheck(queryObj, reqMysqlDB, reqEmail, socket) {
 		if (sessionResult === 0) {
 			var reqContents = {};
 
-			reqContents['attribute'] = [ 'mID', 'fileId' ];
-			reqContents['table'] = 'connect';
+			reqContents['attribute'] = [ 'mID' ];
+			reqContents['table'] = 'member';
 			reqContents['GET'] = {
 				mID : queryObj.AccessorId
 			};
@@ -670,12 +673,12 @@ function auth(queryObj, reqMysqlDB, reqEmail, socket) {
 		if (sessionResult === 0) {
 			var reqContents = {};
 
-			reqContents['attribute'] = [ 'mID', 'del' ];
-			reqContents['table'] = 'connect';
+			reqContents['select'] = [ 'mID', 'del' ];
+			reqContents['from'] = 'connect';
 			reqContents['where1'] = 'mID';
 			reqContents['where2'] = 'fileId';
-			reqContents['UserId'] = queryObj.UserId;
-			reqContents['fileId'] = queryObj.FileId;
+			reqContents['cond1'] = queryObj.UserId;
+			reqContents['cond2'] = queryObj.FileId;
 
 			reqMysqlDB.twoConditionQuery(reqContents, function(tuple) {
 				if (tuple[0] === undefined) {
@@ -761,6 +764,7 @@ function remoteDel(queryObj, reqMysqlDB, reqEmail, socket) {
 								socket.write(resMessageStr);
 								// console.log(resMessageStr);
 							} else {
+
 								resMessageObj = {
 									type : 'remoteDel',
 									result : 'fail',
