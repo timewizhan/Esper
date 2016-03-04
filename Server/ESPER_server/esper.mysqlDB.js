@@ -75,7 +75,7 @@ function updateTo(reqContents, callback) {
 			console.log(err);
 			callback('fail');
 		} else {
-			console.log('111');
+			//console.log('111');
 			callback('succ');
 		}
 	});
@@ -89,7 +89,7 @@ function delUpdateTo(reqContents, callback) {
 				if (err) {
 					console.log(err);
 				} else {
-					callback(tuple);
+					callback('succ');
 				}
 			});
 }

@@ -1,7 +1,7 @@
 var net = require('net');
 var connect = require('connect');
 
-var PORT = 8000;
+var PORT = 8002;
 var IP = '165.132.120.150';
 
 function start(route, reqHandle, reqMysqlDB, reqEmail) {
