@@ -1,6 +1,7 @@
 #pragma once
 #include "afxwin.h"
-
+#include <iostream>
+#include <string>
 
 // CWrapDlg 대화 상자입니다.
 
@@ -29,4 +30,8 @@ public:
 	CListBox m_authlistctrl;
 	afx_msg void OnBnClickedOk();
 	afx_msg void OnStnClickedWrapFilename();
+	void SetId(std::string param);
+private : 
+	std::string m_userid;
+
 };

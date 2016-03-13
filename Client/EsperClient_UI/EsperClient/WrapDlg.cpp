@@ -22,6 +22,11 @@ CWrapDlg::~CWrapDlg()
 {
 }
 
+void CWrapDlg::SetId(std::string param)
+{
+	m_userid = param;
+}
+
 void CWrapDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
@@ -46,6 +51,8 @@ BOOL CWrapDlg::OnInitDialog()
 	// TODO:  여기에 추가 초기화 작업을 추가합니다.
 	SetDlgItemText(IDC_WRAP_FILENAME, Filename);
 	SetDlgItemText(IDC_WRAP_FILEPATH, Filepath);
+	CString  m_userid2(m_userid.c_str());
+	SetDlgItemText(IDC_WRAP_USER,m_userid2);
 	return TRUE;  // return TRUE unless you set the focus to a control
 				  // 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.
 }

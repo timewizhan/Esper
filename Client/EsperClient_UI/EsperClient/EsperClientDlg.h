@@ -4,6 +4,7 @@
 
 #pragma once
 #include "afxcmn.h"
+#include <string>
 
 
 // CEsperClientDlg 대화 상자
@@ -30,6 +31,11 @@ protected:
 	HICON m_hIcon;
 	bool m_isOpen;
 
+	CEdit m_ebMsg;
+	CString m_strEdit;
+
+	std::string m_userid;
+
 	// 생성된 메시지 맵 함수
 	virtual BOOL OnInitDialog();
 	afx_msg void OnSysCommand(UINT nID, LPARAM lParam);
@@ -38,8 +44,8 @@ protected:
 	afx_msg HCURSOR OnQueryDragIcon();
 	DECLARE_MESSAGE_MAP()
 public:
-	CEdit m_ebMsg;
-	CString m_strEdit;
+	
+	void SetId(std::string param);
 
 	afx_msg void OnEnChangeEdit1();
 	afx_msg void OnLbnSelchangeList1();

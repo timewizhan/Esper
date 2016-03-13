@@ -72,7 +72,7 @@ BOOL CEsperClientApp::InitInstance()
 	/*
 	CEsperClientDlg dlg;
 	m_pMainWnd = &dlg;*/
-
+	 
 	//연결 프로그램 시 구분
 
 	CCommandLineInfo cmdInfo;

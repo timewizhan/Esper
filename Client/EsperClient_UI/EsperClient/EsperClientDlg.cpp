@@ -60,7 +60,10 @@ END_MESSAGE_MAP()
 
 // CEsperClientDlg 대화 상자
 
-
+void CEsperClientDlg::SetId(std::string param)
+{
+	m_userid = param;
+}
 
 CEsperClientDlg::CEsperClientDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(IDD_ESPERCLIENT_DIALOG, pParent), m_strEdit(_T(""))
@@ -191,6 +194,7 @@ void CEsperClientDlg::OnSysCommand(UINT nID, LPARAM lParam)
 	{
 		CAboutDlg dlgAbout;
 		dlgAbout.DoModal();
+
 	}
 	else
 	{
@@ -322,6 +326,7 @@ void CEsperClientDlg::OnMenuWrapping()
 	
 	if (IDOK == dialog.DoModal()) {
 		CWrapDlg wDialog(dialog.GetFileName(),dialog.GetPathName());
+		wDialog.SetId(m_userid);
 		wDialog.DoModal();
 	}
 
@@ -334,6 +339,7 @@ void CEsperClientDlg::OnSetting()
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 	// 환경설정
 	CSettingDlg dialog1;
+	dialog1.SetId(m_userid);
 	dialog1.DoModal();
 }
 
@@ -352,6 +358,7 @@ void CEsperClientDlg::OnTraySettings()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 	CSettingDlg dialog1;
+	dialog1.SetId(m_userid);
 	dialog1.DoModal();
 }
 

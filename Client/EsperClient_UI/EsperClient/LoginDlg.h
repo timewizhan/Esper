@@ -1,6 +1,5 @@
  #pragma once
-
-
+#include <string>
 // LoginDlg 대화 상자입니다.
 
 class LoginDlg : public CDialogEx
@@ -26,4 +25,8 @@ protected:
 
 public:
 	afx_msg void OnBnClickedOk();
+	void SetId(std::string param);
+
+private:
+	std::string m_userid;
 };

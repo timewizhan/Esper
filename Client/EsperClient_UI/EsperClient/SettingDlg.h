@@ -1,5 +1,5 @@
 #pragma once
-
+#include <string>
 
 // CSettingDlg 대화 상자입니다.
 
@@ -22,4 +22,7 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	virtual BOOL OnInitDialog();
+	void SetId(std::string param);
+private : 
+	std::string m_userid;
 };

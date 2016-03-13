@@ -25,6 +25,10 @@ LoginDlg::~LoginDlg()
 {
 
 }
+void LoginDlg::SetId(std::string param)
+{
+	m_userid = param;
+}
 
 void LoginDlg::DoDataExchange(CDataExchange* pDX)
 {
@@ -72,7 +76,13 @@ BOOL LoginDlg::OnInitDialog()
 void LoginDlg::OnBnClickedOk()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	UpdateData(TRUE);
+	CString cstrId;
+	GetDlgItemText(IDC_LOGID, cstrId);
+	CT2CA pszConvertedAnsiString(cstrId);
+	m_userid = pszConvertedAnsiString;
 	CEsperClientDlg dlg;
+	dlg.SetId(m_userid);
 	ShowWindow(SW_HIDE);
 	dlg.DoModal();
 }

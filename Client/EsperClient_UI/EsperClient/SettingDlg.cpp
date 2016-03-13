@@ -21,6 +21,11 @@ CSettingDlg::~CSettingDlg()
 {
 }
 
+void CSettingDlg::SetId(std::string param)
+{
+	m_userid = param;
+}
+
 void CSettingDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
