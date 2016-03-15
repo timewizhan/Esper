@@ -4,6 +4,9 @@ var Promise = require('promise');
 var shasum = crypto.createHash('sha1');
 var sessionKey
 
+var SUCC = 1;
+var FAIl = 0;
+
 function checkID(queryObj, reqMysqlDB, reqEmail, socket) {
 	var resMessageObj, resMessageStr;
 	var reqContents = {};
@@ -453,35 +456,53 @@ function withdrawal(queryObj, reqMysqlDB, reqEmail, socket) {
 
 /* For validate session check */
 function sessionChecker(queryObj, reqMysqlDB, callback) {
-	var reqContents = {};
 
-	reqContents['select'] = 'mID';
-	reqContents['from'] = 'session';
-	reqContents['where1'] = 'mID';
-	reqContents['where2'] = 'sessionKey';
-	reqContents['cond1'] = queryObj.UserId;
-	reqContents['cond2'] = queryObj.SessionKey;
+	if (queryObj.SessionKey === null) {
+		resMessageObj = {
+			type : 'invalidSessionKey',
+			result : 'fail'
+		};
 
-	reqMysqlDB.twoConditionQuery(reqContents, function(rows) {
-		var sessionResult;
+		resMessageStr = JSON.stringify(resMessageObj);
+		socket.write(resMessageStr);
+	} else {
 
-		/* session check error */
-		if (rows[0] === undefined) {
-			sessionResult = 1;
+		var reqContents = {};
 
-			console.log('session fail');
-			callback(sessionResult);
+		reqContents['select'] = 'mID';
+		reqContents['from'] = 'session';
+		reqContents['where1'] = 'mID';
+		reqContents['where2'] = 'sessionKey';
+		reqContents['cond1'] = queryObj.UserId;
+		reqContents['cond2'] = queryObj.SessionKey;
 
-			/* session check success */
-		} else {
-			if (rows[0].mID === queryObj.UserId) {
-				sessionResult = 0;
+		reqMysqlDB.twoConditionQuery(reqContents, function(state, rows) {
+			if (state === FAIL) {
+				console.log(rows.msg);
+			} else if (state === SUCC) {
+				var sessionResult;
 
-				console.log('session succ');
-				callback(sessionResult);
+				/* session check error */
+				if (rows[0] === undefined) {
+					sessionResult = 1;
+
+					console.log('session fail');
+					callback(sessionResult);
+
+					/* session check success */
+				} else {
+					if (rows[0].mID === queryObj.UserId) {
+						sessionResult = 0;
+
+						console.log('session succ');
+						callback(sessionResult);
+					}
+				}
+			} else {
+				console.log('Invalid state');
 			}
-		}
-	});
+		});
+	}
 }
 
 /* Check whether real access user or not */
@@ -681,42 +702,49 @@ function auth(queryObj, reqMysqlDB, reqEmail, socket) {
 			reqContents['cond1'] = queryObj.UserId;
 			reqContents['cond2'] = queryObj.FileId;
 
-			reqMysqlDB.twoConditionQuery(reqContents, function(tuple) {
-				if (tuple[0] === undefined) {
-					resMessageObj = {
-						type : 'auth',
-						result : 'fail'
-					};
-
-					resMessageStr = JSON.stringify(resMessageObj);
-					socket.write(resMessageStr);
-					// console.log(resMessageStr);
-
-					/* when result is succ, file is unwrapped */
-				} else {
-					if (tuple[0].del === 0) {
+			reqMysqlDB.twoConditionQuery(reqContents, function(state, tuple) {
+				if (state === SUCC) {
+					if (tuple[0] === undefined) {
 						resMessageObj = {
 							type : 'auth',
-							result : 'succ'
+							result : 'fail'
 						};
 
 						resMessageStr = JSON.stringify(resMessageObj);
 						socket.write(resMessageStr);
 						// console.log(resMessageStr);
-					} else if (tuple[0].del === 1) {
-						resMessageObj = {
-							type : 'auth',
-							result : 'del'
-						};
 
-						resMessageStr = JSON.stringify(resMessageObj);
-						socket.write(resMessageStr);
-						// console.log(resMessageStr);
+						/* when result is succ, file is unwrapped */
 					} else {
-						console.log('tuple result error');
+						if (tuple[0].del === 0) {
+							resMessageObj = {
+								type : 'auth',
+								result : 'succ'
+							};
+
+							resMessageStr = JSON.stringify(resMessageObj);
+							socket.write(resMessageStr);
+							// console.log(resMessageStr);
+						} else if (tuple[0].del === 1) {
+							resMessageObj = {
+								type : 'auth',
+								result : 'del'
+							};
+
+							resMessageStr = JSON.stringify(resMessageObj);
+							socket.write(resMessageStr);
+							// console.log(resMessageStr);
+						} else {
+							console.log('tuple result error');
+						}
 					}
+				} else if (state === FAIL) {
+					console.log(tuple.msg);
+				} else {
+					console.log('Invalid state');
 				}
 			});
+
 			/* Invalidate sessionKey */
 		} else {
 			resMessageObj = {
@@ -732,77 +760,136 @@ function auth(queryObj, reqMysqlDB, reqEmail, socket) {
 }
 
 function remoteDel(queryObj, reqMysqlDB, reqEmail, socket) {
-	sessionChecker(queryObj, reqMysqlDB, function(sessionResult) {
-		var resMessageObj, resMessageStr;
+	sessionChecker(
+			queryObj,
+			reqMysqlDB,
+			function(sessionResult) {
+				var resMessageObj, resMessageStr;
 
-		/* validate sessionKey */
-		if (sessionResult === 0) {
-			var reqContents = {};
+				/* validate sessionKey */
+				if (sessionResult === 0) {
+					var reqContents = {};
 
-			reqContents['table'] = 'connect';
-			reqContents['SET'] = {
-				del : queryObj.Del
-			};
-			reqContents['where1'] = 'mID';
-			reqContents['where2'] = 'fileId';
-			reqContents['cond1'] = queryObj.AccessorId;
-			reqContents['cond2'] = queryObj.FileId;
-			reqContents['select'] = 'del';
-			reqContents['from'] = 'connect';
+					reqContents['table'] = 'connect';
+					reqContents['SET'] = {
+						del : queryObj.Del
+					};
+					reqContents['where1'] = 'mID';
+					reqContents['where2'] = 'fileId';
+					reqContents['cond1'] = queryObj.AccessorId;
+					reqContents['cond2'] = queryObj.FileId;
+					reqContents['select'] = 'del';
+					reqContents['from'] = 'connect';
 
-			if (queryObj.Del === 0 || queryObj.Del === 1) {
-				reqMysqlDB.twoConditionQuery(reqContents, function(outerTuple) {
-					reqMysqlDB.delUpdateTo(reqContents, function(innerTuple) {
-						reqMysqlDB.twoConditionQuery(reqContents, function(
-								tuple) {
-							if (outerTuple[0].del === tuple[0].del) {
-								resMessageObj = {
-									type : 'remoteDel',
-									result : 'succ',
-								};
+					if (queryObj.Del === 0 || queryObj.Del === 1) {
 
-								resMessageStr = JSON.stringify(resMessageObj);
-								socket.write(resMessageStr);
-								// console.log(resMessageStr);
-							} else {
+						reqMysqlDB
+								.twoConditionQuery(
+										reqContents,
+										function(state, tuple) {
+											if (state === SUCC) {
+												if (tuple[0].del === queryObj.Del) {
+													resMessageObj = {
+														type : 'remoteDel',
+														result : 'fail',
+														msg : 'Already equal'
+													};
 
-								resMessageObj = {
-									type : 'remoteDel',
-									result : 'fail',
-								};
+													resMessageStr = JSON
+															.stringify(resMessageObj);
+													socket.write(resMessageStr);
+												} else {
+													reqMysqlDB
+															.twoConditionQuery(
+																	reqContents,
+																	function(
+																			state,
+																			outerTuple) {
+																		if (state === SUCC) {
+																			reqMysqlDB
+																					.delUpdateTo(
+																							reqContents,
+																							function(
+																									innerTuple) {
+																								reqMysqlDB
+																										.twoConditionQuery(
+																												reqContents,
+																												function(
+																														innerState,
+																														tuple) {
+																													if (innerState === SUCC) {
+																														if (outerTuple[0].del !== tuple[0].del) {
+																															resMessageObj = {
+																																type : 'remoteDel',
+																																result : 'succ',
+																															};
 
-								resMessageStr = JSON.stringify(resMessageObj);
-								socket.write(resMessageStr);
-								// console.log(resMessageStr);
-							}
-						});
-					});
-				});
-			} else {
-				resMessageObj = {
-					type : 'remoteDel',
-					result : 'fail',
-					reason : 'Invalid del variable'
-				};
+																															resMessageStr = JSON
+																																	.stringify(resMessageObj);
+																															socket
+																																	.write(resMessageStr);
+																															// console.log(resMessageStr);
+																														} else {
+																															resMessageObj = {
+																																type : 'remoteDel',
+																																result : 'fail',
+																															};
 
-				resMessageStr = JSON.stringify(resMessageObj);
-				socket.write(resMessageStr);
-				console.log(resMessageStr);
+																															resMessageStr = JSON
+																																	.stringify(resMessageObj);
+																															socket
+																																	.write(resMessageStr);
+																															// console.log(resMessageStr);
+																														}
+																													} else if (innerState === FAIL) {
+																														console
+																																.log(outerTuple.msg);
+																													} else {
+																														console
+																																.log('Invalid state');
+																													}
+																												});
+																							});
+																		} else if (state === FAIL) {
+																			console
+																					.log(outerTuple.msg);
+																		} else {
+																			console
+																					.log('Invalid state');
+																		}
+																	});
+												}
+											} else if (state === FAIL) {
+												console.log(tuple.msg);
+											} else {
+												console.log('Invalid state');
+											}
+										})
+					} else {
+						resMessageObj = {
+							type : 'remoteDel',
+							result : 'fail',
+							reason : 'Invalid del variable'
+						};
 
-			}
+						resMessageStr = JSON.stringify(resMessageObj);
+						socket.write(resMessageStr);
+						console.log(resMessageStr);
 
-			/* Invalidate sessionKey */
-		} else {
-			resMessageObj = {
-				type : 'sessionCheck',
-				result : 'fail'
-			};
+					}
 
-			resMessageStr = JSON.stringify(resMessageObj);
-			socket.write(resMessageStr);
-			console.log(resMessageStr);
-		}
-	});
+					/* Invalidate sessionKey */
+				} else {
+					resMessageObj = {
+						type : 'sessionCheck',
+						result : 'fail'
+					};
+
+					resMessageStr = JSON.stringify(resMessageObj);
+					socket.write(resMessageStr);
+					console.log(resMessageStr);
+				}
+			});
 }
 
 function authUpdate(queryObj, reqMysqlDB, reqEmail, socket) {
@@ -818,8 +905,6 @@ function authUpdate(queryObj, reqMysqlDB, reqEmail, socket) {
 			 * be erased
 			 */
 
-			// console.log(queryObj);
-			// console.log(queryObj['AccessorId'].del);
 			reqContents['table'] = 'connect';
 			reqContents['SET'] = {
 				del : queryObj['AccessorId'].del
@@ -831,31 +916,47 @@ function authUpdate(queryObj, reqMysqlDB, reqEmail, socket) {
 			reqContents['select'] = 'del';
 			reqContents['from'] = 'connect';
 
-			reqMysqlDB.twoConditionQuery(reqContents, function(outerTuple) {
-				reqMysqlDB.delUpdateTo(reqContents, function(innerTuple) {
-					reqMysqlDB.twoConditionQuery(reqContents, function(tuple) {
-						if (outerTuple[0].del !== tuple[0].del) {
-							resMessageObj = {
-								type : 'authUpdate',
-								result : 'succ'
-							};
+			reqMysqlDB.twoConditionQuery(reqContents, function(state,
+					outerTuple) {
+				if (state === SUCC) {
+					reqMysqlDB.delUpdateTo(reqContents, function(innerTuple) {
+						reqMysqlDB.twoConditionQuery(reqContents, function(
+								state, tuple) {
+							if (state === 1) {
+								if (outerTuple[0].del !== tuple[0].del) {
+									resMessageObj = {
+										type : 'authUpdate',
+										result : 'succ'
+									};
 
-							resMessageStr = JSON.stringify(resMessageObj);
-							socket.write(resMessageStr);
-							console.log(resMessageStr);
+									resMessageStr = JSON
+											.stringify(resMessageObj);
+									socket.write(resMessageStr);
+									console.log(resMessageStr);
 
-						} else if (outerTuple[0].del === tuple[0].del) {
-							resMessageObj = {
-								type : 'authUpdate',
-								result : 'fail'
-							};
+								} else if (outerTuple[0].del === tuple[0].del) {
+									resMessageObj = {
+										type : 'authUpdate',
+										result : 'fail'
+									};
 
-							resMessageStr = JSON.stringify(resMessageObj);
-							socket.write(resMessageStr);
-							console.log(resMessageStr);
-						}
+									resMessageStr = JSON
+											.stringify(resMessageObj);
+									socket.write(resMessageStr);
+									console.log(resMessageStr);
+								}
+							} else if (state === FAIL) {
+								console.log(tuple.msg);
+							} else {
+								console.log('Invalid state');
+							}
+						});
 					});
-				});
+				} else if (state === 0) {
+					console.log(OuterTuple.msg);
+				} else {
+					console.log('Invalid state');
+				}
 			});
 
 			/* Invalidate sessionKey */
@@ -873,79 +974,44 @@ function authUpdate(queryObj, reqMysqlDB, reqEmail, socket) {
 }
 
 function fileListReq(queryObj, reqMysqlDB, reqEmail, socket) {
-	msgSend(function() {
-		sessionChecker(queryObj, reqMysqlDB, function(sessionResult) {
-			var resMessageObj, resMessageStr;
+	sessionChecker(queryObj, reqMysqlDB, function(sessionResult) {
+		var resMessageObj, resMessageStr;
 
-			/* validate sessionKey */
-			if (sessionResult === 0) {
-				var reqContents = {};
+		/* validate sessionKey */
+		if (sessionResult === 0) {
+			fileList = [];
 
-				// reqContents['attribute'] = '\*';
-				reqContents['table'] = 'fileDB';
-				reqContents['GET'] = {
-					mID : queryObj.UserId
-				};
-
-				reqMysqlDB.selectFromFileDB(reqContents, function(tuple) {
-
-					// console.log(tuple);
-					var innerReqContents = {};
-
-					innerReqContents['attribute'] = [ 'mID', 'fileId' ];
-					innerReqContents['table'] = 'connect';
-
-					for ( var val in tuple) {
-						var fileList = [];
-						var file;
-
-						innerReqContents['GET'] = {
-							fileId : tuple[val].fileId
-						};
-
-						reqMysqlDB.selectFrom(innerReqContents, function(
-								userList) {
-							// console.log(userList);
-							for(var val in tuple) {
-							for ( var user in userList) {
-								file = {
-									fileId : userList[user].fileId,
-									userName : userList[user].mID
-								};
-								fileList.push(file);
-							}
-							}
-							
-							resMessageObj = {
-								type : 'fileListReq',
-								result : 'succ',
-								File : fileList
-							};
-							resMessageStr = JSON.stringify(resMessageObj);
-							socket.write(resMessageStr);
-							console.log(resMessageStr);
-
-						});
+			reqMysqlDB.equalJoin(function(tuple) {
+				for ( var i in tuple) {
+					if (tuple[i].fileId == null || tuple[i].mID == null) {
+						continue
+					} else {
+						fileList.push(tuple[i]);
 					}
-				});
+				}
 
-				/* Invalidate sessionKey */
-			} else {
 				resMessageObj = {
-					type : 'sessionCheck',
-					result : 'fail'
+					type : 'fileListReq',
+					result : 'succ',
+					File : fileList
 				};
-
 				resMessageStr = JSON.stringify(resMessageObj);
 				socket.write(resMessageStr);
 				console.log(resMessageStr);
-			}
-		});
-	})
-}
+			})
 
-function msgSend(callback) {
-	callback();
+			/* Invalidate sessionKey */
+		} else {
+			resMessageObj = {
+				type : 'sessionCheck',
+				result : 'fail'
+			};
+
+			resMessageStr = JSON.stringify(resMessageObj);
+			socket.write(resMessageStr);
+			console.log(resMessageStr);
+		}
+	});
 }
 
 function test(queryObj, reqMysqlDB, reqEmail, socket) {

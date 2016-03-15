@@ -16,6 +16,7 @@ reqMysqlDB['delUpdateTo'] = mysqlDB.delUpdateTo;
 
 reqMysqlDB['twoConditionQuery'] = mysqlDB.twoConditionQuery;
 reqMysqlDB['getTableRowCount'] = mysqlDB.getTableRowCount;
+reqMysqlDB['equalJoin'] = mysqlDB.equalJoin;
 
 /*
  * var dataHandle = {}; dataHandle['str2obj'] = reqDataHandlers.str2obj;
