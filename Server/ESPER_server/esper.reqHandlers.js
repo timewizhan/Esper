@@ -1,11 +1,11 @@
 var crypto = require('crypto');
-var Promise = require('promise');
+//var Promise = require('promise');
 
 var shasum = crypto.createHash('sha1');
 var sessionKey
 
 var SUCC = 1;
-var FAIl = 0;
+var FAIL = 0;
 
 function checkID(queryObj, reqMysqlDB, reqEmail, socket) {
 	var resMessageObj, resMessageStr;
