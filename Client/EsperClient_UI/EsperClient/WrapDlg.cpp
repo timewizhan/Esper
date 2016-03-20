@@ -6,7 +6,7 @@
 #include "WrapDlg.h"
 #include "afxdialogex.h"
 #include "FileLayer.h"
-
+#include "Communication.h"
 
 // CWrapDlg 대화 상자입니다.
 
@@ -86,6 +86,8 @@ void CWrapDlg::OnBnClickedOk()
 	ST_FILE_LAYER_HEADER stFileLayerHeader;
 	stFileLayerHeader.dwServerId = 1;
 	stFileLayerHeader.dwUserId = 1;
+
+	Items item;
 
 	CT2CA pszConvertedAnsiString(Filepath), pszConvertedAnsiString2(dialog.GetFolderPath());
 	std::string strInputFile(pszConvertedAnsiString);
