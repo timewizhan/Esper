@@ -5,6 +5,7 @@
 #include "EsperClient.h"
 #include "LoginDlg.h"
 #include "afxdialogex.h"
+#include "JoinDlg.h"
 
 #include "EsperClientDlg.h"
 
@@ -38,6 +39,7 @@ void LoginDlg::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(LoginDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_OK, &LoginDlg::OnBnClickedOk)
+	ON_BN_CLICKED(IDC_REGIST, &LoginDlg::OnBnClickedRegist)
 END_MESSAGE_MAP()
 
 
@@ -84,5 +86,13 @@ void LoginDlg::OnBnClickedOk()
 	CEsperClientDlg dlg;
 	dlg.SetId(m_userid);
 	ShowWindow(SW_HIDE);
+	dlg.DoModal();
+}
+
+
+void LoginDlg::OnBnClickedRegist()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	CJoinDlg dlg;
 	dlg.DoModal();
 }

@@ -1,33 +1,27 @@
-﻿cryptlib.lib(algparam.obj) : warning LNK4099: 'vc80.pdb' PDB를 'cryptlib.lib(algparam.obj)' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc80.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
-cryptlib.lib(asn.obj) : warning LNK4099: 'vc80.pdb' PDB를 'cryptlib.lib(asn.obj)' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc80.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
-cryptlib.lib(basecode.obj) : warning LNK4099: 'vc80.pdb' PDB를 'cryptlib.lib(basecode.obj)' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc80.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
-cryptlib.lib(cpu.obj) : warning LNK4099: 'vc80.pdb' PDB를 'cryptlib.lib(cpu.obj)' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc80.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
-cryptlib.lib(cryptlib.obj) : warning LNK4099: 'vc80.pdb' PDB를 'cryptlib.lib(cryptlib.obj)' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc80.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
-cryptlib.lib(des.obj) : warning LNK4099: 'vc80.pdb' PDB를 'cryptlib.lib(des.obj)' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc80.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
-cryptlib.lib(dessp.obj) : warning LNK4099: 'vc80.pdb' PDB를 'cryptlib.lib(dessp.obj)' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc80.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
-cryptlib.lib(dll.obj) : warning LNK4099: 'vc80.pdb' PDB를 'cryptlib.lib(dll.obj)' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc80.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
-cryptlib.lib(ec2n.obj) : warning LNK4099: 'vc80.pdb' PDB를 'cryptlib.lib(ec2n.obj)' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc80.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
-cryptlib.lib(ecp.obj) : warning LNK4099: 'vc80.pdb' PDB를 'cryptlib.lib(ecp.obj)' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc80.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
-cryptlib.lib(filters.obj) : warning LNK4099: 'vc80.pdb' PDB를 'cryptlib.lib(filters.obj)' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc80.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
-cryptlib.lib(fips140.obj) : warning LNK4099: 'vc80.pdb' PDB를 'cryptlib.lib(fips140.obj)' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc80.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
-cryptlib.lib(gf2n.obj) : warning LNK4099: 'vc80.pdb' PDB를 'cryptlib.lib(gf2n.obj)' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc80.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
-cryptlib.lib(gfpcrypt.obj) : warning LNK4099: 'vc80.pdb' PDB를 'cryptlib.lib(gfpcrypt.obj)' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc80.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
-cryptlib.lib(hex.obj) : warning LNK4099: 'vc80.pdb' PDB를 'cryptlib.lib(hex.obj)' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc80.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
-cryptlib.lib(hmac.obj) : warning LNK4099: 'vc80.pdb' PDB를 'cryptlib.lib(hmac.obj)' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc80.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
-cryptlib.lib(hrtimer.obj) : warning LNK4099: 'vc80.pdb' PDB를 'cryptlib.lib(hrtimer.obj)' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc80.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
-cryptlib.lib(integer.obj) : warning LNK4099: 'vc80.pdb' PDB를 'cryptlib.lib(integer.obj)' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc80.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
-cryptlib.lib(iterhash.obj) : warning LNK4099: 'vc80.pdb' PDB를 'cryptlib.lib(iterhash.obj)' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc80.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
-cryptlib.lib(misc.obj) : warning LNK4099: 'vc80.pdb' PDB를 'cryptlib.lib(misc.obj)' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc80.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
-cryptlib.lib(modes.obj) : warning LNK4099: 'vc80.pdb' PDB를 'cryptlib.lib(modes.obj)' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc80.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
-cryptlib.lib(mqueue.obj) : warning LNK4099: 'vc80.pdb' PDB를 'cryptlib.lib(mqueue.obj)' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc80.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
-cryptlib.lib(nbtheory.obj) : warning LNK4099: 'vc80.pdb' PDB를 'cryptlib.lib(nbtheory.obj)' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc80.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
-cryptlib.lib(osrng.obj) : warning LNK4099: 'vc80.pdb' PDB를 'cryptlib.lib(osrng.obj)' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc80.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
-cryptlib.lib(pch.obj) : warning LNK4099: 'vc80.pdb' PDB를 'cryptlib.lib(pch.obj)' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc80.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
-cryptlib.lib(pubkey.obj) : warning LNK4099: 'vc80.pdb' PDB를 'cryptlib.lib(pubkey.obj)' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc80.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
-cryptlib.lib(queue.obj) : warning LNK4099: 'vc80.pdb' PDB를 'cryptlib.lib(queue.obj)' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc80.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
-cryptlib.lib(randpool.obj) : warning LNK4099: 'vc80.pdb' PDB를 'cryptlib.lib(randpool.obj)' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc80.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
-cryptlib.lib(rdtables.obj) : warning LNK4099: 'vc80.pdb' PDB를 'cryptlib.lib(rdtables.obj)' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc80.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
-cryptlib.lib(rijndael.obj) : warning LNK4099: 'vc80.pdb' PDB를 'cryptlib.lib(rijndael.obj)' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc80.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
-cryptlib.lib(rng.obj) : warning LNK4099: 'vc80.pdb' PDB를 'cryptlib.lib(rng.obj)' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc80.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
-cryptlib.lib(sha.obj) : warning LNK4099: 'vc80.pdb' PDB를 'cryptlib.lib(sha.obj)' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc80.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
-  EsperClient.vcxproj -> C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\EsperClient.exe
+﻿빌드 시작: 2016-03-21 오전 6:54:06
+     1>2 노드의 "C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\EsperClient\EsperClient.vcxproj" 프로젝트(Build 대상)입니다.
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /IC:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Lib\include /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D _CRT_SECURE_NO_WARNINGS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt EsperClientDlg.cpp
+         EsperClientDlg.cpp
+     1>c:\users\woopc\source\repos\esper\client\esperclient_ui\esperclient\esperclientdlg.cpp(459): error C2146: 구문 오류: ')'이(가) 'or' 식별자 앞에 없습니다.
+     1>c:\users\woopc\source\repos\esper\client\esperclient_ui\esperclient\esperclientdlg.cpp(459): error C2065: 'or': 선언되지 않은 식별자입니다.
+     1>c:\users\woopc\source\repos\esper\client\esperclient_ui\esperclient\esperclientdlg.cpp(459): error C2146: 구문 오류: ';'이(가) 'hItem' 식별자 앞에 없습니다.
+     1>c:\users\woopc\source\repos\esper\client\esperclient_ui\esperclient\esperclientdlg.cpp(459): error C2059: 구문 오류: ')'
+     1>c:\users\woopc\source\repos\esper\client\esperclient_ui\esperclient\esperclientdlg.cpp(461): error C2275: 'CPoint': 이 형식을 식으로 잘못 사용했습니다.
+         c:\program files (x86)\microsoft visual studio 14.0\vc\atlmfc\include\atltypes.h(74): note: 'CPoint' 선언을 참조하십시오.
+     1>c:\users\woopc\source\repos\esper\client\esperclient_ui\esperclient\esperclientdlg.cpp(461): error C2146: 구문 오류: ')'이(가) 'p' 식별자 앞에 없습니다.
+     1>c:\users\woopc\source\repos\esper\client\esperclient_ui\esperclient\esperclientdlg.cpp(462): error C2065: 'p': 선언되지 않은 식별자입니다.
+     1>c:\users\woopc\source\repos\esper\client\esperclient_ui\esperclient\esperclientdlg.cpp(466): error C2065: 'p': 선언되지 않은 식별자입니다.
+     1>c:\users\woopc\source\repos\esper\client\esperclient_ui\esperclient\esperclientdlg.cpp(466): error C2228: '.x' 왼쪽에는 클래스/구조체/공용 구조체가 있어야 합니다.
+         c:\users\woopc\source\repos\esper\client\esperclient_ui\esperclient\esperclientdlg.cpp(466): note: 'unknown-type' 형식입니다.
+     1>c:\users\woopc\source\repos\esper\client\esperclient_ui\esperclient\esperclientdlg.cpp(466): error C2228: '.y' 왼쪽에는 클래스/구조체/공용 구조체가 있어야 합니다.
+         c:\users\woopc\source\repos\esper\client\esperclient_ui\esperclient\esperclientdlg.cpp(466): note: 'unknown-type' 형식입니다.
+     1>c:\users\woopc\source\repos\esper\client\esperclient_ui\esperclient\esperclientdlg.cpp(466): error C2660: 'CMenu::TrackPopupMenu': 함수는 2개의 매개 변수를 사용하지 않습니다.
+     1>c:\users\woopc\source\repos\esper\client\esperclient_ui\esperclient\esperclientdlg.cpp(473): error C4430: 형식 지정자가 없습니다. int로 가정합니다. 참고: C++에서는 기본 int를 지원하지 않습니다.
+     1>c:\users\woopc\source\repos\esper\client\esperclient_ui\esperclient\esperclientdlg.cpp(474): error C2059: 구문 오류: '}'
+     1>c:\users\woopc\source\repos\esper\client\esperclient_ui\esperclient\esperclientdlg.cpp(474): error C2143: 구문 오류: ';'이(가) '}' 앞에 없습니다.
+     1>"C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\EsperClient\EsperClient.vcxproj" 프로젝트를 빌드했습니다(Build 대상). - 실패
+
+빌드하지 못했습니다.
+
+경과 시간: 00:00:02.82

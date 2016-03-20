@@ -17,76 +17,120 @@ using namespace std;
 
 class Items {
 public:
-	string Id, Pw, Email, EmailAuthCode, UserId, FileName, FileId, WrappingResult;
+	string Id, Pw, Email, EmailAuthCode, UserId, FileName, FileId, WrappingResult, Name, date, SessionKey, AccessorID, Filed, del;
 	vector<string> Accessor;
 	Items() {}
-	string setId(string Id) { this->Id = Id; }
-	string setPw(string Pw) { this->Pw = Pw; }
-	string setEmail(string Email) { this->Email = Email; }
-	string setEmailAuthCode(string EmailAuthCode) { this->EmailAuthCode = EmailAuthCode; }
-	string setUserId(string UserId) { this->UserId = UserId; }
-	string setFileName(string FileName) { this->FileName = FileName; }
-	string setFileId(string FileId) { this->FileId = FileId; }
-	string setWrappingResult(string WrappingResult) { this->WrappingResult = WrappingResult; }
-	vector<string> setAccessor(vector<string> Accessor) { this->Accessor = Accessor; }
+	void setId(string Id) { this->Id = Id; }
+	void setPw(string Pw) { this->Pw = Pw; }
+	void setEmail(string Email) { this->Email = Email; }
+	void setEmailAuthCode(string EmailAuthCode) { this->EmailAuthCode = EmailAuthCode; }
+	void setUserId(string UserId) { this->UserId = UserId; }
+	void setFileName(string FileName) { this->FileName = FileName; }
+	void setFileId(string FileId) { this->FileId = FileId; }
+	void setWrappingResult(string WrappingResult) { this->WrappingResult = WrappingResult; }
+	void setAccessor(vector<string> Accessor) { this->Accessor = Accessor; }
 };
 
-//int n = send(s,output.c_str(),size,0);
+SOCKET s = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+Items item;//로그인때 id, 세션키등을 모두 저장해 둔다.
+
+		   //int n = send(s,output.c_str(),size,0);
 int socket_send(int socket, string Type, Items item) {
 	Json::Value root;
-
-	if (Type == "login") {
-		root["Id"] = item.Id;
-		root["pw"] = item.Pw;
+	root["Type"] == Type;
+	if (Type == "checkID") {
+		root["ID"] = item.Id;
 	}
-	else if (Type == "emailAuth") {
-		root["Email"] = item.Email;
+	else if (Type == "checkEmail") {
+		root["email"] = item.Email;
+	}
+	else if (Type == "authEmail") {
+		root["email"] = item.Email;
+	}
+	else if (Type == "checkAuthCode") {
+		root["email"] = item.Email;
+		root["authCode"] = item.EmailAuthCode;
 	}
 	else if (Type == "signUp") {
-		root["Id"] = item.Id;
-		root["Pw"] = item.Pw;
+		root["ID"] = item.Id;
+		root["passwd"] = item.Pw;
+		root["name"] = item.Name;
 		root["Email"] = item.Email;
-		root["EmailAuthCode"] = item.EmailAuthCode;
+		root["date"] = item.date;
+	}
+	else if (Type == "signIn") {
+		root["ID"] = item.Id;
+		root["passwd"] = item.Pw;
+	}
+	else if (Type == "signOut") {
+		root["ID"] = item.Id;
+		root["sessionKey"] = item.SessionKey;
+	}
+	else if (Type == "findID") {
+		root["name"] = item.Name;
+		root["Email"] = item.Email;
+	}
+	else if (Type == "findPasswd") {
+		root["ID"] = item.Id;
+		root["Email"] = item.Email;
+	}
+	else if (Type == "changePasswd") {
+		root["ID"] = item.Id;
+		root["changePasswd"] = item.Pw;
+		root["sessionKey"] = item.SessionKey;
+	}
+	else if (Type == "withdrawal") {
+		root["ID"] = item.Id;
+		root["sessionKey"] = item.SessionKey;
+	}
+	else if (Type == "accessorCheck") {
+		root["AccesorId"] = item.AccessorID;
+		root["UserID"] = item.Id;
+		root["sessionKey"] = item.SessionKey;
+	}
+	else if (Type == "wrappingReq") {
+		root["UserID"] = item.Id;
+		root["Accesor"] = item.AccessorID;
+		root["sessionKey"] = item.SessionKey;
+	}
+	else if (Type == "wrappingRes") {
+		root["FileId"] = item.FileId;
+		root["AccessorID"] = item.Accessor;
+		root["WrappingResult"] = "succ";
+		root["UserID"] = item.Id;
+		root["sessionKey"] = item.SessionKey;
+	}
+	else if (Type == "auth") {
+		root["UserID"] = item.Id;
+		root["sessionKey"] = item.SessionKey;
+		root["Filed"] = item.Filed;
 	}
 	else if (Type == "remoteDel") {
 		root["UserId"] = item.UserId;
-		root["FileName"] = item.FileName;
+		root["FileID"] = item.FileId;
+		root["Del"] = item.del;
+		root["AccessorId"] = item.AccessorID;
+		root["SessionKey"] = item.SessionKey;
 	}
-	else if (Type == "notice") {}
-	else if (Type == "termsOfUse") {}
-	else if (Type == "wrapping1") {
+	else if (Type == "accessorCheck") {
+		root["AccessorId"] = item.AccessorID;
 		root["UserId"] = item.UserId;
-		root["FileName"] = item.FileName;
-		Json::Value accessorValue;
-		for (int i = 0; i < item.Accessor.size(); i++)
-			accessorValue.append(item.Accessor[i]);
-		root["Accessor"] = accessorValue;
-	}
-	else if (Type == "wrapping2") {
-		root["WrappingResult"] = item.WrappingResult;
-	}
-	else if (Type == "auth") {
-		root["UserId"] = item.UserId;
-		root["FIleId"] = item.FileId;
+		root["SessionKey"] = item.SessionKey;
 	}
 	else if (Type == "authUpdate") {
 		root["UserId"] = item.UserId;
-		root["FileName"] = item.FileName;
-		root["FileId"] = item.FileId;
+		root["Filename"] = item.FileName;
+		root["del"] = item.del;
+		root["SessionKey"] = item.SessionKey;
 	}
-	else if (Type == "profileUpdate1") {
-		root["Id"] = item.Id;
-		root["Pw"] = item.Pw;
+	else if (Type == "fileListReq") {
+		root["UserId"] = item.UserId;
+		root["SessionKey"] = item.SessionKey;
 	}
-	else if (Type == "profileEmailAuth") {
-		root["Email"] = item.Email;
-	}
-	else if (Type == "profileUpdate2") {
-		root["Id"] = item.Id;
-		root["Pw"] = item.Pw;
-		root["Email"] = item.Email;
-		root["EmailAuthCode"] = item.EmailAuthCode;
-	}
+
+	else if (Type == "notice") {}
+	else if (Type == "termsOfUse") {}
+
 	else std::cout << "Wrong Type!" << endl;
 	Json::StyledWriter writer;
 	string sendText = writer.write(root);

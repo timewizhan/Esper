@@ -29,4 +29,7 @@ public:
 
 private:
 	std::string m_userid;
+	
+public:
+	afx_msg void OnBnClickedRegist();
 };

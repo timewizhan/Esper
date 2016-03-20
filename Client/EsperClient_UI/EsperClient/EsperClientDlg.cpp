@@ -100,6 +100,7 @@ BEGIN_MESSAGE_MAP(CEsperClientDlg, CDialogEx)
 	ON_WM_MOUSEMOVE()
 	ON_WM_LBUTTONUP()
 
+	ON_NOTIFY(NM_RCLICK, IDC_TREE1, &CEsperClientDlg::OnNMRClickTree1)
 END_MESSAGE_MAP()
 
 
@@ -173,16 +174,24 @@ BOOL CEsperClientDlg::OnInitDialog()
 	GetDlgItem(IDC_STATIC)->SetFont(&m_font);
 	// TODO: 여기에 추가 초기화 작업을 추가합니다.
 
-	//TREE 초기화
-	m_hRoot = m_Tree.InsertItem(_T("파일명"),0,1);
+	//TREE 만들기
+	
+	m_hRoot[0] = m_Tree.InsertItem(_T("파일명1"),0,1);
+	m_hRoot[1] = m_Tree.InsertItem(_T("파일명1"), 0, 1);
 	//m_Tree.SetFont(&m_font,1);
 
-	m_hKind[0] = m_Tree.InsertItem(_T("사람1"), 2, 2, m_hRoot, TVI_LAST);
-	m_hKind[2] = m_Tree.InsertItem(_T("사람2"), 2, 2, m_hRoot, TVI_LAST);
-	m_hKind[3] = m_Tree.InsertItem(_T("사람3"), 2, 2, m_hRoot, TVI_LAST);
-	m_hKind[4] = m_Tree.InsertItem(_T("사람4"), 2, 2, m_hRoot, TVI_LAST);
+	m_hKind[0] = m_Tree.InsertItem(_T("사람1"), 2, 2, m_hRoot[0], TVI_LAST);
+	m_hKind[2] = m_Tree.InsertItem(_T("사람2"), 2, 2, m_hRoot[0], TVI_LAST);
+	m_hKind[3] = m_Tree.InsertItem(_T("사람3"), 2, 2, m_hRoot[0], TVI_LAST);
+	m_hKind[4] = m_Tree.InsertItem(_T("사람4"), 2, 2, m_hRoot[0], TVI_LAST);
 
-	m_Tree.Expand(m_hRoot, TVE_EXPAND);
+	m_hKind[0] = m_Tree.InsertItem(_T("사람1"), 2, 2, m_hRoot[1], TVI_LAST);
+	m_hKind[2] = m_Tree.InsertItem(_T("사람2"), 2, 2, m_hRoot[1], TVI_LAST);
+	m_hKind[3] = m_Tree.InsertItem(_T("사람3"), 2, 2, m_hRoot[1], TVI_LAST);
+	m_hKind[4] = m_Tree.InsertItem(_T("사람4"), 2, 2, m_hRoot[1], TVI_LAST);
+
+	//m_Tree.Expand(m_hRoot[0], TVE_EXPAND);
+	//m_Tree.Expand(m_hRoot[1], TVE_EXPAND);
 	
 
 	return TRUE;  // 포커스를 컨트롤에 설정하지 않으면 TRUE를 반환합니다.
@@ -422,4 +431,44 @@ void CEsperClientDlg::OnLButtonUp(UINT nFlags, CPoint point)
 	// TODO: Add your message handler code here and/or call default
 	ReleaseCapture();
 	CDialog::OnLButtonUp(nFlags, point);
+}
+
+
+void CEsperClientDlg::OnNMRClickTree1(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	CString selId;
+	HTREEITEM hItem;
+	TV_HITTESTINFO hit_info;
+
+	// 화면상에서 마우스의 위치를 얻는다.
+	::GetCursorPos(&hit_info.pt);
+
+	// 얻은 마우스 좌표를 트리컨트롤 기준의 좌표로 변경한다.
+	::ScreenToClient(m_Tree.m_hWnd, &hit_info.pt);
+
+	// 현재 마우스 좌표가 위치한 항목 정보를 얻는다.
+	HTREEITEM current_item = m_Tree.HitTest(&hit_info);
+	if (current_item != NULL) {
+		// 마우스가 위치한 항목을 찾았다면 해당 항목을 선택한다.
+		m_Tree.Select(current_item, TVGN_CARET);
+
+		selId = m_Tree.GetItemText(current_item);
+		hItem = m_Tree.GetSelectedItem();
+
+		//if (hItem == m_hRoot[0] or hItem == m_hRoot[1])
+		{
+			CPoint p;
+			GetCursorPos(&p);
+			CMenu menu;
+			menu.LoadMenu(IDR_TREESELECT_MENU);
+			CMenu* Dmenu = menu.GetSubMenu(0); //맨 앞에 메뉴를 가져옴
+			Dmenu->TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON, p.x, p.y, this);
+		}
+
+	}
+
+	
+
+	*pResult = 0;
 }

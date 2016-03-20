@@ -13,7 +13,7 @@ class CEsperClientDlg : public CDialogEx
 // 생성입니다.
 public:
 	CEsperClientDlg(CWnd* pParent = NULL);	// 표준 생성자입니다
-	HTREEITEM m_hRoot;
+	HTREEITEM m_hRoot[4];
 	HTREEITEM m_hKind[4];
 	POINT m_oldpos;
 
@@ -65,4 +65,5 @@ public:
 	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
 
 
+	afx_msg void OnNMRClickTree1(NMHDR *pNMHDR, LRESULT *pResult);
 };
