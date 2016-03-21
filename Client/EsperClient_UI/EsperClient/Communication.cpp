@@ -127,6 +127,7 @@ int socket_send(int socket, string Type, Items item) {
 
 string resultpacketbuffer1;
 string resultpacketbuffer2;
+string resultpacketbuffer3;
 packetfile *packetfilehead;
 
 
@@ -162,7 +163,7 @@ int socket_recv(int socket, char* buffer, int size)
 	}
 
 	string buff(buffer);
-	cout << "got" << buff << endl;
+	//cout << "got" << buff << endl;
 	Json::Value packet;
 	Json::Reader reader;
 	bool parsedSuccess = reader.parse(buff, packet, false);
@@ -179,58 +180,95 @@ int socket_recv(int socket, char* buffer, int size)
 	if (!Type.isNull())
 	{
 		int switchcase;
-		if (Type.asString() == "login")
+		if (Type.asString() == "checkID")
 		{
 			switchcase = 1;
 		}
-		else if (Type.asString() == "emailAuth")
+		else if (Type.asString() == "checkEmail")
 		{
 			switchcase = 2;
 		}
-		else if (Type.asString() == "signUp")
+		else if (Type.asString() == "authEmail")
 		{
 			switchcase = 3;
 		}
-		else if (Type.asString() == "remoteDel")
+		else if (Type.asString() == "checkAuthCode")
 		{
 			switchcase = 4;
 		}
-		else if (Type.asString() == "notice")
+		else if (Type.asString() == "signUp")
 		{
 			switchcase = 5;
 		}
-		else if (Type.asString() == "termsOfUse")
+		else if (Type.asString() == "signIn")
 		{
 			switchcase = 6;
 		}
-		else if (Type.asString() == "wrapping1")
+		else if (Type.asString() == "signOut")
 		{
 			switchcase = 7;
 		}
-		else if (Type.asString() == "wrapping2")
+		else if (Type.asString() == "findID")
 		{
 			switchcase = 8;
 		}
-		else if (Type.asString() == "auth")
+		else if (Type.asString() == "findPasswd")
 		{
 			switchcase = 9;
 		}
-		else if (Type.asString() == "authUpdate")
+		else if (Type.asString() == "changePasswd")
 		{
 			switchcase = 10;
 		}
-		else if (Type.asString() == "profileUpdate1")
+		else if (Type.asString() == "withdrawal")
 		{
 			switchcase = 11;
 		}
-		else if (Type.asString() == "profileEmailAuth")
+		else if (Type.asString() == "accessorCheck")
 		{
 			switchcase = 12;
 		}
-		else if (Type.asString() == "profileUpdate2")
+		else if (Type.asString() == "wrapping1")
 		{
 			switchcase = 13;
 		}
+		else if (Type.asString() == "insertRes")
+		{
+			switchcase = 14;
+		}
+		else if (Type.asString() == "auth")
+		{
+			switchcase = 15;
+		}
+		else if (Type.asString() == "remoteDel")
+		{
+			switchcase = 16;
+		}
+		else if (Type.asString() == "accessorCheck")
+		{
+			switchcase = 17;
+		}
+		else if (Type.asString() == "authUpdate")
+		{
+			switchcase = 18;
+		}
+		else if (Type.asString() == "fileListReq")
+		{
+			switchcase = 19;
+		}
+		else if (Type.asString() == "notice")
+		{
+			switchcase = 20;
+		}
+		else if (Type.asString() == "termsOfUse")
+		{
+			switchcase = 21;
+		}
+		else
+		{
+			switchcase = -1;
+		}
+
 		Json::Value notAnArray;
 		//Json::Value AnArray;
 		Json::Value File;
@@ -243,97 +281,157 @@ int socket_recv(int socket, char* buffer, int size)
 		receiverIdclass*idwalker = NULL;
 		switch (switchcase)
 		{
-		case 1://
-			notAnArray = packet["Id"];
+		case 1://checkID
+			notAnArray = packet["ID"];
+			resultpacketbuffer1 = notAnArray.asString();
+			notAnArray = packet["result"];
+			resultpacketbuffer2 = notAnArray.asString();
+			break;
+		case 2://checkEmail
+			notAnArray = packet["email"];
+			resultpacketbuffer1 = notAnArray.asString();
+			notAnArray = packet["result"];
+			resultpacketbuffer2 = notAnArray.asString();
+			break;
+		case 3://authEmail
+			notAnArray = packet["email"];
+			resultpacketbuffer1 = notAnArray.asString();
+			notAnArray = packet["result"];
+			resultpacketbuffer2 = notAnArray.asString();
+			break;
+		case 4://checkAuthCode
+			notAnArray = packet["email"];
+			resultpacketbuffer1 = notAnArray.asString();
+			notAnArray = packet["result"];
+			resultpacketbuffer2 = notAnArray.asString();
+			break;
+		case 5://signUp
+			notAnArray = packet["ID"];
+			resultpacketbuffer1 = notAnArray.asString();
+			notAnArray = packet["result"];
+			resultpacketbuffer2 = notAnArray.asString();
+			break;
+		case 6://signIn
+			notAnArray = packet["ID"];
+			resultpacketbuffer1 = notAnArray.asString();
+			notAnArray = packet["sessionKey"];
+			resultpacketbuffer2 = notAnArray.asString();
+			notAnArray = packet["result"];
+			resultpacketbuffer3 = notAnArray.asString();
+			break;
+		case 7://signOut
+			notAnArray = packet["ID"];
+			resultpacketbuffer1 = notAnArray.asString();
+			notAnArray = packet["result"];
+			resultpacketbuffer2 = notAnArray.asString();
+			break;
+		case 8://findID
+			notAnArray = packet["ID"];
+			resultpacketbuffer1 = notAnArray.asString();
+			notAnArray = packet["emial"];
+			resultpacketbuffer2 = notAnArray.asString();
+			notAnArray = packet["result"];
+			resultpacketbuffer3 = notAnArray.asString();
+			break;
+		case 9://findPasswd
+			notAnArray = packet["ID"];
+			resultpacketbuffer1 = notAnArray.asString();
+			notAnArray = packet["email"];
+			resultpacketbuffer2 = notAnArray.asString();
+			notAnArray = packet["result"];
+			resultpacketbuffer3 = notAnArray.asString();
+			break;
+		case 10://changePasswd
+			notAnArray = packet["ID"];
+			resultpacketbuffer1 = notAnArray.asString();
+			notAnArray = packet["result"];
+			resultpacketbuffer2 = notAnArray.asString();
+			break;
+		case 11://withdrawal
+			notAnArray = packet["ID"];
+			resultpacketbuffer1 = notAnArray.asString();
+			notAnArray = packet["result"];
+			resultpacketbuffer2 = notAnArray.asString();
+			break;
+		case 12://accessorCheck
+			notAnArray = packet["Result"];
+			resultpacketbuffer1 = notAnArray.asString();
+			break;
+		case 13://wrapping1
+			notAnArray = packet["Filed"];
 			resultpacketbuffer1 = notAnArray.asString();
 			notAnArray = packet["Result"];
 			resultpacketbuffer2 = notAnArray.asString();
-			File = packet["File"];
-			packetfilehead = NULL;
-			walker = NULL;
-			for (unsigned int index = 0; index < File.size(); ++index)
+			break;
+		case 14://insertRes
+			notAnArray = packet["Result"];
+			resultpacketbuffer1 = notAnArray.asString();
+			break;
+		case 15://auth
+			notAnArray = packet["Result"];
+			resultpacketbuffer1 = notAnArray.asString();
+			break;
+		case 16://remoteDel
+			notAnArray = packet["Result"];
+			resultpacketbuffer1 = notAnArray.asString();
+			notAnArray = packet["msg"];
+			resultpacketbuffer2 = notAnArray.asString();
+			break;
+		case 17://accessorCheck
+			notAnArray = packet["Result"];
+			resultpacketbuffer1 = notAnArray.asString();
+			break;
+		case 18://authUpdate
+			notAnArray = packet["FileID"];
+			resultpacketbuffer1 = notAnArray.asString();
+			notAnArray = packet["Result"];
+			resultpacketbuffer2 = notAnArray.asString();
+			break;
+		case 19://fileListReq
+			notAnArray = packet["Result"];
+			resultpacketbuffer1 = notAnArray.asString();
+			if (resultpacketbuffer1 == "succ")
 			{
-
-
-				while (walker != NULL)
+				File = packet["File"];
+				packetfilehead = NULL;
+				walker = NULL;
+				for (unsigned int index = 0; index < File.size(); ++index)
 				{
-					walker = walker->next;
-				}
 
-				walker = new packetfile(File[index]["Name"].asString());
-				if (packetfilehead == NULL)
-				{
-					packetfilehead = walker;
-				}
-				cout << "index : " << index << endl;
-				Receiver = File[index]["Receiver"];
 
-				for (unsigned int indexj = 0; indexj < Receiver.size(); ++indexj)
-				{
-					ReceiverId = Receiver[indexj]["ReceiverId"];
-					Auth = Receiver[indexj]["Auth"];
-					idwalker = walker->receivernamehead;
-					while (idwalker != NULL)
+					while (walker != NULL)
 					{
-						idwalker = idwalker->next;
+						walker = walker->next;
 					}
-					walker->receivernamehead = new receiverIdclass(ReceiverId.asString(), Auth.asString());
 
+					walker = new packetfile(File[index]["Name"].asString());
+					if (packetfilehead == NULL)
+					{
+						packetfilehead = walker;
+					}
+					cout << "index : " << index << endl;
+					Receiver = File[index]["Receiver"];
+
+					for (unsigned int indexj = 0; indexj < Receiver.size(); ++indexj)
+					{
+						ReceiverId = Receiver[indexj]["FileId"];
+						Auth = Receiver[indexj]["AccessorId"];
+						idwalker = walker->receivernamehead;
+						while (idwalker != NULL)
+						{
+							idwalker = idwalker->next;
+						}
+						walker->receivernamehead = new receiverIdclass(ReceiverId.asString(), Auth.asString());
+
+					}
 				}
 			}
-			cout << packetfilehead->filename << endl << packetfilehead->receivernamehead->receiverid << endl;
+			break;
+		case 20:
+			break;
+		case 21:
+			break;
 
-			break;
-		case 2:
-			notAnArray = packet["Result"];
-			resultpacketbuffer1 = notAnArray.asString();
-			break;
-		case 3:
-			notAnArray = packet["Result"];
-			resultpacketbuffer1 = notAnArray.asString();
-			break;
-		case 4://
-			notAnArray = packet["FileName"];
-			resultpacketbuffer1 = notAnArray.asString();
-			notAnArray = packet["Result"];
-			resultpacketbuffer2 = notAnArray.asString();
-			break;
-		case 5:
-			notAnArray = packet["Notice"];
-			resultpacketbuffer1 = notAnArray.asString();
-			break;
-		case 6:
-			notAnArray = packet["Contents"];
-			resultpacketbuffer1 = notAnArray.asString();
-			break;
-		case 7:
-			notAnArray = packet["FileId"];
-			resultpacketbuffer1 = notAnArray.asString();
-			break;
-		case 8:
-			notAnArray = packet["DbResult"];
-			resultpacketbuffer1 = notAnArray.asString();
-			break;
-		case 9:
-			notAnArray = packet["Result"];
-			resultpacketbuffer1 = notAnArray.asString();
-			break;
-		case 10:
-			notAnArray = packet["Result"];
-			resultpacketbuffer1 = notAnArray.asString();
-			break;
-		case 11:
-			notAnArray = packet["Result"];
-			resultpacketbuffer1 = notAnArray.asString();
-			break;
-		case 12:
-			notAnArray = packet["Result"];
-			resultpacketbuffer1 = notAnArray.asString();
-			break;
-		case 13:
-			notAnArray = packet["Result"];
-			resultpacketbuffer1 = notAnArray.asString();
-			break;
 
 		default:
 			cout << "type error" << endl;

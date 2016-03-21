@@ -1,33 +1,57 @@
-﻿빌드 시작: 2016-03-21 오후 2:15:37
-     1>2 노드의 "C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\EsperClient\EsperClient.vcxproj" 프로젝트(Build 대상)입니다.
-     1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /IC:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Lib\include /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D _CRT_SECURE_NO_WARNINGS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt Communication.cpp
-         Communication.cpp
-       Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\EsperClient.exe" /INCREMENTAL /NOLOGO /LIBPATH:C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Lib\lib /LIBPATH:C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Json cryptlib.lib json_vc71_libmtd.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /manifestinput:"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\Include\Manifest\dpiaware.manifest" /Debug /PDB:"C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\EsperClient.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /ENTRY:"wWinMainCRTStartup" /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\EsperClient.lib" /MACHINE:X86 /FORCE Debug\EsperClient.res
-         Debug\Communication.obj
-         Debug\EsperClient.obj
-         Debug\EsperClientDlg.obj
-         Debug\FileLayer.obj
-         Debug\JoinDlg.obj
-         Debug\jsoncpp.obj
-         Debug\LoginDlg.obj
-         Debug\SettingDlg.obj
-         Debug\stdafx.obj
-         Debug\WrapDlg.obj
-     1>LINK : warning LNK4075: '/INCREMENTAL'이(가) '/FORCE' 사양으로 인해 무시됩니다.
-     1>Communication.obj : warning LNK4075: '/EDITANDCONTINUE'이(가) '/OPT:LBR' 사양으로 인해 무시됩니다.
-     1>uafxcwd.lib(afxmem.obj) : warning LNK4006: "void * __cdecl operator new(unsigned int)" (??2@YAPAXI@Z)이(가) LIBCMTD.lib(new_scalar.obj)에 이미 정의되어 있습니다. 초 정의가 무시됩니다.
-     1>uafxcwd.lib(afxmem.obj) : warning LNK4006: "void __cdecl operator delete(void *)" (??3@YAXPAX@Z)이(가) LIBCMTD.lib(delete_scalar.obj)에 이미 정의되어 있습니다. 초 정의가 무시됩니다.
-     1>uafxcwd.lib(afxmem.obj) : warning LNK4006: "void * __cdecl operator new[](unsigned int)" (??_U@YAPAXI@Z)이(가) LIBCMTD.lib(new_array.obj)에 이미 정의되어 있습니다. 초 정의가 무시됩니다.
-     1>uafxcwd.lib(afxmem.obj) : warning LNK4006: "void __cdecl operator delete[](void *)" (??_V@YAXPAX@Z)이(가) LIBCMTD.lib(delete_array.obj)에 이미 정의되어 있습니다. 초 정의가 무시됩니다.
-     1>C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\EsperClient.exe : warning LNK4088: /FORCE 옵션을 사용하여 생성하는 이미지입니다. 이미지가 실행되지 않을 수도 있습니다.
-     1>jsoncpp.obj : warning LNK4099: 'vc140.pdb' PDB를 'jsoncpp.obj' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc140.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
-     1>JoinDlg.obj : warning LNK4099: 'vc140.pdb' PDB를 'JoinDlg.obj' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc140.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
-     1>EsperClientDlg.obj : warning LNK4099: 'vc140.pdb' PDB를 'EsperClientDlg.obj' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc140.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
-         EsperClient.vcxproj -> C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\EsperClient.exe
-     1>"C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\EsperClient\EsperClient.vcxproj" 프로젝트를 빌드했습니다(Build 대상).
-
-빌드했습니다.
-
-경과 시간: 00:00:09.26
+﻿  stdafx.cpp
+  WrapDlg.cpp
+c:\users\woopc\source\repos\esper\client\esperclient_ui\lib\include\algparam.h(277): warning C4297: 'CryptoPP::AlgorithmParametersBase::~AlgorithmParametersBase': 함수는 예외를 Throw하지 않도록 지정되었으나 예외를 Throw했습니다.
+  c:\users\woopc\source\repos\esper\client\esperclient_ui\lib\include\algparam.h(277): note: 소멸자 또는 비할당자는 가능하면 암시적으로 throw되지 않는 예외 사양을 사용합니다.
+  SettingDlg.cpp
+  LoginDlg.cpp
+  jsoncpp.cpp
+  JoinDlg.cpp
+  FileLayer.cpp
+c:\users\woopc\source\repos\esper\client\esperclient_ui\lib\include\algparam.h(277): warning C4297: 'CryptoPP::AlgorithmParametersBase::~AlgorithmParametersBase': 함수는 예외를 Throw하지 않도록 지정되었으나 예외를 Throw했습니다.
+  c:\users\woopc\source\repos\esper\client\esperclient_ui\lib\include\algparam.h(277): note: 소멸자 또는 비할당자는 가능하면 암시적으로 throw되지 않는 예외 사양을 사용합니다.
+c:\users\woopc\source\repos\esper\client\esperclient_ui\esperclient\filelayer.cpp(240): warning C4267: '=': 'size_t'에서 'unsigned char'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\woopc\source\repos\esper\client\esperclient_ui\esperclient\filelayer.cpp(257): warning C4267: '=': 'size_t'에서 'unsigned char'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  EsperClientDlg.cpp
+  EsperClient.cpp
+  Communication.cpp
+  코드를 생성하고 있습니다...
+LINK : warning LNK4075: '/INCREMENTAL'이(가) '/FORCE' 사양으로 인해 무시됩니다.
+Communication.obj : warning LNK4075: '/EDITANDCONTINUE'이(가) '/OPT:LBR' 사양으로 인해 무시됩니다.
+uafxcwd.lib(afxmem.obj) : warning LNK4006: "void * __cdecl operator new(unsigned int)" (??2@YAPAXI@Z)이(가) LIBCMTD.lib(new_scalar.obj)에 이미 정의되어 있습니다. 초 정의가 무시됩니다.
+uafxcwd.lib(afxmem.obj) : warning LNK4006: "void __cdecl operator delete(void *)" (??3@YAXPAX@Z)이(가) LIBCMTD.lib(delete_scalar.obj)에 이미 정의되어 있습니다. 초 정의가 무시됩니다.
+uafxcwd.lib(afxmem.obj) : warning LNK4006: "void * __cdecl operator new[](unsigned int)" (??_U@YAPAXI@Z)이(가) LIBCMTD.lib(new_array.obj)에 이미 정의되어 있습니다. 초 정의가 무시됩니다.
+uafxcwd.lib(afxmem.obj) : warning LNK4006: "void __cdecl operator delete[](void *)" (??_V@YAXPAX@Z)이(가) LIBCMTD.lib(delete_array.obj)에 이미 정의되어 있습니다. 초 정의가 무시됩니다.
+C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\EsperClient.exe : warning LNK4088: /FORCE 옵션을 사용하여 생성하는 이미지입니다. 이미지가 실행되지 않을 수도 있습니다.
+cryptlib.lib(algparam.obj) : warning LNK4099: 'vc80.pdb' PDB를 'cryptlib.lib(algparam.obj)' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc80.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+cryptlib.lib(asn.obj) : warning LNK4099: 'vc80.pdb' PDB를 'cryptlib.lib(asn.obj)' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc80.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+cryptlib.lib(basecode.obj) : warning LNK4099: 'vc80.pdb' PDB를 'cryptlib.lib(basecode.obj)' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc80.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+cryptlib.lib(cpu.obj) : warning LNK4099: 'vc80.pdb' PDB를 'cryptlib.lib(cpu.obj)' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc80.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+cryptlib.lib(cryptlib.obj) : warning LNK4099: 'vc80.pdb' PDB를 'cryptlib.lib(cryptlib.obj)' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc80.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+cryptlib.lib(des.obj) : warning LNK4099: 'vc80.pdb' PDB를 'cryptlib.lib(des.obj)' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc80.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+cryptlib.lib(dessp.obj) : warning LNK4099: 'vc80.pdb' PDB를 'cryptlib.lib(dessp.obj)' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc80.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+cryptlib.lib(dll.obj) : warning LNK4099: 'vc80.pdb' PDB를 'cryptlib.lib(dll.obj)' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc80.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+cryptlib.lib(ec2n.obj) : warning LNK4099: 'vc80.pdb' PDB를 'cryptlib.lib(ec2n.obj)' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc80.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+cryptlib.lib(ecp.obj) : warning LNK4099: 'vc80.pdb' PDB를 'cryptlib.lib(ecp.obj)' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc80.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+cryptlib.lib(filters.obj) : warning LNK4099: 'vc80.pdb' PDB를 'cryptlib.lib(filters.obj)' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc80.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+cryptlib.lib(fips140.obj) : warning LNK4099: 'vc80.pdb' PDB를 'cryptlib.lib(fips140.obj)' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc80.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+cryptlib.lib(gf2n.obj) : warning LNK4099: 'vc80.pdb' PDB를 'cryptlib.lib(gf2n.obj)' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc80.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+cryptlib.lib(gfpcrypt.obj) : warning LNK4099: 'vc80.pdb' PDB를 'cryptlib.lib(gfpcrypt.obj)' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc80.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+cryptlib.lib(hex.obj) : warning LNK4099: 'vc80.pdb' PDB를 'cryptlib.lib(hex.obj)' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc80.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+cryptlib.lib(hmac.obj) : warning LNK4099: 'vc80.pdb' PDB를 'cryptlib.lib(hmac.obj)' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc80.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+cryptlib.lib(hrtimer.obj) : warning LNK4099: 'vc80.pdb' PDB를 'cryptlib.lib(hrtimer.obj)' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc80.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+cryptlib.lib(integer.obj) : warning LNK4099: 'vc80.pdb' PDB를 'cryptlib.lib(integer.obj)' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc80.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+cryptlib.lib(iterhash.obj) : warning LNK4099: 'vc80.pdb' PDB를 'cryptlib.lib(iterhash.obj)' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc80.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+cryptlib.lib(misc.obj) : warning LNK4099: 'vc80.pdb' PDB를 'cryptlib.lib(misc.obj)' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc80.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+cryptlib.lib(modes.obj) : warning LNK4099: 'vc80.pdb' PDB를 'cryptlib.lib(modes.obj)' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc80.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+cryptlib.lib(mqueue.obj) : warning LNK4099: 'vc80.pdb' PDB를 'cryptlib.lib(mqueue.obj)' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc80.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+cryptlib.lib(nbtheory.obj) : warning LNK4099: 'vc80.pdb' PDB를 'cryptlib.lib(nbtheory.obj)' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc80.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+cryptlib.lib(osrng.obj) : warning LNK4099: 'vc80.pdb' PDB를 'cryptlib.lib(osrng.obj)' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc80.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+cryptlib.lib(pch.obj) : warning LNK4099: 'vc80.pdb' PDB를 'cryptlib.lib(pch.obj)' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc80.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+cryptlib.lib(pubkey.obj) : warning LNK4099: 'vc80.pdb' PDB를 'cryptlib.lib(pubkey.obj)' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc80.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+cryptlib.lib(queue.obj) : warning LNK4099: 'vc80.pdb' PDB를 'cryptlib.lib(queue.obj)' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc80.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+cryptlib.lib(randpool.obj) : warning LNK4099: 'vc80.pdb' PDB를 'cryptlib.lib(randpool.obj)' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc80.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+cryptlib.lib(rdtables.obj) : warning LNK4099: 'vc80.pdb' PDB를 'cryptlib.lib(rdtables.obj)' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc80.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+cryptlib.lib(rijndael.obj) : warning LNK4099: 'vc80.pdb' PDB를 'cryptlib.lib(rijndael.obj)' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc80.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+cryptlib.lib(rng.obj) : warning LNK4099: 'vc80.pdb' PDB를 'cryptlib.lib(rng.obj)' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc80.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+cryptlib.lib(sha.obj) : warning LNK4099: 'vc80.pdb' PDB를 'cryptlib.lib(sha.obj)' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc80.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+  EsperClient.vcxproj -> C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\EsperClient.exe
