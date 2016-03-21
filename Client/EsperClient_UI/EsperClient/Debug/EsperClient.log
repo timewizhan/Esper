@@ -1,27 +1,33 @@
-﻿빌드 시작: 2016-03-21 오전 6:54:06
+﻿빌드 시작: 2016-03-21 오후 2:15:37
      1>2 노드의 "C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\EsperClient\EsperClient.vcxproj" 프로젝트(Build 대상)입니다.
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /IC:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Lib\include /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D _CRT_SECURE_NO_WARNINGS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt EsperClientDlg.cpp
-         EsperClientDlg.cpp
-     1>c:\users\woopc\source\repos\esper\client\esperclient_ui\esperclient\esperclientdlg.cpp(459): error C2146: 구문 오류: ')'이(가) 'or' 식별자 앞에 없습니다.
-     1>c:\users\woopc\source\repos\esper\client\esperclient_ui\esperclient\esperclientdlg.cpp(459): error C2065: 'or': 선언되지 않은 식별자입니다.
-     1>c:\users\woopc\source\repos\esper\client\esperclient_ui\esperclient\esperclientdlg.cpp(459): error C2146: 구문 오류: ';'이(가) 'hItem' 식별자 앞에 없습니다.
-     1>c:\users\woopc\source\repos\esper\client\esperclient_ui\esperclient\esperclientdlg.cpp(459): error C2059: 구문 오류: ')'
-     1>c:\users\woopc\source\repos\esper\client\esperclient_ui\esperclient\esperclientdlg.cpp(461): error C2275: 'CPoint': 이 형식을 식으로 잘못 사용했습니다.
-         c:\program files (x86)\microsoft visual studio 14.0\vc\atlmfc\include\atltypes.h(74): note: 'CPoint' 선언을 참조하십시오.
-     1>c:\users\woopc\source\repos\esper\client\esperclient_ui\esperclient\esperclientdlg.cpp(461): error C2146: 구문 오류: ')'이(가) 'p' 식별자 앞에 없습니다.
-     1>c:\users\woopc\source\repos\esper\client\esperclient_ui\esperclient\esperclientdlg.cpp(462): error C2065: 'p': 선언되지 않은 식별자입니다.
-     1>c:\users\woopc\source\repos\esper\client\esperclient_ui\esperclient\esperclientdlg.cpp(466): error C2065: 'p': 선언되지 않은 식별자입니다.
-     1>c:\users\woopc\source\repos\esper\client\esperclient_ui\esperclient\esperclientdlg.cpp(466): error C2228: '.x' 왼쪽에는 클래스/구조체/공용 구조체가 있어야 합니다.
-         c:\users\woopc\source\repos\esper\client\esperclient_ui\esperclient\esperclientdlg.cpp(466): note: 'unknown-type' 형식입니다.
-     1>c:\users\woopc\source\repos\esper\client\esperclient_ui\esperclient\esperclientdlg.cpp(466): error C2228: '.y' 왼쪽에는 클래스/구조체/공용 구조체가 있어야 합니다.
-         c:\users\woopc\source\repos\esper\client\esperclient_ui\esperclient\esperclientdlg.cpp(466): note: 'unknown-type' 형식입니다.
-     1>c:\users\woopc\source\repos\esper\client\esperclient_ui\esperclient\esperclientdlg.cpp(466): error C2660: 'CMenu::TrackPopupMenu': 함수는 2개의 매개 변수를 사용하지 않습니다.
-     1>c:\users\woopc\source\repos\esper\client\esperclient_ui\esperclient\esperclientdlg.cpp(473): error C4430: 형식 지정자가 없습니다. int로 가정합니다. 참고: C++에서는 기본 int를 지원하지 않습니다.
-     1>c:\users\woopc\source\repos\esper\client\esperclient_ui\esperclient\esperclientdlg.cpp(474): error C2059: 구문 오류: '}'
-     1>c:\users\woopc\source\repos\esper\client\esperclient_ui\esperclient\esperclientdlg.cpp(474): error C2143: 구문 오류: ';'이(가) '}' 앞에 없습니다.
-     1>"C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\EsperClient\EsperClient.vcxproj" 프로젝트를 빌드했습니다(Build 대상). - 실패
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /IC:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Lib\include /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D _CRT_SECURE_NO_WARNINGS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt Communication.cpp
+         Communication.cpp
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\EsperClient.exe" /INCREMENTAL /NOLOGO /LIBPATH:C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Lib\lib /LIBPATH:C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Json cryptlib.lib json_vc71_libmtd.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /manifestinput:"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\Include\Manifest\dpiaware.manifest" /Debug /PDB:"C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\EsperClient.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /ENTRY:"wWinMainCRTStartup" /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\EsperClient.lib" /MACHINE:X86 /FORCE Debug\EsperClient.res
+         Debug\Communication.obj
+         Debug\EsperClient.obj
+         Debug\EsperClientDlg.obj
+         Debug\FileLayer.obj
+         Debug\JoinDlg.obj
+         Debug\jsoncpp.obj
+         Debug\LoginDlg.obj
+         Debug\SettingDlg.obj
+         Debug\stdafx.obj
+         Debug\WrapDlg.obj
+     1>LINK : warning LNK4075: '/INCREMENTAL'이(가) '/FORCE' 사양으로 인해 무시됩니다.
+     1>Communication.obj : warning LNK4075: '/EDITANDCONTINUE'이(가) '/OPT:LBR' 사양으로 인해 무시됩니다.
+     1>uafxcwd.lib(afxmem.obj) : warning LNK4006: "void * __cdecl operator new(unsigned int)" (??2@YAPAXI@Z)이(가) LIBCMTD.lib(new_scalar.obj)에 이미 정의되어 있습니다. 초 정의가 무시됩니다.
+     1>uafxcwd.lib(afxmem.obj) : warning LNK4006: "void __cdecl operator delete(void *)" (??3@YAXPAX@Z)이(가) LIBCMTD.lib(delete_scalar.obj)에 이미 정의되어 있습니다. 초 정의가 무시됩니다.
+     1>uafxcwd.lib(afxmem.obj) : warning LNK4006: "void * __cdecl operator new[](unsigned int)" (??_U@YAPAXI@Z)이(가) LIBCMTD.lib(new_array.obj)에 이미 정의되어 있습니다. 초 정의가 무시됩니다.
+     1>uafxcwd.lib(afxmem.obj) : warning LNK4006: "void __cdecl operator delete[](void *)" (??_V@YAXPAX@Z)이(가) LIBCMTD.lib(delete_array.obj)에 이미 정의되어 있습니다. 초 정의가 무시됩니다.
+     1>C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\EsperClient.exe : warning LNK4088: /FORCE 옵션을 사용하여 생성하는 이미지입니다. 이미지가 실행되지 않을 수도 있습니다.
+     1>jsoncpp.obj : warning LNK4099: 'vc140.pdb' PDB를 'jsoncpp.obj' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc140.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+     1>JoinDlg.obj : warning LNK4099: 'vc140.pdb' PDB를 'JoinDlg.obj' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc140.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+     1>EsperClientDlg.obj : warning LNK4099: 'vc140.pdb' PDB를 'EsperClientDlg.obj' 또는 'C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\vc140.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+         EsperClient.vcxproj -> C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\EsperClient.exe
+     1>"C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\EsperClient\EsperClient.vcxproj" 프로젝트를 빌드했습니다(Build 대상).
 
-빌드하지 못했습니다.
+빌드했습니다.
 
-경과 시간: 00:00:02.82
+경과 시간: 00:00:09.26

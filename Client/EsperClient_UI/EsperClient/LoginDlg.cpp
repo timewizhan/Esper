@@ -6,7 +6,7 @@
 #include "LoginDlg.h"
 #include "afxdialogex.h"
 #include "JoinDlg.h"
-
+#include "Communication.h"
 #include "EsperClientDlg.h"
 
 

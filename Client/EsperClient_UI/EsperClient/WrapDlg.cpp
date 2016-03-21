@@ -16,7 +16,7 @@ CWrapDlg::CWrapDlg (CString filename, CString filepath, CWnd* pParent /*=NULL*/)
 	: CDialog(IDD_WrapDlg, pParent), Filename(filename),Filepath(filepath)
 {
 
-}
+} 
 
 CWrapDlg::~CWrapDlg()
 {

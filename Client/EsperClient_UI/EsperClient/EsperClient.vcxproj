@@ -100,12 +100,14 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Lib\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>cryptlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Lib\lib;C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Json;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>cryptlib.lib;json_vc71_libmtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ForceFileOutput>
       </ForceFileOutput>
-      <IgnoreSpecificDefaultLibraries>
-      </IgnoreSpecificDefaultLibraries>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ModuleDefinitionFile>
+      </ModuleDefinitionFile>
+      <AdditionalOptions>/FORCE %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -219,6 +221,7 @@
     <ClInclude Include="WrapDlg.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Communication.cpp" />
     <ClCompile Include="EsperClient.cpp" />
     <ClCompile Include="EsperClientDlg.cpp" />
     <ClCompile Include="FileLayer.cpp" />
