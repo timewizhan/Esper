@@ -1,8 +1,8 @@
-﻿빌드 시작: 2016-03-21 오후 2:15:37
+﻿빌드 시작: 2016-03-21 오후 2:37:23
      1>2 노드의 "C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\EsperClient\EsperClient.vcxproj" 프로젝트(Build 대상)입니다.
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /IC:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Lib\include /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D _CRT_SECURE_NO_WARNINGS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt Communication.cpp
-         Communication.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /IC:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Lib\include /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D _CRT_SECURE_NO_WARNINGS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt LoginDlg.cpp
+         LoginDlg.cpp
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\EsperClient.exe" /INCREMENTAL /NOLOGO /LIBPATH:C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Lib\lib /LIBPATH:C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Json cryptlib.lib json_vc71_libmtd.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /manifestinput:"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\Include\Manifest\dpiaware.manifest" /Debug /PDB:"C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\EsperClient.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /ENTRY:"wWinMainCRTStartup" /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\EsperClient.lib" /MACHINE:X86 /FORCE Debug\EsperClient.res
          Debug\Communication.obj
@@ -30,4 +30,4 @@
 
 빌드했습니다.
 
-경과 시간: 00:00:09.26
+경과 시간: 00:00:11.38

@@ -179,58 +179,80 @@ int socket_recv(int socket, char* buffer, int size)
 	if (!Type.isNull())
 	{
 		int switchcase;
-		if (Type.asString() == "login")
+		if (Type.asString() == "checkID")
 		{
 			switchcase = 1;
 		}
-		else if (Type.asString() == "emailAuth")
+		else if (Type.asString() == "checkEmail")
 		{
 			switchcase = 2;
 		}
-		else if (Type.asString() == "signUp")
+		else if (Type.asString() == "authEmail")
 		{
 			switchcase = 3;
 		}
-		else if (Type.asString() == "remoteDel")
+		else if (Type.asString() == "checkAuthCode")
 		{
 			switchcase = 4;
 		}
-		else if (Type.asString() == "notice")
+		else if (Type.asString() == "signUp")
 		{
 			switchcase = 5;
 		}
-		else if (Type.asString() == "termsOfUse")
+		else if (Type.asString() == "signIn")
 		{
 			switchcase = 6;
 		}
-		else if (Type.asString() == "wrapping1")
+		else if (Type.asString() == "signOut")
 		{
 			switchcase = 7;
 		}
-		else if (Type.asString() == "wrapping2")
+		else if (Type.asString() == "findId")
 		{
 			switchcase = 8;
 		}
-		else if (Type.asString() == "auth")
+		else if (Type.asString() == "findPasswd")
 		{
 			switchcase = 9;
 		}
-		else if (Type.asString() == "authUpdate")
+		else if (Type.asString() == "changePasswd")
 		{
 			switchcase = 10;
 		}
-		else if (Type.asString() == "profileUpdate1")
+		else if (Type.asString() == "withdrawal")
 		{
 			switchcase = 11;
 		}
-		else if (Type.asString() == "profileEmailAuth")
+		else if (Type.asString() == "accessorCheck")
 		{
 			switchcase = 12;
 		}
-		else if (Type.asString() == "profileUpdate2")
+		else if (Type.asString() == "wrapping1")
 		{
 			switchcase = 13;
 		}
+		else if (Type.asString() == "insertRes")
+		{
+			switchcase = 14;
+		}
+		else if (Type.asString() == "auth")
+		{
+			switchcase = 15;
+		}
+		else if (Type.asString() == "remoteDel")
+		{
+			switchcase = 16;
+		}
+		else if (Type.asString() == "authUpdate")
+		{
+			switchcase = 17;
+		}
+		else if (Type.asString() == "fileListReq")
+		{
+			switchcase = 18;
+		}
+		else {}
+
 		Json::Value notAnArray;
 		//Json::Value AnArray;
 		Json::Value File;

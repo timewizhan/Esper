@@ -79,10 +79,19 @@ void LoginDlg::OnBnClickedOk()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	UpdateData(TRUE);
-	CString cstrId;
+	CString cstrId,cstrPw;
+	std::string m_pw;
 	GetDlgItemText(IDC_LOGID, cstrId);
+	GetDlgItemText(IDC_LOGPW, cstrPw);
 	CT2CA pszConvertedAnsiString(cstrId);
+	CT2CA pszConvertedAnsiString2(cstrPw);
 	m_userid = pszConvertedAnsiString;
+	m_pw = pszConvertedAnsiString2;
+	Items item;
+	item.setId(m_userid);
+	item.setPw(m_pw);
+	socket_send(s, "signIn", item);
+
 	CEsperClientDlg dlg;
 	dlg.SetId(m_userid);
 	ShowWindow(SW_HIDE);
