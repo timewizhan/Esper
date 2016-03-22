@@ -31,10 +31,14 @@ public:
 	void setAccessor(vector<string> Accessor) { this->Accessor = Accessor; }
 };
 
-extern SOCKET s;
+//extern SOCKET s;
 //extern Items item;//로그인때 id, 세션키등을 모두 저장해 둔다.
 
 		   //int n = send(s,output.c_str(),size,0);
+SOCKET socketCreate();
+
+int sockSetting(SOCKET s);
+
 int socket_send(int socket, string Type, Items item);
 
 

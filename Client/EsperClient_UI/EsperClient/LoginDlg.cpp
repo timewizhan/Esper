@@ -9,7 +9,6 @@
 #include "Communication.h"
 #include "EsperClientDlg.h"
 
-
 // LoginDlg 대화 상자입니다.
 
 IMPLEMENT_DYNAMIC(LoginDlg, CDialogEx)
@@ -90,12 +89,32 @@ void LoginDlg::OnBnClickedOk()
 	Items item;
 	item.setId(m_userid);
 	item.setPw(m_pw);
-	socket_send(s, "signIn", item);
 
-	CEsperClientDlg dlg;
-	dlg.SetId(m_userid);
-	ShowWindow(SW_HIDE);
-	dlg.DoModal();
+	//통신 목표 설정
+	SOCKET s=socketCreate();	
+	if(s == SOCKET_ERROR) AfxMessageBox(_T("socket error!"), MB_OK);
+
+	SOCKADDR_IN addr;
+	addr.sin_family = AF_INET;
+	addr.sin_port = htons(8000);
+	addr.sin_addr.s_addr = inet_addr("165.132.144.107");
+	if (connect(s, (SOCKADDR*)&addr, sizeof(addr)) == -1) {
+		AfxMessageBox(_T("connection(dir) error!"), MB_OK);
+	}
+
+	if (sockSetting(s) == -1)
+		AfxMessageBox(_T("connection error!"),MB_OK );
+	else {
+		socket_send(s, "signIn", item);
+		closesocket(s);
+		CEsperClientDlg dlg;
+		dlg.SetId(m_userid);
+		ShowWindow(SW_HIDE);
+		dlg.DoModal();
+	}
+	closesocket(s);
+	WSACleanup();
+
 }
 
 

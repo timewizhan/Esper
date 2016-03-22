@@ -1,7 +1,6 @@
  #pragma once
 #include <string>
 // LoginDlg 대화 상자입니다.
-
 class LoginDlg : public CDialogEx
 {
 	DECLARE_DYNAMIC(LoginDlg)

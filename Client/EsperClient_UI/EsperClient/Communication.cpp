@@ -17,8 +17,21 @@ using namespace std;
 #pragma pack( 1 ) // 구조체에서 1byte 단위로 메모리를 Align하라는 지시어
 
 
-SOCKET s = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+//SOCKET s = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 				  //int n = send(s,output.c_str(),size,0);
+SOCKET socketCreate() {
+	WSADATA wsadata;
+	WSAStartup(MAKEWORD(2, 2), &wsadata);
+	SOCKET s = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+	return s;
+}
+int sockSetting(SOCKET s) {
+	SOCKADDR_IN addr;
+	addr.sin_family = AF_INET;
+	addr.sin_port = htons(4500);
+	addr.sin_addr.s_addr = inet_addr("165.132.144.106");
+	return connect(s, (SOCKADDR*)&addr, sizeof(addr));
+}
 
 int socket_send(int socket, string Type, Items item) {
 	Json::Value root;
