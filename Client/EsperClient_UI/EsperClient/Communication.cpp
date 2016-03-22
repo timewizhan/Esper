@@ -28,8 +28,8 @@ SOCKET socketCreate() {
 int sockSetting(SOCKET s) {
 	SOCKADDR_IN addr;
 	addr.sin_family = AF_INET;
-	addr.sin_port = htons(4500);
-	addr.sin_addr.s_addr = inet_addr("165.132.144.106");
+	addr.sin_port = htons(8000);
+	addr.sin_addr.s_addr = inet_addr("165.132.144.98");
 	return connect(s, (SOCKADDR*)&addr, sizeof(addr));
 }
 

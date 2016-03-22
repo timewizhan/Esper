@@ -96,11 +96,11 @@ void LoginDlg::OnBnClickedOk()
 
 	SOCKADDR_IN addr;
 	addr.sin_family = AF_INET;
-	addr.sin_port = htons(8000);
-	addr.sin_addr.s_addr = inet_addr("165.132.144.107");
-	if (connect(s, (SOCKADDR*)&addr, sizeof(addr)) == -1) {
-		AfxMessageBox(_T("connection(dir) error!"), MB_OK);
-	}
+	addr.sin_port = htons(4500);
+	addr.sin_addr.s_addr = inet_addr("165.132.144.106");
+	//if (connect(s, (SOCKADDR*)&addr, sizeof(addr)) == -1) {
+	//	AfxMessageBox(_T("connection(dir) error!"), MB_OK);
+	//}
 
 	if (sockSetting(s) == -1)
 		AfxMessageBox(_T("connection error!"),MB_OK );

@@ -1,10 +1,10 @@
-﻿빌드 시작: 2016-03-22 오전 10:14:29
+﻿빌드 시작: 2016-03-22 오후 8:20:09
      1>2 노드의 "C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\EsperClient\EsperClient.vcxproj" 프로젝트(Build 대상)입니다.
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /IC:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Lib\include /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D _CRT_SECURE_NO_WARNINGS /D _WINSOCK_DEPRECATED_NO_WARNINGS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt LoginDlg.cpp
-         LoginDlg.cpp
-     1>c:\users\woopc\source\repos\esper\client\esperclient_ui\esperclient\communication.h(3): warning C4005: '_WINSOCK_DEPRECATED_NO_WARNINGS': 매크로 재정의
-         c:\users\woopc\source\repos\esper\client\esperclient_ui\esperclient\communication.h(3): note: 명령줄 인수: '_WINSOCK_DEPRECATED_NO_WARNINGS'의 이전 정의를 참조하십시오.
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /IC:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Lib\include /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D _CRT_SECURE_NO_WARNINGS /D _WINSOCK_DEPRECATED_NO_WARNINGS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt Communication.cpp
+         Communication.cpp
+     1>c:\users\woopc\source\repos\esper\client\esperclient_ui\esperclient\communication.cpp(3): warning C4005: '_WINSOCK_DEPRECATED_NO_WARNINGS': 매크로 재정의
+         c:\users\woopc\source\repos\esper\client\esperclient_ui\esperclient\communication.cpp(3): note: 명령줄 인수: '_WINSOCK_DEPRECATED_NO_WARNINGS'의 이전 정의를 참조하십시오.
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\EsperClient.exe" /INCREMENTAL /NOLOGO /LIBPATH:C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Lib\lib /LIBPATH:C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Json cryptlib.lib json_vc71_libmtd.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /manifestinput:"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\Include\Manifest\dpiaware.manifest" /Debug /PDB:"C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\EsperClient.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /ENTRY:"wWinMainCRTStartup" /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\EsperClient.lib" /MACHINE:X86 /FORCE Debug\EsperClient.res
          Debug\Communication.obj
@@ -29,4 +29,4 @@
 
 빌드했습니다.
 
-경과 시간: 00:00:16.42
+경과 시간: 00:00:11.44
