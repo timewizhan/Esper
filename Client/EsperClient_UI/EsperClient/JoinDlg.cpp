@@ -280,8 +280,7 @@ void CJoinDlg::OnBnClickedJoinOk()
 			}
 		}
 		CDialogEx::OnOK();
-	}
-	
+	}	
 	
 }
 
