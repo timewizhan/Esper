@@ -108,7 +108,7 @@ void LoginDlg::OnBnClickedOk()
 		socket_send(s, "signIn", item);
 		closesocket(s);
 		CEsperClientDlg dlg;
-		dlg.SetId(m_userid);
+		dlg.SetId(m_userid,resultpacketbuffer1);
 		ShowWindow(SW_HIDE);
 		dlg.DoModal();
 	}

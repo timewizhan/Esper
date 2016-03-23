@@ -60,9 +60,10 @@ END_MESSAGE_MAP()
 
 // CEsperClientDlg 대화 상자
 
-void CEsperClientDlg::SetId(std::string param)
+void CEsperClientDlg::SetId(std::string param_id,std::string param_sessionkey)
 {
-	m_userid = param;
+	m_userid = param_id;
+	m_sessionkey = param_sessionkey;
 }
 
 CEsperClientDlg::CEsperClientDlg(CWnd* pParent /*=NULL*/)

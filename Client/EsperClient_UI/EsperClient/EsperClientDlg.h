@@ -35,6 +35,7 @@ protected:
 	CString m_strEdit;
 
 	std::string m_userid;
+	std::string m_sessionkey;
 
 	// 생성된 메시지 맵 함수
 	virtual BOOL OnInitDialog();
@@ -45,7 +46,7 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	
-	void SetId(std::string param);
+	void SetId(std::string param_id, std::string param_sessionkey);
 
 	afx_msg void OnEnChangeEdit1();
 	afx_msg void OnLbnSelchangeList1();

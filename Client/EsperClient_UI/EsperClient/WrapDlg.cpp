@@ -9,7 +9,7 @@
 #include "Communication.h"
 
 // CWrapDlg 대화 상자입니다.
-
+Items item;
 IMPLEMENT_DYNAMIC(CWrapDlg, CDialog)
 
 CWrapDlg::CWrapDlg (CString filename, CString filepath, CWnd* pParent /*=NULL*/)
@@ -65,9 +65,52 @@ void CWrapDlg::OnBnClickedButton1()
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	CString str;
 	GetDlgItem(IDC_EDIT1)->GetWindowText(str);
+	CT2CA temp(str);
+	string tempstr(temp);
+	//Items item;
+	item.AccessorID = tempstr;
+	item.setId(m_userid);
+	//item.SessionKey = m_sessiongkey;
+
+	//통신 목표 설정
+	SOCKET s = socketCreate();
+	if (s == SOCKET_ERROR) AfxMessageBox(_T("socket error!"), MB_OK);
+
+	SOCKADDR_IN addr;
+	addr.sin_family = AF_INET;
+	addr.sin_port = htons(4500);
+	addr.sin_addr.s_addr = inet_addr("165.132.144.106");
+	//if (connect(s, (SOCKADDR*)&addr, sizeof(addr)) == -1) {
+	//	AfxMessageBox(_T("connection(dir) error!"), MB_OK);
+	//}
+
+	if (sockSetting(s) == -1)
+		AfxMessageBox(_T("connection error!"), MB_OK);
+	else {
+		socket_send(s, "accessorCheck", item);
+		//closesocket(s);
+		ShowWindow(SW_HIDE);
+	}
 	
-	m_authlistctrl.AddString(str);
-	UpdateData(TRUE);
+	char buf[1024];
+	socket_recv(s, buf, sizeof(buf));
+
+	if (resultpacketbuffer1 == "succ")
+	{
+		m_authlistctrl.AddString(str);
+		UpdateData(TRUE);
+		item.Accessor.push_back(tempstr);
+	}
+	else if (resultpacketbuffer1 == "fail")
+	{
+		AfxMessageBox(_T("잘못된 아이디입니다."));
+	}
+	else
+	{
+		AfxMessageBox(_T("서버와 통신이 실패했습니다."));
+	}
+	
+	closesocket(s);
 }
 
 
@@ -83,18 +126,74 @@ void CWrapDlg::OnBnClickedOk()
 	dialog.m_ofn.lStructSize = sizeof(OPENFILENAME) + 12;
 	dialog.DoModal();
 
-	ST_FILE_LAYER_HEADER stFileLayerHeader;
-	stFileLayerHeader.dwServerId = 1;
-	stFileLayerHeader.dwUserId = 1;
+	
+	//Items item;
+	item.setId(m_userid);
 
-	Items item;
+	//item.SessionKey = m_sessiongkey;
 
-	CT2CA pszConvertedAnsiString(Filepath), pszConvertedAnsiString2(dialog.GetFolderPath());
-	std::string strInputFile(pszConvertedAnsiString);
-	//std::string strInputFile("C:\\Users\\wooPC\\Desktop\\hello.hwp");
-	std::string strOutputFile(pszConvertedAnsiString2);
-	//std::string strOutputFile("C:\\Users\\wooPC\\Desktop");
-	DWORD dwRet = EncryptFileLayer(stFileLayerHeader, strInputFile, strOutputFile);
+	//통신 목표 설정
+	SOCKET s = socketCreate();
+	if (s == SOCKET_ERROR) AfxMessageBox(_T("socket error!"), MB_OK);
+
+	SOCKADDR_IN addr;
+	addr.sin_family = AF_INET;
+	addr.sin_port = htons(4500);
+	addr.sin_addr.s_addr = inet_addr("165.132.144.106");
+	//if (connect(s, (SOCKADDR*)&addr, sizeof(addr)) == -1) {
+	//	AfxMessageBox(_T("connection(dir) error!"), MB_OK);
+	//}
+
+	if (sockSetting(s) == -1)
+		AfxMessageBox(_T("connection error!"), MB_OK);
+	else {
+		socket_send(s, "wrappingReq", item);
+		//closesocket(s);
+		ShowWindow(SW_HIDE);
+	}
+
+	char buf[1024];
+	socket_recv(s, buf, sizeof(buf));
+
+	if (resultpacketbuffer2 == "succ")
+	{
+		ST_FILE_LAYER_HEADER stFileLayerHeader;
+		stFileLayerHeader.dwServerId = stoi(resultpacketbuffer1);
+		stFileLayerHeader.dwUserId = 1;
+
+		CT2CA pszConvertedAnsiString(Filepath), pszConvertedAnsiString2(dialog.GetFolderPath());
+		std::string strInputFile(pszConvertedAnsiString);
+		//std::string strInputFile("C:\\Users\\wooPC\\Desktop\\hello.hwp");
+		std::string strOutputFile(pszConvertedAnsiString2);
+		//std::string strOutputFile("C:\\Users\\wooPC\\Desktop");
+		DWORD dwRet = EncryptFileLayer(stFileLayerHeader, strInputFile, strOutputFile);
+
+		item.FileId = stoi(resultpacketbuffer1);
+		item.WrappingResult = "succ";
+		//item.SessionKey = m_sessiongkey;
+
+		socket_send(s, "wrappingRes", item);
+		socket_recv(s, buf, sizeof(buf));
+
+		if (resultpacketbuffer1 == "succ")
+		{
+
+		}
+		else
+		{
+			wstring temp = wstring(strOutputFile.begin(), strOutputFile.end());
+			LPCWSTR outfilePath = temp.c_str();
+			DeleteFile(outfilePath);
+			AfxMessageBox(_T("서버와 통신이 실패했습니다."));
+		}
+
+	}
+	else
+	{
+		AfxMessageBox(_T("서버와 통신이 실패했습니다."));
+	}
+
+	closesocket(s);
 
 }
 
