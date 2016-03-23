@@ -21,6 +21,12 @@
     <ClCompile Include="FileLayer.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="jsoncpp.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Communication.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common.h">
@@ -30,6 +36,15 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="FileLayerStruct.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="json.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="json-forwards.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Communication.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

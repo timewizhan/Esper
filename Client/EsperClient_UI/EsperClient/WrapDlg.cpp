@@ -12,11 +12,11 @@
 Items item;
 IMPLEMENT_DYNAMIC(CWrapDlg, CDialog)
 
-CWrapDlg::CWrapDlg (CString filename, CString filepath, CWnd* pParent /*=NULL*/)
-	: CDialog(IDD_WrapDlg, pParent), Filename(filename),Filepath(filepath)
+CWrapDlg::CWrapDlg(CString filename, CString filepath, CWnd* pParent /*=NULL*/)
+	: CDialog(IDD_WrapDlg, pParent), Filename(filename), Filepath(filepath)
 {
 
-} 
+}
 
 CWrapDlg::~CWrapDlg()
 {
@@ -52,7 +52,7 @@ BOOL CWrapDlg::OnInitDialog()
 	SetDlgItemText(IDC_WRAP_FILENAME, Filename);
 	SetDlgItemText(IDC_WRAP_FILEPATH, Filepath);
 	CString  m_userid2(m_userid.c_str());
-	SetDlgItemText(IDC_WRAP_USER,m_userid2);
+	SetDlgItemText(IDC_WRAP_USER, m_userid2);
 	return TRUE;  // return TRUE unless you set the focus to a control
 				  // 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.
 }
@@ -91,9 +91,8 @@ void CWrapDlg::OnBnClickedButton1()
 		//closesocket(s);
 		ShowWindow(SW_HIDE);
 	}
-	
-	char buf[1024];
-	socket_recv(s, buf, sizeof(buf));
+	string* strtemp=NULL;
+	socket_recv(s,strtemp);
 
 	if (resultpacketbuffer1 == "succ")
 	{
@@ -109,7 +108,7 @@ void CWrapDlg::OnBnClickedButton1()
 	{
 		AfxMessageBox(_T("서버와 통신이 실패했습니다."));
 	}
-	
+
 	closesocket(s);
 }
 
@@ -120,13 +119,13 @@ void CWrapDlg::OnBnClickedOk()
 	CDialog::OnOK();
 
 	CString SubFilename = Filename.Mid(0, (Filename.GetLength() - 4));
-	CFileDialog dialog((BOOL)FALSE, _T("esp"), SubFilename+_T(".esp"), OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, _T("에스퍼(*.esp)|*.esp|모든파일(*.*)|*.*||"));
-	
+	CFileDialog dialog((BOOL)FALSE, _T("esp"), SubFilename + _T(".esp"), OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, _T("에스퍼(*.esp)|*.esp|모든파일(*.*)|*.*||"));
+
 	dialog.m_ofn.lpstrTitle = _T("파일 랩핑하기");
 	dialog.m_ofn.lStructSize = sizeof(OPENFILENAME) + 12;
 	dialog.DoModal();
 
-	
+
 	//Items item;
 	item.setId(m_userid);
 
@@ -152,8 +151,8 @@ void CWrapDlg::OnBnClickedOk()
 		ShowWindow(SW_HIDE);
 	}
 
-	char buf[1024];
-	socket_recv(s, buf, sizeof(buf));
+	string* strtemp=NULL;
+	socket_recv(s, strtemp);
 
 	if (resultpacketbuffer2 == "succ")
 	{
@@ -173,7 +172,8 @@ void CWrapDlg::OnBnClickedOk()
 		//item.SessionKey = m_sessiongkey;
 
 		socket_send(s, "wrappingRes", item);
-		socket_recv(s, buf, sizeof(buf));
+		string* strtemp = NULL;
+		socket_recv(s, strtemp);
 
 		if (resultpacketbuffer1 == "succ")
 		{
