@@ -62,4 +62,4 @@ extern string resultpacketbuffer1;
 extern string resultpacketbuffer2;
 extern string resultpacketbuffer3;
 extern packetfile *packetfilehead;
-int socket_recv(int socket, string* str);
+int socket_recv(int socket, char** str);

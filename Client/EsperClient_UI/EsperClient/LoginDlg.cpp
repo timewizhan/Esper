@@ -87,7 +87,7 @@ void LoginDlg::OnBnClickedOk()
 	m_userid = pszConvertedAnsiString;
 	m_pw = pszConvertedAnsiString2;
 	Items item;
-	string str;
+	char* str;
 	item.setId(m_userid);
 	item.setPw(m_pw);
 
@@ -109,14 +109,19 @@ void LoginDlg::OnBnClickedOk()
 		socket_send(s, "signIn", item);
 		socket_recv(s, &str);
 
-		AfxMessageBox((LPCTSTR)str.c_str(), MB_OK);
+		//AfxMessageBox((LPCTSTR)str.c_str(), MB_OK);
+		AfxMessageBox(*str, MB_OK);
 		AfxMessageBox((LPCTSTR)resultpacketbuffer1.c_str(), MB_OK);
 		AfxMessageBox((LPCTSTR)resultpacketbuffer2.c_str(), MB_OK);
 
-		CEsperClientDlg dlg;
-		dlg.SetId(m_userid,resultpacketbuffer1);
-		ShowWindow(SW_HIDE);
-		dlg.DoModal();
+		if (resultpacketbuffer3 == "refusal")
+			AfxMessageBox(TEXT("Access denied"), MB_OK );
+		else {
+			CEsperClientDlg dlg;
+			dlg.SetId(m_userid, resultpacketbuffer1);
+			ShowWindow(SW_HIDE);
+			dlg.DoModal();
+		}
 	}
 	closesocket(s);
 	WSACleanup();

@@ -144,7 +144,7 @@ string resultpacketbuffer3;
 packetfile *packetfilehead;
 
 
-int socket_recv(int socket, string* str )
+int socket_recv(int socket, char** str )
 {
 	int total_received;
 	int received = 0;
@@ -178,7 +178,7 @@ int socket_recv(int socket, string* str )
 
 	string buff(buffer);
 	//cout << "got" << buff << endl;
-	*str = buff;
+	*str = buffer;
 
 	
 	Json::Value packet;

@@ -93,7 +93,8 @@ void CWrapDlg::OnBnClickedButton1()
 	}
 	
 	char buf[1024];
-	socket_recv(s, buf, sizeof(buf));
+	char *c;
+	socket_recv(s,&c);
 
 	if (resultpacketbuffer1 == "succ")
 	{
@@ -153,7 +154,8 @@ void CWrapDlg::OnBnClickedOk()
 	}
 
 	char buf[1024];
-	socket_recv(s, buf, sizeof(buf));
+	char *c;
+	socket_recv(s,&c );
 
 	if (resultpacketbuffer2 == "succ")
 	{
@@ -173,7 +175,7 @@ void CWrapDlg::OnBnClickedOk()
 		//item.SessionKey = m_sessiongkey;
 
 		socket_send(s, "wrappingRes", item);
-		socket_recv(s, buf, sizeof(buf));
+		socket_recv(s,&c);
 
 		if (resultpacketbuffer1 == "succ")
 		{
