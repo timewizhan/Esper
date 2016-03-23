@@ -35,7 +35,7 @@ int sockSetting(SOCKET s) {
 
 int socket_send(int socket, string Type, Items item) {
 	Json::Value root;
-	root["Type"] == Type;
+	root["type"] = Type;
 	if (Type == "checkID") {
 		root["ID"] = item.Id;
 	}
@@ -144,14 +144,15 @@ string resultpacketbuffer3;
 packetfile *packetfilehead;
 
 
-int socket_recv(int socket, char* buffer, int size)
+int socket_recv(int socket, string* str )
 {
 	int total_received;
 	int received = 0;
 
-	assert(buffer);
-	assert(size > 0);
+
 	assert(socket);
+
+	char buffer[1024];
 
 	total_received = 0;
 	/*
@@ -169,7 +170,7 @@ int socket_recv(int socket, char* buffer, int size)
 
 	buffer += received;
 	}*/
-	recv(socket, buffer, size, 0);
+	recv(socket, buffer, sizeof(buffer), 0);
 	if (received < 0)
 	{
 		return received;
@@ -177,6 +178,9 @@ int socket_recv(int socket, char* buffer, int size)
 
 	string buff(buffer);
 	//cout << "got" << buff << endl;
+	*str = buff;
+
+	
 	Json::Value packet;
 	Json::Reader reader;
 	bool parsedSuccess = reader.parse(buff, packet, false);

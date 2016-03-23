@@ -52,9 +52,9 @@ public:
 
 class packetfile {
 public:
-	packetfile*next;
+	packetfile* next;
 	string filename;
-	receiverIdclass*receivernamehead;
+	receiverIdclass* receivernamehead;
 	packetfile(string fn) { filename = fn; next = NULL; receivernamehead = NULL; }
 
 };
@@ -62,4 +62,4 @@ extern string resultpacketbuffer1;
 extern string resultpacketbuffer2;
 extern string resultpacketbuffer3;
 extern packetfile *packetfilehead;
-int socket_recv(int socket, char* buffer, int size);
+int socket_recv(int socket, string* str);

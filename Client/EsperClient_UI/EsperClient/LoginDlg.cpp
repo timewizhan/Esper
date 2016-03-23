@@ -87,26 +87,32 @@ void LoginDlg::OnBnClickedOk()
 	m_userid = pszConvertedAnsiString;
 	m_pw = pszConvertedAnsiString2;
 	Items item;
+	string str;
 	item.setId(m_userid);
 	item.setPw(m_pw);
 
 	//통신 목표 설정
 	SOCKET s=socketCreate();	
 	if(s == SOCKET_ERROR) AfxMessageBox(_T("socket error!"), MB_OK);
-
+	/*
 	SOCKADDR_IN addr;
 	addr.sin_family = AF_INET;
 	addr.sin_port = htons(4500);
 	addr.sin_addr.s_addr = inet_addr("165.132.144.106");
 	//if (connect(s, (SOCKADDR*)&addr, sizeof(addr)) == -1) {
 	//	AfxMessageBox(_T("connection(dir) error!"), MB_OK);
-	//}
+	//}*/ 
 
 	if (sockSetting(s) == -1)
 		AfxMessageBox(_T("connection error!"),MB_OK );
 	else {
 		socket_send(s, "signIn", item);
-		closesocket(s);
+		socket_recv(s, &str);
+
+		AfxMessageBox((LPCTSTR)str.c_str(), MB_OK);
+		AfxMessageBox((LPCTSTR)resultpacketbuffer1.c_str(), MB_OK);
+		AfxMessageBox((LPCTSTR)resultpacketbuffer2.c_str(), MB_OK);
+
 		CEsperClientDlg dlg;
 		dlg.SetId(m_userid);
 		ShowWindow(SW_HIDE);
