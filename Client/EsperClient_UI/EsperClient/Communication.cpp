@@ -11,6 +11,9 @@
 #include <string>
 #include <vector>
 #include "Communication.h"
+
+//#include "afxdialogex.h"
+
 #include "../../json/json.h"
 using namespace std;
 #pragma comment ( lib, "ws2_32.lib" )

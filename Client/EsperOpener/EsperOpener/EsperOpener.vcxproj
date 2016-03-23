@@ -122,13 +122,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Communication.cpp" />
     <ClCompile Include="EsperOpener.cpp" />
     <ClCompile Include="FileLayer.cpp" />
+    <ClCompile Include="jsoncpp.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common.h" />
+    <ClInclude Include="Communication.h" />
     <ClInclude Include="FileLayer.h" />
     <ClInclude Include="FileLayerStruct.h" />
+    <ClInclude Include="json-forwards.h" />
+    <ClInclude Include="json.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

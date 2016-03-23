@@ -107,6 +107,9 @@ void LoginDlg::OnBnClickedOk()
 		AfxMessageBox(_T("connection error!"),MB_OK );
 	else {
 		socket_send(s, "signIn", item);
+		resultpacketbuffer1 = "";
+		resultpacketbuffer2 = "";
+		resultpacketbuffer3 = "";
 		socket_recv(s, &str);
 
 		//AfxMessageBox((LPCTSTR)str.c_str(), MB_OK);
