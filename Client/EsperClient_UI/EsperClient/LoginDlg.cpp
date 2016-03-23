@@ -114,7 +114,7 @@ void LoginDlg::OnBnClickedOk()
 		AfxMessageBox((LPCTSTR)resultpacketbuffer2.c_str(), MB_OK);
 
 		CEsperClientDlg dlg;
-		dlg.SetId(m_userid);
+		dlg.SetId(m_userid,resultpacketbuffer1);
 		ShowWindow(SW_HIDE);
 		dlg.DoModal();
 	}
