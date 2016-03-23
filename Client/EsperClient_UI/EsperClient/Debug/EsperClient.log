@@ -1,6 +1,32 @@
-﻿빌드 시작: 2016-03-23 오후 11:43:35
+﻿빌드 시작: 2016-03-24 오전 12:03:36
      1>2 노드의 "C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\EsperClient\EsperClient.vcxproj" 프로젝트(Build 대상)입니다.
-     1>Link:
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /IC:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Lib\include /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D _CRT_SECURE_NO_WARNINGS /D _WINSOCK_DEPRECATED_NO_WARNINGS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Yc"stdafx.h" /Fp"Debug\EsperClient.pch" /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt stdafx.cpp
+         stdafx.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /IC:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Lib\include /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D _CRT_SECURE_NO_WARNINGS /D _WINSOCK_DEPRECATED_NO_WARNINGS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt Communication.cpp EsperClient.cpp EsperClientDlg.cpp FileLayer.cpp JoinDlg.cpp LoginDlg.cpp SettingDlg.cpp WrapDlg.cpp jsoncpp.cpp
+         jsoncpp.cpp
+         WrapDlg.cpp
+     1>c:\users\woopc\source\repos\esper\client\esperclient_ui\lib\include\algparam.h(277): warning C4297: 'CryptoPP::AlgorithmParametersBase::~AlgorithmParametersBase': 함수는 예외를 Throw하지 않도록 지정되었으나 예외를 Throw했습니다.
+         c:\users\woopc\source\repos\esper\client\esperclient_ui\lib\include\algparam.h(277): note: 소멸자 또는 비할당자는 가능하면 암시적으로 throw되지 않는 예외 사양을 사용합니다.
+     1>c:\users\woopc\source\repos\esper\client\esperclient_ui\esperclient\communication.h(3): warning C4005: '_WINSOCK_DEPRECATED_NO_WARNINGS': 매크로 재정의
+         c:\users\woopc\source\repos\esper\client\esperclient_ui\esperclient\communication.h(3): note: 명령줄 인수: '_WINSOCK_DEPRECATED_NO_WARNINGS'의 이전 정의를 참조하십시오.
+         SettingDlg.cpp
+         LoginDlg.cpp
+     1>c:\users\woopc\source\repos\esper\client\esperclient_ui\esperclient\communication.h(3): warning C4005: '_WINSOCK_DEPRECATED_NO_WARNINGS': 매크로 재정의
+         c:\users\woopc\source\repos\esper\client\esperclient_ui\esperclient\communication.h(3): note: 명령줄 인수: '_WINSOCK_DEPRECATED_NO_WARNINGS'의 이전 정의를 참조하십시오.
+         JoinDlg.cpp
+         FileLayer.cpp
+     1>c:\users\woopc\source\repos\esper\client\esperclient_ui\lib\include\algparam.h(277): warning C4297: 'CryptoPP::AlgorithmParametersBase::~AlgorithmParametersBase': 함수는 예외를 Throw하지 않도록 지정되었으나 예외를 Throw했습니다.
+         c:\users\woopc\source\repos\esper\client\esperclient_ui\lib\include\algparam.h(277): note: 소멸자 또는 비할당자는 가능하면 암시적으로 throw되지 않는 예외 사양을 사용합니다.
+     1>c:\users\woopc\source\repos\esper\client\esperclient_ui\esperclient\filelayer.cpp(240): warning C4267: '=': 'size_t'에서 'unsigned char'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+     1>c:\users\woopc\source\repos\esper\client\esperclient_ui\esperclient\filelayer.cpp(257): warning C4267: '=': 'size_t'에서 'unsigned char'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+         EsperClientDlg.cpp
+         EsperClient.cpp
+         Communication.cpp
+     1>c:\users\woopc\source\repos\esper\client\esperclient_ui\esperclient\communication.cpp(3): warning C4005: '_WINSOCK_DEPRECATED_NO_WARNINGS': 매크로 재정의
+         c:\users\woopc\source\repos\esper\client\esperclient_ui\esperclient\communication.cpp(3): note: 명령줄 인수: '_WINSOCK_DEPRECATED_NO_WARNINGS'의 이전 정의를 참조하십시오.
+         코드를 생성하고 있습니다...
+       Link:
          C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\EsperClient.exe" /INCREMENTAL /NOLOGO /LIBPATH:C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Lib\lib /LIBPATH:C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Json cryptlib.lib json_vc71_libmtd.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /manifestinput:"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\Include\Manifest\dpiaware.manifest" /Debug /PDB:"C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\EsperClient.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /ENTRY:"wWinMainCRTStartup" /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\wooPC\Source\Repos\Esper\Client\EsperClient_UI\Debug\EsperClient.lib" /MACHINE:X86 /FORCE Debug\EsperClient.res
          Debug\Communication.obj
          Debug\EsperClient.obj
@@ -24,4 +50,4 @@
 
 빌드했습니다.
 
-경과 시간: 00:00:37.91
+경과 시간: 00:00:54.72
