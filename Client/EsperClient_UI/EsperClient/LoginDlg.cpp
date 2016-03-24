@@ -1,10 +1,10 @@
 // LoginDlg.cpp : 구현 파일입니다.
 //
-
+#include "afxdialogex.h"
 #include "stdafx.h"
 #include "EsperClient.h"
 #include "LoginDlg.h"
-#include "afxdialogex.h"
+
 #include "JoinDlg.h"
 #include "Communication.h"
 #include "EsperClientDlg.h"
@@ -121,7 +121,7 @@ void LoginDlg::OnBnClickedOk()
 			AfxMessageBox(TEXT("Access denied"), MB_OK );
 		else {
 			CEsperClientDlg dlg;
-			dlg.SetId(m_userid, resultpacketbuffer1);
+			dlg.SetId(m_userid);
 			ShowWindow(SW_HIDE);
 			dlg.DoModal();
 		}

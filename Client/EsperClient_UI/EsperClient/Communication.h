@@ -1,6 +1,6 @@
 #pragma once
 #define WIN32_LEAN_AND_MEAN
-#define _WINSOCK_DEPRECATED_NO_WARNINGS
+//#define _WINSOCK_DEPRECATED_NO_WARNINGS
 // windows.h 파일에서 자주 사용하지 않은 요소를 컴파일에서 제외시킨다.
 // 컴파일 속도가 빨라지고 winsock2.h와의 충돌이 일어나지 않는다.
 

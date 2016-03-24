@@ -10,7 +10,7 @@ class CWrapDlg : public CDialog
 	DECLARE_DYNAMIC(CWrapDlg)
 
 public:
-	CWrapDlg( CString Filename = NULL, CString Filepath = NULL, CWnd* pParent = NULL);   // 표준 생성자입니다.
+	CWrapDlg( CString Filename = _T(""), CString Filepath = _T(""), CWnd* pParent = NULL);   // 표준 생성자입니다.
 	virtual ~CWrapDlg();
 
 // 대화 상자 데이터입니다.

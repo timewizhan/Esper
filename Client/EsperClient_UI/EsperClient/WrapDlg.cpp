@@ -1,10 +1,10 @@
 // WrapDlg.cpp : 구현 파일입니다.
 //
-
+#include "afxdialogex.h"
 #include "stdafx.h"
 #include "EsperClient.h"
 #include "WrapDlg.h"
-#include "afxdialogex.h"
+
 #include "FileLayer.h"
 #include "Communication.h"
 
@@ -91,7 +91,7 @@ void CWrapDlg::OnBnClickedButton1()
 		//closesocket(s);
 		ShowWindow(SW_HIDE);
 	}
-	string* strtemp=NULL;
+	char** strtemp=NULL;
 	socket_recv(s,strtemp);
 
 	if (resultpacketbuffer1 == "succ")
@@ -151,7 +151,7 @@ void CWrapDlg::OnBnClickedOk()
 		ShowWindow(SW_HIDE);
 	}
 
-	string* strtemp=NULL;
+	char** strtemp=NULL;
 	socket_recv(s, strtemp);
 
 	if (resultpacketbuffer2 == "succ")
@@ -172,7 +172,7 @@ void CWrapDlg::OnBnClickedOk()
 		//item.SessionKey = m_sessiongkey;
 
 		socket_send(s, "wrappingRes", item);
-		string* strtemp = NULL;
+		char** strtemp = NULL;
 		socket_recv(s, strtemp);
 
 		if (resultpacketbuffer1 == "succ")
