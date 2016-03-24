@@ -1,10 +1,10 @@
 // WrapDlg.cpp : 구현 파일입니다.
 //
-
+#include "afxdialogex.h"
 #include "stdafx.h"
 #include "EsperClient.h"
 #include "WrapDlg.h"
-#include "afxdialogex.h"
+
 #include "FileLayer.h"
 #include "Communication.h"
 

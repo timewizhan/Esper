@@ -1,10 +1,10 @@
 // LoginDlg.cpp : 구현 파일입니다.
 //
-
+#include "afxdialogex.h"
 #include "stdafx.h"
 #include "EsperClient.h"
 #include "LoginDlg.h"
-#include "afxdialogex.h"
+
 #include "JoinDlg.h"
 #include "Communication.h"
 #include "EsperClientDlg.h"

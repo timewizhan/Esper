@@ -1,8 +1,9 @@
 ﻿  WrapDlg.cpp
+  _WIN32_WINNT not defined. Defaulting to _WIN32_WINNT_MAXVER (see WinSDKVer.h)
 c:\users\woopc\source\repos\esper\client\esperclient_ui\lib\include\algparam.h(277): warning C4297: 'CryptoPP::AlgorithmParametersBase::~AlgorithmParametersBase': 함수는 예외를 Throw하지 않도록 지정되었으나 예외를 Throw했습니다.
   c:\users\woopc\source\repos\esper\client\esperclient_ui\lib\include\algparam.h(277): note: 소멸자 또는 비할당자는 가능하면 암시적으로 throw되지 않는 예외 사양을 사용합니다.
-c:\users\woopc\source\repos\esper\client\esperclient_ui\esperclient\communication.h(3): warning C4005: '_WINSOCK_DEPRECATED_NO_WARNINGS': 매크로 재정의
-  c:\users\woopc\source\repos\esper\client\esperclient_ui\esperclient\communication.h(3): note: 명령줄 인수: '_WINSOCK_DEPRECATED_NO_WARNINGS'의 이전 정의를 참조하십시오.
+  Communication.cpp
+  코드를 생성하고 있습니다...
 LINK : warning LNK4075: '/INCREMENTAL'이(가) '/FORCE' 사양으로 인해 무시됩니다.
 Communication.obj : warning LNK4075: '/EDITANDCONTINUE'이(가) '/OPT:LBR' 사양으로 인해 무시됩니다.
 uafxcwd.lib(afxmem.obj) : warning LNK4006: "void * __cdecl operator new(unsigned int)" (??2@YAPAXI@Z)이(가) LIBCMTD.lib(new_scalar.obj)에 이미 정의되어 있습니다. 초 정의가 무시됩니다.

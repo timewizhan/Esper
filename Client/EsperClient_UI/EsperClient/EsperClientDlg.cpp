@@ -1,11 +1,11 @@
 
 // EsperClientDlg.cpp : 구현 파일
 //
-
+#include "afxdialogex.h"
 #include "stdafx.h"
 #include "EsperClient.h"
 #include "EsperClientDlg.h"
-#include "afxdialogex.h"
+
 #include "WrapDlg.h"
 #include "SettingDlg.h"
 #include "strsafe.h"
