@@ -121,7 +121,7 @@ void LoginDlg::OnBnClickedOk()
 			AfxMessageBox(TEXT("Access denied"), MB_OK );
 		else {
 			CEsperClientDlg dlg;
-			dlg.SetId(m_userid, resultpacketbuffer1);
+			dlg.SetId(m_userid);
 			ShowWindow(SW_HIDE);
 			dlg.DoModal();
 		}
