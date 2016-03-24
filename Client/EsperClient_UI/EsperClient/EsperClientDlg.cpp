@@ -9,6 +9,7 @@
 #include "WrapDlg.h"
 #include "SettingDlg.h"
 #include "strsafe.h"
+#include "Communication.h"
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -174,6 +175,38 @@ BOOL CEsperClientDlg::OnInitDialog()
 		CA2W("굴림")); // lpszFacename 
 	GetDlgItem(IDC_STATIC)->SetFont(&m_font);
 	// TODO: 여기에 추가 초기화 작업을 추가합니다.
+
+	//통신
+	SOCKET s = socketCreate();
+	if (s == SOCKET_ERROR) AfxMessageBox(_T("socket error!"), MB_OK);
+	/*
+	SOCKADDR_IN addr;
+	addr.sin_family = AF_INET;
+	addr.sin_port = htons(4500);
+	addr.sin_addr.s_addr = inet_addr("165.132.144.106");
+	//if (connect(s, (SOCKADDR*)&addr, sizeof(addr)) == -1) {
+	//	AfxMessageBox(_T("connection(dir) error!"), MB_OK);
+	//}*/
+	Items item;
+	item.UserId = m_userid;
+	item.SessionKey = "0";
+	char* str;
+	if (sockSetting(s) == -1)
+		AfxMessageBox(_T("connection error!"), MB_OK);
+	else {
+		socket_send(s, "fileListReq", item);
+		string result[20];
+
+		if()
+
+		socket_recv(s, &str);
+
+		//AfxMessageBox((LPCTSTR)str.c_str(), MB_OK);
+		AfxMessageBox(*str, MB_OK);
+		AfxMessageBox((LPCTSTR)resultpacketbuffer1.c_str(), MB_OK);
+		AfxMessageBox((LPCTSTR)resultpacketbuffer2.c_str(), MB_OK);
+
+
 
 	//TREE 만들기
 	
