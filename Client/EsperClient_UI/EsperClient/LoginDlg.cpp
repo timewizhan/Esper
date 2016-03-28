@@ -118,13 +118,13 @@ void LoginDlg::OnBnClickedOk()
 
 		//AfxMessageBox((LPCTSTR)str.c_str(), MB_OK);
 		//AfxMessageBox((LPCTSTR)str, MB_OK);
-		AfxMessageBox(str.c_str(), MB_OK);
-		AfxMessageBox(resultpacketbuffer1.c_str(), MB_OK);
-		AfxMessageBox(resultpacketbuffer2.c_str(), MB_OK);
+		//AfxMessageBox(str.c_str(), MB_OK);
+		//AfxMessageBox(resultpacketbuffer1.c_str(), MB_OK);
+		//AfxMessageBox(resultpacketbuffer2.c_str(), MB_OK);
 
 		if (resultpacketbuffer3 == "refusal")
 			AfxMessageBox(TEXT("Access denied"), MB_OK );
-		else {
+		else if(resultpacketbuffer3=="approval") {
 			ofstream fout;
 			fout.open("../idsk.txt");
 			fout << resultpacketbuffer1 << std::endl;
@@ -134,6 +134,12 @@ void LoginDlg::OnBnClickedOk()
 			dlg.SetId(m_userid);
 			ShowWindow(SW_HIDE);
 			dlg.DoModal();
+		}
+		else
+		{
+			AfxMessageBox(TEXT("Error"), MB_OK);
+			closesocket(s);
+			::SendMessage(GetSafeHwnd(), WM_CLOSE, NULL, NULL);
 		}
 	}
 	closesocket(s);

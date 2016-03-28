@@ -73,7 +73,7 @@ void CWrapDlg::OnBnClickedButton1()
 	item.AccessorID = tempstr;
 	item.setId(m_userid);
 	item.SessionKey = m_sessionkey;
-
+	
 	//통신 목표 설정
 	SOCKET s = socketCreate();
 	if (s == SOCKET_ERROR) AfxMessageBox(_T("socket error!"), MB_OK);
@@ -109,9 +109,10 @@ void CWrapDlg::OnBnClickedButton1()
 	else
 	{
 		AfxMessageBox(_T("서버와 통신이 실패했습니다."));
+		::SendMessage(GetSafeHwnd(), WM_CLOSE, NULL, NULL);
 	}
 
-	closesocket(s);
+	//closesocket(s);
 }
 
 

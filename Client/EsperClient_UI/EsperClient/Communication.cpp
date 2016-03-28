@@ -65,7 +65,7 @@ int socket_send(int socket, string Type, Items item) {
 	}
 	else if (Type == "signOut") {
 		root["ID"] = item.Id;
-		root["sessionKey"] = item.SessionKey;
+		root["SessionKey"] = item.SessionKey;
 	}
 	else if (Type == "findID") {
 		root["name"] = item.Name;
@@ -78,36 +78,36 @@ int socket_send(int socket, string Type, Items item) {
 	else if (Type == "changePasswd") {
 		root["ID"] = item.Id;
 		root["changePasswd"] = item.Pw;
-		root["sessionKey"] = item.SessionKey;
+		root["SessionKey"] = item.SessionKey;
 	}
 	else if (Type == "withdrawal") {
 		root["ID"] = item.Id;
-		root["sessionKey"] = item.SessionKey;
+		root["SessionKey"] = item.SessionKey;
 	}
 	else if (Type == "accessorCheck") {
-		root["AccesorId"] = item.AccessorID;
+		root["AccessorID"] = item.AccessorID;
 		root["UserID"] = item.Id;
-		root["sessionKey"] = item.SessionKey;
+		root["SessionKey"] = item.SessionKey;
 	}
 	else if (Type == "wrappingReq") {
 		root["UserID"] = item.Id;
 		root["Accesor"] = item.AccessorID;
-		root["sessionKey"] = item.SessionKey;
+		root["SessionKey"] = item.SessionKey;
 	}
 	else if (Type == "wrappingRes") {
 		root["FileId"] = item.FileId;
 		root["AccessorID"] = item.Accessor[0];
 		root["WrappingResult"] = "succ";
 		root["UserID"] = item.Id;
-		root["sessionKey"] = item.SessionKey;
+		root["SessionKey"] = item.SessionKey;
 	}
 	else if (Type == "auth") {
 		root["UserID"] = item.Id;
-		root["sessionKey"] = item.SessionKey;
+		root["SessionKey"] = item.SessionKey;
 		root["Filed"] = item.Filed;
 	}
 	else if (Type == "remoteDel") {
-		root["UserId"] = item.UserId;
+		root["UserID"] = item.UserId;
 		root["FileID"] = item.FileId;
 		root["Del"] = item.del;
 		root["AccessorId"] = item.AccessorID;
@@ -115,17 +115,17 @@ int socket_send(int socket, string Type, Items item) {
 	}
 	else if (Type == "accessorCheck") {
 		root["AccessorId"] = item.AccessorID;
-		root["UserId"] = item.UserId;
+		root["UserID"] = item.UserId;
 		root["SessionKey"] = item.SessionKey;
 	}
 	else if (Type == "authUpdate") {
-		root["UserId"] = item.UserId;
+		root["UserID"] = item.UserId;
 		root["Filename"] = item.FileName;
 		root["del"] = item.del;
 		root["SessionKey"] = item.SessionKey;
 	}
 	else if (Type == "fileListReq") {
-		root["UserId"] = item.UserId;
+		root["UserID"] = item.UserId;
 		root["SessionKey"] = item.SessionKey;
 	}
 
@@ -383,7 +383,7 @@ int socket_recv(int socket, std::string *str )
 			resultpacketbuffer2 = notAnArray.asString();
 			break;
 		case 12://accessorCheck
-			notAnArray = packet["Result"];
+			notAnArray = packet["result"];
 			resultpacketbuffer1 = notAnArray.asString();
 			break;
 		case 13://wrapping1
