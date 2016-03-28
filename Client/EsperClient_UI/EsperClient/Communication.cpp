@@ -357,7 +357,7 @@ int socket_recv(int socket, std::string *str )
 		case 8://findID
 			notAnArray = packet["ID"];
 			resultpacketbuffer1 = notAnArray.asString();
-			notAnArray = packet["emial"];
+			notAnArray = packet["email"];
 			resultpacketbuffer2 = notAnArray.asString();
 			notAnArray = packet["result"];
 			resultpacketbuffer3 = notAnArray.asString();
@@ -389,35 +389,35 @@ int socket_recv(int socket, std::string *str )
 		case 13://wrapping1
 			notAnArray = packet["Filed"];
 			resultpacketbuffer1 = notAnArray.asString();
-			notAnArray = packet["Result"];
+			notAnArray = packet["result"];
 			resultpacketbuffer2 = notAnArray.asString();
 			break;
 		case 14://insertRes
-			notAnArray = packet["Result"];
+			notAnArray = packet["result"];
 			resultpacketbuffer1 = notAnArray.asString();
 			break;
 		case 15://auth
-			notAnArray = packet["Result"];
+			notAnArray = packet["result"];
 			resultpacketbuffer1 = notAnArray.asString();
 			break;
 		case 16://remoteDel
-			notAnArray = packet["Result"];
+			notAnArray = packet["result"];
 			resultpacketbuffer1 = notAnArray.asString();
 			notAnArray = packet["msg"];
 			resultpacketbuffer2 = notAnArray.asString();
 			break;
 		case 17://accessorCheck
-			notAnArray = packet["Result"];
+			notAnArray = packet["result"];
 			resultpacketbuffer1 = notAnArray.asString();
 			break;
 		case 18://authUpdate
 			notAnArray = packet["FileID"];
 			resultpacketbuffer1 = notAnArray.asString();
-			notAnArray = packet["Result"];
+			notAnArray = packet["result"];
 			resultpacketbuffer2 = notAnArray.asString();
 			break;
 		case 19://fileListReq
-			notAnArray = packet["Result"];
+			notAnArray = packet["result"];
 			resultpacketbuffer1 = notAnArray.asString();
 			if (resultpacketbuffer1 == "succ")
 			{
