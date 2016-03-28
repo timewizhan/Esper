@@ -16,7 +16,7 @@ CWrapDlg::CWrapDlg(CString filename, CString filepath, CWnd* pParent /*=NULL*/)
 	: CDialog(IDD_WrapDlg, pParent), Filename(filename), Filepath(filepath)
 {
 
-} 
+}
 
 CWrapDlg::~CWrapDlg()
 {
@@ -67,10 +67,12 @@ void CWrapDlg::OnBnClickedButton1()
 	GetDlgItem(IDC_EDIT1)->GetWindowText(str);
 	CT2CA temp(str);
 	string tempstr(temp);
-	//Items item;
+	ifstream fin;
+	fin.open("../idsk.txt");
+	fin >> m_userid >> m_sessionkey;
 	item.AccessorID = tempstr;
 	item.setId(m_userid);
-	//item.SessionKey = m_sessiongkey;
+	item.SessionKey = m_sessionkey;
 
 	//통신 목표 설정
 	SOCKET s = socketCreate();
@@ -91,8 +93,8 @@ void CWrapDlg::OnBnClickedButton1()
 		//closesocket(s);
 		ShowWindow(SW_HIDE);
 	}
-	string strtemp=NULL;
-	socket_recv(s,&strtemp);
+	std::string strtemp;
+	socket_recv(s, &strtemp);
 
 	if (resultpacketbuffer1 == "succ")
 	{
@@ -108,7 +110,7 @@ void CWrapDlg::OnBnClickedButton1()
 	{
 		AfxMessageBox(_T("서버와 통신이 실패했습니다."));
 	}
-	
+
 	closesocket(s);
 }
 
@@ -120,16 +122,16 @@ void CWrapDlg::OnBnClickedOk()
 
 	CString SubFilename = Filename.Mid(0, (Filename.GetLength() - 4));
 	CFileDialog dialog((BOOL)FALSE, _T("esp"), SubFilename + _T(".esp"), OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, _T("에스퍼(*.esp)|*.esp|모든파일(*.*)|*.*||"));
-	
+
 	dialog.m_ofn.lpstrTitle = _T("파일 랩핑하기");
 	dialog.m_ofn.lStructSize = sizeof(OPENFILENAME) + 12;
 	dialog.DoModal();
 
-	
+
 	//Items item;
 	item.setId(m_userid);
 
-	//item.SessionKey = m_sessiongkey;
+	item.SessionKey = m_sessionkey;
 
 	//통신 목표 설정
 	SOCKET s = socketCreate();
@@ -151,7 +153,7 @@ void CWrapDlg::OnBnClickedOk()
 		ShowWindow(SW_HIDE);
 	}
 
-	string strtemp=NULL;
+	string strtemp = NULL;
 	socket_recv(s, &strtemp);
 
 	if (resultpacketbuffer2 == "succ")
@@ -169,7 +171,7 @@ void CWrapDlg::OnBnClickedOk()
 
 		item.FileId = stoi(resultpacketbuffer1);
 		item.WrappingResult = "succ";
-		//item.SessionKey = m_sessiongkey;
+		item.SessionKey = m_sessionkey;
 
 		socket_send(s, "wrappingRes", item);
 		string strtemp = NULL;

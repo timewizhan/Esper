@@ -12,7 +12,7 @@
 #include "FileLayer.h"
 #include "json.h"
 #include "Communication.h"
-
+#include <fstream>
 
 Items item;
 int main()
@@ -29,6 +29,10 @@ int main()
 	{
 		printf("%s \n", CW2A(argv[i]));
 	}
+	ifstream fin;
+
+	fin.open("../../EsperClient_UI/idsk.txt");
+	fin >> item.Id >> item.SessionKey;
 
 	SOCKET s = socketCreate();
 	if (s == SOCKET_ERROR) AfxMessageBox(_T("socket error!"), MB_OK);
@@ -84,8 +88,8 @@ int main()
 	closesocket(s);
 
 
-	
-	
+
+
 	system("pause");
 	return 0;
 }
