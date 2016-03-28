@@ -4,10 +4,11 @@
 #include "stdafx.h"
 #include "EsperClient.h"
 #include "LoginDlg.h"
-
+#include <iostream>
 #include "JoinDlg.h"
 #include "Communication.h"
 #include "EsperClientDlg.h"
+#include <fstream>
 
 // LoginDlg 대화 상자입니다.
 
@@ -64,7 +65,7 @@ BOOL LoginDlg::OnInitDialog()
 		0,                              // nClipPrecision 
 		DEFAULT_QUALITY,       // nQuality
 		DEFAULT_PITCH | FF_DONTCARE,  // nPitchAndFamily 
-		CA2W("굴림")); // lpszFacename 
+		"굴림"); // lpszFacename 
 	GetDlgItem(IDC_STATIC_LOGIN)->SetFont(&m_font);
 
 	return TRUE;  // return TRUE unless you set the focus to a control
@@ -87,7 +88,7 @@ void LoginDlg::OnBnClickedOk()
 	m_userid = pszConvertedAnsiString;
 	m_pw = pszConvertedAnsiString2;
 	Items item;
-	char* str;
+	std::string str;
 	item.setId(m_userid);
 	item.setPw(m_pw);
 
@@ -110,16 +111,25 @@ void LoginDlg::OnBnClickedOk()
 		resultpacketbuffer1 = "";
 		resultpacketbuffer2 = "";
 		resultpacketbuffer3 = "";
-		socket_recv(s, &str);
+		if(socket_recv(s, &str)<0) AfxMessageBox(_T("Receive Error"), MB_OK);
+		
+		CString cstr = str.c_str();
+
 
 		//AfxMessageBox((LPCTSTR)str.c_str(), MB_OK);
-		AfxMessageBox(*str, MB_OK);
-		AfxMessageBox((LPCTSTR)resultpacketbuffer1.c_str(), MB_OK);
-		AfxMessageBox((LPCTSTR)resultpacketbuffer2.c_str(), MB_OK);
+		//AfxMessageBox((LPCTSTR)str, MB_OK);
+		AfxMessageBox(str.c_str(), MB_OK);
+		AfxMessageBox(resultpacketbuffer1.c_str(), MB_OK);
+		AfxMessageBox(resultpacketbuffer2.c_str(), MB_OK);
 
 		if (resultpacketbuffer3 == "refusal")
 			AfxMessageBox(TEXT("Access denied"), MB_OK );
 		else {
+			ofstream fout;
+			fout.open("../idsk.txt");
+			fout << resultpacketbuffer1 << std::endl;
+			fout << resultpacketbuffer2 << std::endl;
+			
 			CEsperClientDlg dlg;
 			dlg.SetId(m_userid);
 			ShowWindow(SW_HIDE);

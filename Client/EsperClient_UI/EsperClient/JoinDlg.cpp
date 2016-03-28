@@ -46,14 +46,13 @@ void CJoinDlg::OnBnClickedJoinBttIdcheck()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	CString strId;
-	GetDlgItemTextW(IDC_JOIN_EDIT_ID,strId);
-	
+	GetDlgItemText(IDC_JOIN_EDIT_ID,strId);
 	// ID Check 통신
 
 	Items item;
 	CT2CA converter(strId);
 	item.Id = converter;
-	char* str;
+	string str;
 
 	SOCKET s = socketCreate();
 	if (s == SOCKET_ERROR) AfxMessageBox(_T("socket error!"), MB_OK);
@@ -74,7 +73,7 @@ void CJoinDlg::OnBnClickedJoinBttIdcheck()
 		socket_recv(s, &str);
 
 		//AfxMessageBox((LPCTSTR)str.c_str(), MB_OK);
-		AfxMessageBox(*str, MB_OK);
+		AfxMessageBox(str.c_str(), MB_OK);
 		AfxMessageBox((LPCTSTR)resultpacketbuffer1.c_str(), MB_OK);
 		AfxMessageBox((LPCTSTR)resultpacketbuffer2.c_str(), MB_OK);
 
@@ -101,12 +100,12 @@ void CJoinDlg::OnBnClickedJoinBttEmailcheck()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	CString strEmail;
-	GetDlgItemTextW(IDC_JOIN_EDIT_EMAIL, strEmail);
+	GetDlgItemText(IDC_JOIN_EDIT_EMAIL, strEmail);
 	// Email check 통신
 	Items item;
 	CT2CA converter(strEmail);
 	item.Email = converter;
-	char* str;
+	string str;
 
 	SOCKET s = socketCreate();
 	if (s == SOCKET_ERROR) AfxMessageBox(_T("socket error!"), MB_OK);
@@ -125,7 +124,7 @@ void CJoinDlg::OnBnClickedJoinBttEmailcheck()
 	else {
 		socket_send(s, "checkID", item);
 		socket_recv(s, &str);
-		AfxMessageBox(*str, MB_OK);
+		AfxMessageBox(str.c_str(), MB_OK);
 		AfxMessageBox((LPCTSTR)resultpacketbuffer1.c_str(), MB_OK);
 		AfxMessageBox((LPCTSTR)resultpacketbuffer2.c_str(), MB_OK);
 		if (resultpacketbuffer2 == "refusal") {
@@ -166,10 +165,10 @@ void CJoinDlg::OnBnClickedJoinBttEmailauth()
 
 			//인증 메일 발송 통신
 			Items item;
-			char* str;
+			string str;
 			socket_send(s, "checkID", item);
 			socket_recv(s, &str);
-			AfxMessageBox(*str, MB_OK);
+			AfxMessageBox(str.c_str(), MB_OK);
 			AfxMessageBox((LPCTSTR)resultpacketbuffer1.c_str(), MB_OK);
 			AfxMessageBox((LPCTSTR)resultpacketbuffer2.c_str(), MB_OK);
 			if(resultpacketbuffer2 == "refusal")
@@ -187,7 +186,7 @@ void CJoinDlg::OnBnClickedJoinBttEmailauthcheck()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	CString strCode;
-	GetDlgItemTextW(IDC_JOIN_EMAILAUTH, strCode);
+	GetDlgItemText(IDC_JOIN_EMAILAUTH, strCode);
 	//인증 코드 통신
 
 	SOCKET s = socketCreate();
@@ -209,10 +208,10 @@ void CJoinDlg::OnBnClickedJoinBttEmailauthcheck()
 		Items item;
 		CT2CA convert(strCode);
 		item.EmailAuthCode = convert;
-		char* str;
+		string str;
 		socket_send(s, "checkAuthCode", item);
 		socket_recv(s, &str);
-		AfxMessageBox(*str, MB_OK);
+		AfxMessageBox(str.c_str(), MB_OK);
 		AfxMessageBox((LPCTSTR)resultpacketbuffer1.c_str(), MB_OK);
 		AfxMessageBox((LPCTSTR)resultpacketbuffer2.c_str(), MB_OK);
 		//if 맞으면
@@ -238,10 +237,10 @@ void CJoinDlg::OnBnClickedJoinOk()
 	else if(!m_authcodecheck) AfxMessageBox(_T("Email 인증을 해주세요."), MB_OK);
 	else {
 		CString Id, Pw, Name, Email;
-		GetDlgItemTextW(IDC_JOIN_EDIT_ID, Id);
-		GetDlgItemTextW(IDC_JOIN_EDIT_PW, Pw);
-		GetDlgItemTextW(IDC_JOIN_EDIT_NAME, Name);
-		GetDlgItemTextW(IDC_JOIN_EDIT_EMAIL, Email);
+		GetDlgItemText(IDC_JOIN_EDIT_ID, Id);
+		GetDlgItemText(IDC_JOIN_EDIT_PW, Pw);
+		GetDlgItemText(IDC_JOIN_EDIT_NAME, Name);
+		GetDlgItemText(IDC_JOIN_EDIT_EMAIL, Email);
 		//통신
 		SOCKET s = socketCreate();
 		if (s == SOCKET_ERROR) AfxMessageBox(_T("socket error!"), MB_OK);
@@ -267,10 +266,10 @@ void CJoinDlg::OnBnClickedJoinOk()
 			item.Pw = sPw;
 			item.Name = sName;
 			item.Email = sEmail;
-			char* str;
+			string str;
 			socket_send(s, "checkAuthCode", item);
 			socket_recv(s, &str);
-			AfxMessageBox(*str, MB_OK);
+			AfxMessageBox(str.c_str(), MB_OK);
 			if (resultpacketbuffer2 == "refusal")
 			{
 				AfxMessageBox(_T("회원가입에 실패했습니다."), MB_OK);

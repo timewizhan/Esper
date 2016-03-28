@@ -10,6 +10,7 @@
 #include "SettingDlg.h"
 #include "strsafe.h"
 #include "Communication.h"
+#include <fstream>
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -147,9 +148,9 @@ BOOL CEsperClientDlg::OnInitDialog()
 	st_taskbaricon.hIcon = AfxGetApp()->LoadIcon(IDI_ICON1);
 	st_taskbaricon.uCallbackMessage = YM_FROMTRAY;
 
-	wcscpy(st_taskbaricon.szTip, TEXT("ESPER Client - developing version"));
-	wcscpy(st_taskbaricon.szInfoTitle, TEXT("ESPER"));
-	wcscpy(st_taskbaricon.szInfo, TEXT("ESPER Client - developing version"));
+	strcpy(st_taskbaricon.szTip,"ESPER Client - developing version");
+	strcpy(st_taskbaricon.szInfoTitle, "ESPER");
+	strcpy(st_taskbaricon.szInfo, "ESPER Client - developing version");
 
 	st_taskbaricon.uVersion = NOTIFYICON_VERSION;
 	st_taskbaricon.dwInfoFlags = NIIF_USER;
@@ -171,7 +172,7 @@ BOOL CEsperClientDlg::OnInitDialog()
 		0,                              // nClipPrecision 
 		DEFAULT_QUALITY,       // nQuality
 		DEFAULT_PITCH | FF_DONTCARE,  // nPitchAndFamily 
-		CA2W("굴림")); // lpszFacename 
+		"굴림"); // lpszFacename 
 	GetDlgItem(IDC_STATIC)->SetFont(&m_font);
 	// TODO: 여기에 추가 초기화 작업을 추가합니다.
 
@@ -186,48 +187,57 @@ BOOL CEsperClientDlg::OnInitDialog()
 	//if (connect(s, (SOCKADDR*)&addr, sizeof(addr)) == -1) {
 	//	AfxMessageBox(_T("connection(dir) error!"), MB_OK);
 	//}*/
+
+	//char c_userid[20] = { 0, }, c_sessionkey[20] = { 0, };
+	ifstream fin;
+	fin.open("../idsk.txt");
+	fin >> m_userid >> m_sessionkey ;
+
 	Items item;
 	item.UserId = m_userid;
-	item.SessionKey = "0";
-	char* str;
+	item.SessionKey = m_sessionkey;
+	string str;
 	if (sockSetting(s) == -1)
 		AfxMessageBox(_T("connection error!"), MB_OK);
 	else {
 		socket_send(s, "fileListReq", item);
 		string result[20];
 
-		if()
+		//if()
 
 		socket_recv(s, &str);
 
 		//AfxMessageBox((LPCTSTR)str.c_str(), MB_OK);
-		AfxMessageBox(*str, MB_OK);
+		AfxMessageBox(str.c_str(), MB_OK);
 		AfxMessageBox((LPCTSTR)resultpacketbuffer1.c_str(), MB_OK);
 		AfxMessageBox((LPCTSTR)resultpacketbuffer2.c_str(), MB_OK);
+		AfxMessageBox(m_userid.c_str(), MB_OK);
+		AfxMessageBox(m_sessionkey.c_str(), MB_OK);
 
 
 
-	//TREE 만들기
-	
-	m_hRoot[0] = m_Tree.InsertItem(_T("파일명1"),0,1);
-	m_hRoot[1] = m_Tree.InsertItem(_T("파일명1"), 0, 1);
-	//m_Tree.SetFont(&m_font,1);
+		//TREE 만들기
 
-	m_hKind[0] = m_Tree.InsertItem(_T("사람1"), 2, 2, m_hRoot[0], TVI_LAST);
-	m_hKind[2] = m_Tree.InsertItem(_T("사람2"), 2, 2, m_hRoot[0], TVI_LAST);
-	m_hKind[3] = m_Tree.InsertItem(_T("사람3"), 2, 2, m_hRoot[0], TVI_LAST);
-	m_hKind[4] = m_Tree.InsertItem(_T("사람4"), 2, 2, m_hRoot[0], TVI_LAST);
+		m_hRoot[0] = m_Tree.InsertItem(_T("파일명1"), 0, 1);
+		m_hRoot[1] = m_Tree.InsertItem(_T("파일명1"), 0, 1);
+		//m_Tree.SetFont(&m_font,1);
 
-	m_hKind[0] = m_Tree.InsertItem(_T("사람1"), 2, 2, m_hRoot[1], TVI_LAST);
-	m_hKind[2] = m_Tree.InsertItem(_T("사람2"), 2, 2, m_hRoot[1], TVI_LAST);
-	m_hKind[3] = m_Tree.InsertItem(_T("사람3"), 2, 2, m_hRoot[1], TVI_LAST);
-	m_hKind[4] = m_Tree.InsertItem(_T("사람4"), 2, 2, m_hRoot[1], TVI_LAST);
+		m_hKind[0] = m_Tree.InsertItem(_T("사람1"), 2, 2, m_hRoot[0], TVI_LAST);
+		m_hKind[2] = m_Tree.InsertItem(_T("사람2"), 2, 2, m_hRoot[0], TVI_LAST);
+		m_hKind[3] = m_Tree.InsertItem(_T("사람3"), 2, 2, m_hRoot[0], TVI_LAST);
+		m_hKind[4] = m_Tree.InsertItem(_T("사람4"), 2, 2, m_hRoot[0], TVI_LAST);
 
-	//m_Tree.Expand(m_hRoot[0], TVE_EXPAND);
-	//m_Tree.Expand(m_hRoot[1], TVE_EXPAND);
-	
+		m_hKind[0] = m_Tree.InsertItem(_T("사람1"), 2, 2, m_hRoot[1], TVI_LAST);
+		m_hKind[2] = m_Tree.InsertItem(_T("사람2"), 2, 2, m_hRoot[1], TVI_LAST);
+		m_hKind[3] = m_Tree.InsertItem(_T("사람3"), 2, 2, m_hRoot[1], TVI_LAST);
+		m_hKind[4] = m_Tree.InsertItem(_T("사람4"), 2, 2, m_hRoot[1], TVI_LAST);
 
-	return TRUE;  // 포커스를 컨트롤에 설정하지 않으면 TRUE를 반환합니다.
+		//m_Tree.Expand(m_hRoot[0], TVE_EXPAND);
+		//m_Tree.Expand(m_hRoot[1], TVE_EXPAND);
+
+
+		return TRUE;  // 포커스를 컨트롤에 설정하지 않으면 TRUE를 반환합니다.
+	}
 }
 
 void CEsperClientDlg::OnSysCommand(UINT nID, LPARAM lParam)

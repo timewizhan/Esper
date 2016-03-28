@@ -91,8 +91,8 @@ void CWrapDlg::OnBnClickedButton1()
 		//closesocket(s);
 		ShowWindow(SW_HIDE);
 	}
-	char** strtemp=NULL;
-	socket_recv(s,strtemp);
+	string strtemp=NULL;
+	socket_recv(s,&strtemp);
 
 	if (resultpacketbuffer1 == "succ")
 	{
@@ -151,8 +151,8 @@ void CWrapDlg::OnBnClickedOk()
 		ShowWindow(SW_HIDE);
 	}
 
-	char** strtemp=NULL;
-	socket_recv(s, strtemp);
+	string strtemp=NULL;
+	socket_recv(s, &strtemp);
 
 	if (resultpacketbuffer2 == "succ")
 	{
@@ -172,8 +172,8 @@ void CWrapDlg::OnBnClickedOk()
 		//item.SessionKey = m_sessiongkey;
 
 		socket_send(s, "wrappingRes", item);
-		char** strtemp = NULL;
-		socket_recv(s, strtemp);
+		string strtemp = NULL;
+		socket_recv(s, &strtemp);
 
 		if (resultpacketbuffer1 == "succ")
 		{
@@ -182,7 +182,7 @@ void CWrapDlg::OnBnClickedOk()
 		else
 		{
 			wstring temp = wstring(strOutputFile.begin(), strOutputFile.end());
-			LPCWSTR outfilePath = temp.c_str();
+			CString outfilePath = temp.c_str();
 			DeleteFile(outfilePath);
 			AfxMessageBox(_T("서버와 통신이 실패했습니다."));
 		}

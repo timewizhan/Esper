@@ -35,6 +35,7 @@ protected:
 	CString m_strEdit;
 
 	std::string m_userid;
+	std::string m_sessionkey;
 	
 
 	// 생성된 메시지 맵 함수

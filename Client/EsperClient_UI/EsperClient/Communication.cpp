@@ -147,7 +147,7 @@ string resultpacketbuffer3;
 packetfile *packetfilehead;
 
 
-int socket_recv(int socket, char** str )
+int socket_recv(int socket, std::string *str )
 {
 	int total_received;
 	int received = 0;
@@ -179,7 +179,9 @@ int socket_recv(int socket, char** str )
 		buffer[i] = '\0';
 		i++;
 	}
-	recv(socket, buffer, sizeof(buffer), 0);
+
+	received = recv(socket, (char FAR*)buffer, sizeof(buffer), 0);
+	
 	if (received < 0)
 	{
 		return received;
@@ -187,8 +189,7 @@ int socket_recv(int socket, char** str )
 
 	string buff(buffer);
 	//cout << "got" << buff << endl;
-	*str = buffer;
-
+	*str = buff;
 	
 	Json::Value packet;
 	Json::Reader reader;
@@ -196,13 +197,15 @@ int socket_recv(int socket, char** str )
 	if (!parsedSuccess)
 	{
 		// Report failures and their locations
-		// in the document.
-		cout << "Failed to parse JSON" << endl
-			<< reader.getFormattedErrorMessages() << endl;
+		// in the document
+		//cout << "Failed to parse JSON" << endl
+		//	<< reader.getFormattedErrorMessages() << endl;
+		resultpacketbuffer1 = "Fail to parse JSON    " + reader.getFormattedErrorMessages();
+		
 		return 1;
 	}
 
-	const Json::Value Type = packet["Type"];
+	const Json::Value Type = packet["type"];
 	if (!Type.isNull())
 	{
 		int switchcase;

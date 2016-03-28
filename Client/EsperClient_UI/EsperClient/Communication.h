@@ -10,6 +10,7 @@
 #include <cassert>
 #include <string>
 #include <vector>
+#include <fstream>
 #include "../../json/json.h"
 using namespace std;
 #pragma comment ( lib, "ws2_32.lib" )
@@ -62,4 +63,4 @@ extern string resultpacketbuffer1;
 extern string resultpacketbuffer2;
 extern string resultpacketbuffer3;
 extern packetfile *packetfilehead;
-int socket_recv(int socket, char** str);
+int socket_recv(int socket, std::string* str);

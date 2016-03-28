@@ -33,5 +33,6 @@ public:
 	void SetId(std::string param);
 private : 
 	std::string m_userid;
+	std::string m_sessionkey;
 
 };

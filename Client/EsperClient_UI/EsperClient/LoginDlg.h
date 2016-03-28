@@ -28,6 +28,7 @@ public:
 
 private:
 	std::string m_userid;
+	std::string m_sessionkey;
 	
 public:
 	afx_msg void OnBnClickedRegist();
