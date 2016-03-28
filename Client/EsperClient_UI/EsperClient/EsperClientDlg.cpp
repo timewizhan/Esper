@@ -207,15 +207,16 @@ BOOL CEsperClientDlg::OnInitDialog()
 		string result[20];
 
 		//if()
-
+		
 		socket_recv(s, &str);
+		
 
 		//AfxMessageBox((LPCTSTR)str.c_str(), MB_OK);
-		AfxMessageBox(str.c_str(), MB_OK);
-		AfxMessageBox(resultpacketbuffer1.c_str(), MB_OK);
-		AfxMessageBox(resultpacketbuffer2.c_str(), MB_OK);
-		AfxMessageBox(m_userid.c_str(), MB_OK);
-		AfxMessageBox(m_sessionkey.c_str(), MB_OK);
+		//AfxMessageBox(str.c_str(), MB_OK);
+		//AfxMessageBox(resultpacketbuffer1.c_str(), MB_OK);
+		//AfxMessageBox(resultpacketbuffer2.c_str(), MB_OK);
+		//AfxMessageBox(m_userid.c_str(), MB_OK);
+		//AfxMessageBox(m_sessionkey.c_str(), MB_OK);
 
 
 
