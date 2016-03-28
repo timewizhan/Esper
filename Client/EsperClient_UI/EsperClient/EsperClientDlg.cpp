@@ -11,6 +11,7 @@
 #include "strsafe.h"
 #include "Communication.h"
 #include <fstream>
+#include "AccessDlg.h"
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -103,6 +104,8 @@ BEGIN_MESSAGE_MAP(CEsperClientDlg, CDialogEx)
 	ON_WM_LBUTTONUP()
 
 	ON_NOTIFY(NM_RCLICK, IDC_TREE1, &CEsperClientDlg::OnNMRClickTree1)
+	ON_COMMAND(ID_TREESELECT_ACCESS, &CEsperClientDlg::OnTreeselectAccess)
+	ON_COMMAND(ID_TREESELECT_DELETE, &CEsperClientDlg::OnTreeselectDelete)
 END_MESSAGE_MAP()
 
 
@@ -209,8 +212,8 @@ BOOL CEsperClientDlg::OnInitDialog()
 
 		//AfxMessageBox((LPCTSTR)str.c_str(), MB_OK);
 		AfxMessageBox(str.c_str(), MB_OK);
-		AfxMessageBox((LPCTSTR)resultpacketbuffer1.c_str(), MB_OK);
-		AfxMessageBox((LPCTSTR)resultpacketbuffer2.c_str(), MB_OK);
+		AfxMessageBox(resultpacketbuffer1.c_str(), MB_OK);
+		AfxMessageBox(resultpacketbuffer2.c_str(), MB_OK);
 		AfxMessageBox(m_userid.c_str(), MB_OK);
 		AfxMessageBox(m_sessionkey.c_str(), MB_OK);
 
@@ -235,6 +238,9 @@ BOOL CEsperClientDlg::OnInitDialog()
 		//m_Tree.Expand(m_hRoot[0], TVE_EXPAND);
 		//m_Tree.Expand(m_hRoot[1], TVE_EXPAND);
 
+
+		closesocket(s);
+		WSACleanup();
 
 		return TRUE;  // 포커스를 컨트롤에 설정하지 않으면 TRUE를 반환합니다.
 	}
@@ -514,4 +520,22 @@ void CEsperClientDlg::OnNMRClickTree1(NMHDR *pNMHDR, LRESULT *pResult)
 	
 
 	*pResult = 0;
+}
+
+
+void CEsperClientDlg::OnTreeselectAccess()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	CAccessDlg dlg;
+	HTREEITEM selitem = m_Tree.GetSelectedItem();
+	std::string filename(m_Tree.GetItemText(selitem));
+	dlg.setFilename(filename);
+	dlg.DoModal();
+	
+}
+
+
+void CEsperClientDlg::OnTreeselectDelete()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 }

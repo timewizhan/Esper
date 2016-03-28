@@ -204,6 +204,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AccessDlg.h" />
     <ClInclude Include="Common.h" />
     <ClInclude Include="Communication.h" />
     <ClInclude Include="EsperClient.h" />
@@ -221,6 +222,7 @@
     <ClInclude Include="WrapDlg.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AccessDlg.cpp" />
     <ClCompile Include="Communication.cpp" />
     <ClCompile Include="EsperClient.cpp" />
     <ClCompile Include="EsperClientDlg.cpp" />
