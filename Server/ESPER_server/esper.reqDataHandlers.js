@@ -10,3 +10,4 @@ function obj2str (data) {
 
 exports.str2obj = str2obj;
 exports.obj2str = obj2str;
+
